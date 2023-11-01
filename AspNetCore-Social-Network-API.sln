@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34031.279
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domains", "Domains", "{1FA15611-F942-43E5-89A0-19AF8D2A3D31}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructures", "Infrastructures", "{2821F39E-BC8C-40BD-8282-3D7B8392BC70}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetCore-Social-Entity", "AspNetCore-Social-Entity\AspNetCore-Social-Entity.csproj", "{ED752382-54D1-4B21-B3B2-BDEBA9761026}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetCore-Social-DataAccess", "AspNetCore-Social-DataAccess\AspNetCore-Social-DataAccess.csproj", "{04EF6B9E-CF03-4C82-B664-B087910BCEDE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetCore-Social-Service", "AspNetCore-Social-Service\AspNetCore-Social-Service.csproj", "{671B85DA-C309-4070-B987-85D3E2B3EEBB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{CA0B418E-E900-40F6-883E-80384BDCA340}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetCore-Social-API", "AspNetCore-Social-API\AspNetCore-Social-API.csproj", "{FDB42DDA-1616-4AE0-90B8-3BB74F4C528D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ED752382-54D1-4B21-B3B2-BDEBA9761026}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED752382-54D1-4B21-B3B2-BDEBA9761026}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED752382-54D1-4B21-B3B2-BDEBA9761026}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED752382-54D1-4B21-B3B2-BDEBA9761026}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04EF6B9E-CF03-4C82-B664-B087910BCEDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04EF6B9E-CF03-4C82-B664-B087910BCEDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04EF6B9E-CF03-4C82-B664-B087910BCEDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04EF6B9E-CF03-4C82-B664-B087910BCEDE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{671B85DA-C309-4070-B987-85D3E2B3EEBB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{671B85DA-C309-4070-B987-85D3E2B3EEBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{671B85DA-C309-4070-B987-85D3E2B3EEBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{671B85DA-C309-4070-B987-85D3E2B3EEBB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDB42DDA-1616-4AE0-90B8-3BB74F4C528D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDB42DDA-1616-4AE0-90B8-3BB74F4C528D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDB42DDA-1616-4AE0-90B8-3BB74F4C528D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDB42DDA-1616-4AE0-90B8-3BB74F4C528D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{ED752382-54D1-4B21-B3B2-BDEBA9761026} = {1FA15611-F942-43E5-89A0-19AF8D2A3D31}
+		{04EF6B9E-CF03-4C82-B664-B087910BCEDE} = {2821F39E-BC8C-40BD-8282-3D7B8392BC70}
+		{671B85DA-C309-4070-B987-85D3E2B3EEBB} = {2821F39E-BC8C-40BD-8282-3D7B8392BC70}
+		{FDB42DDA-1616-4AE0-90B8-3BB74F4C528D} = {CA0B418E-E900-40F6-883E-80384BDCA340}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {078FE53A-EFE8-40C5-838C-19328A50E893}
+	EndGlobalSection
+EndGlobal
