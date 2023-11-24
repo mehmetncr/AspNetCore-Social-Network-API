@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="UnitOfWorks\" />
+    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>
