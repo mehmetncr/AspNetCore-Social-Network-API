@@ -14,6 +14,6 @@ namespace AspNetCore_Social_Entity
         public bool MessageRequest { get; set; }
         public bool HiddenProfile { get; set; }
 
-        public List<User> Users { get; set; }
+        public User User { get; set; }
     }
 }

@@ -38,5 +38,8 @@ namespace AspNetCore_Social_Entity
        // public List<Content> FavoriteContents { get; set; }
         public List<User> SocialConnections { get; set; }
         public List<Interest> Interests { get; set; }
+
+        public List<Post> Posts { get; set; }
+        public List<Comment> Comments { get; set; }
     }
 }
