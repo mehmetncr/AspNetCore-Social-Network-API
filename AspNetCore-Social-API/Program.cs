@@ -1,4 +1,5 @@
 using AspNetCore_Social_DataAccess.Context;
+using AspNetCore_Social_Service.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +10,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddExtensions();
 
 builder.Services.AddDbContext<SocialContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("ConnStr")));
 
