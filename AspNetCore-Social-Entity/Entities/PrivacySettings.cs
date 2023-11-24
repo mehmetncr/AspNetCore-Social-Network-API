@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AspNetCore_Social_Entity
+namespace AspNetCore_Social_Entity.Entities
 {
     public class PrivacySettings
     {
@@ -14,6 +14,6 @@ namespace AspNetCore_Social_Entity
         public bool MessageRequest { get; set; }
         public bool HiddenProfile { get; set; }
 
-        public User User { get; set; }
+        public virtual User User { get; set; }
     }
 }

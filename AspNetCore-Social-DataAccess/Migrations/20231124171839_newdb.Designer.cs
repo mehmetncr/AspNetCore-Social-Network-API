@@ -4,6 +4,7 @@ using AspNetCore_Social_DataAccess.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AspNetCore_Social_DataAccess.Migrations
 {
     [DbContext(typeof(SocialContext))]
-    partial class SocialContextModelSnapshot : ModelSnapshot
+    [Migration("20231124171839_newdb")]
+    partial class newdb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -103,9 +106,6 @@ namespace AspNetCore_Social_DataAccess.Migrations
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -123,7 +123,7 @@ namespace AspNetCore_Social_DataAccess.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("AspNetCore_Social_Entity.Entities.Comment", b =>
+            modelBuilder.Entity("AspNetCore_Social_Entity.Comment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -153,7 +153,7 @@ namespace AspNetCore_Social_DataAccess.Migrations
                     b.ToTable("Comments");
                 });
 
-            modelBuilder.Entity("AspNetCore_Social_Entity.Entities.Friends", b =>
+            modelBuilder.Entity("AspNetCore_Social_Entity.Friends", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -174,7 +174,7 @@ namespace AspNetCore_Social_DataAccess.Migrations
                     b.ToTable("Friends");
                 });
 
-            modelBuilder.Entity("AspNetCore_Social_Entity.Entities.Interest", b =>
+            modelBuilder.Entity("AspNetCore_Social_Entity.Interest", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -196,7 +196,7 @@ namespace AspNetCore_Social_DataAccess.Migrations
                     b.ToTable("Interests");
                 });
 
-            modelBuilder.Entity("AspNetCore_Social_Entity.Entities.Notification", b =>
+            modelBuilder.Entity("AspNetCore_Social_Entity.Notification", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -222,7 +222,7 @@ namespace AspNetCore_Social_DataAccess.Migrations
                     b.ToTable("Notifications");
                 });
 
-            modelBuilder.Entity("AspNetCore_Social_Entity.Entities.Post", b =>
+            modelBuilder.Entity("AspNetCore_Social_Entity.Post", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -264,7 +264,7 @@ namespace AspNetCore_Social_DataAccess.Migrations
                     b.ToTable("Posts");
                 });
 
-            modelBuilder.Entity("AspNetCore_Social_Entity.Entities.PrivacySettings", b =>
+            modelBuilder.Entity("AspNetCore_Social_Entity.PrivacySettings", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -292,7 +292,7 @@ namespace AspNetCore_Social_DataAccess.Migrations
                     b.ToTable("PrivacySettings");
                 });
 
-            modelBuilder.Entity("AspNetCore_Social_Entity.Entities.ReplyComment", b =>
+            modelBuilder.Entity("AspNetCore_Social_Entity.ReplyComment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -322,7 +322,7 @@ namespace AspNetCore_Social_DataAccess.Migrations
                     b.ToTable("ReplyComments");
                 });
 
-            modelBuilder.Entity("AspNetCore_Social_Entity.Entities.SocialMediaAccount", b =>
+            modelBuilder.Entity("AspNetCore_Social_Entity.SocialMediaAccount", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -348,7 +348,7 @@ namespace AspNetCore_Social_DataAccess.Migrations
                     b.ToTable("SocialMediaAccounts");
                 });
 
-            modelBuilder.Entity("AspNetCore_Social_Entity.Entities.User", b =>
+            modelBuilder.Entity("AspNetCore_Social_Entity.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -432,7 +432,7 @@ namespace AspNetCore_Social_DataAccess.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("AspNetCore_Social_Entity.Entities.UserActivity", b =>
+            modelBuilder.Entity("AspNetCore_Social_Entity.UserActivity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -560,15 +560,15 @@ namespace AspNetCore_Social_DataAccess.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("AspNetCore_Social_Entity.Entities.Comment", b =>
+            modelBuilder.Entity("AspNetCore_Social_Entity.Comment", b =>
                 {
-                    b.HasOne("AspNetCore_Social_Entity.Entities.Post", "Post")
+                    b.HasOne("AspNetCore_Social_Entity.Post", "Post")
                         .WithMany("Comments")
                         .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("AspNetCore_Social_Entity.Entities.User", "User")
+                    b.HasOne("AspNetCore_Social_Entity.User", "User")
                         .WithMany("Comments")
                         .HasForeignKey("UserId")
                         .IsRequired();
@@ -578,9 +578,9 @@ namespace AspNetCore_Social_DataAccess.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("AspNetCore_Social_Entity.Entities.Friends", b =>
+            modelBuilder.Entity("AspNetCore_Social_Entity.Friends", b =>
                 {
-                    b.HasOne("AspNetCore_Social_Entity.Entities.User", "User")
+                    b.HasOne("AspNetCore_Social_Entity.User", "User")
                         .WithMany("Friends")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -589,9 +589,9 @@ namespace AspNetCore_Social_DataAccess.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("AspNetCore_Social_Entity.Entities.Interest", b =>
+            modelBuilder.Entity("AspNetCore_Social_Entity.Interest", b =>
                 {
-                    b.HasOne("AspNetCore_Social_Entity.Entities.User", "User")
+                    b.HasOne("AspNetCore_Social_Entity.User", "User")
                         .WithMany("Interests")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -600,9 +600,9 @@ namespace AspNetCore_Social_DataAccess.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("AspNetCore_Social_Entity.Entities.Notification", b =>
+            modelBuilder.Entity("AspNetCore_Social_Entity.Notification", b =>
                 {
-                    b.HasOne("AspNetCore_Social_Entity.Entities.User", "User")
+                    b.HasOne("AspNetCore_Social_Entity.User", "User")
                         .WithMany("Notification")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -611,9 +611,9 @@ namespace AspNetCore_Social_DataAccess.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("AspNetCore_Social_Entity.Entities.Post", b =>
+            modelBuilder.Entity("AspNetCore_Social_Entity.Post", b =>
                 {
-                    b.HasOne("AspNetCore_Social_Entity.Entities.User", "User")
+                    b.HasOne("AspNetCore_Social_Entity.User", "User")
                         .WithMany("Posts")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -622,26 +622,26 @@ namespace AspNetCore_Social_DataAccess.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("AspNetCore_Social_Entity.Entities.PrivacySettings", b =>
+            modelBuilder.Entity("AspNetCore_Social_Entity.PrivacySettings", b =>
                 {
-                    b.HasOne("AspNetCore_Social_Entity.Entities.User", "User")
+                    b.HasOne("AspNetCore_Social_Entity.User", "User")
                         .WithOne("PrivacySettings")
-                        .HasForeignKey("AspNetCore_Social_Entity.Entities.PrivacySettings", "UserId")
+                        .HasForeignKey("AspNetCore_Social_Entity.PrivacySettings", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("AspNetCore_Social_Entity.Entities.ReplyComment", b =>
+            modelBuilder.Entity("AspNetCore_Social_Entity.ReplyComment", b =>
                 {
-                    b.HasOne("AspNetCore_Social_Entity.Entities.Comment", "Comment")
+                    b.HasOne("AspNetCore_Social_Entity.Comment", "Comment")
                         .WithMany()
                         .HasForeignKey("CommentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("AspNetCore_Social_Entity.Entities.User", "User")
+                    b.HasOne("AspNetCore_Social_Entity.User", "User")
                         .WithMany("ReplyComments")
                         .HasForeignKey("UserId")
                         .IsRequired();
@@ -651,9 +651,9 @@ namespace AspNetCore_Social_DataAccess.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("AspNetCore_Social_Entity.Entities.SocialMediaAccount", b =>
+            modelBuilder.Entity("AspNetCore_Social_Entity.SocialMediaAccount", b =>
                 {
-                    b.HasOne("AspNetCore_Social_Entity.Entities.User", "User")
+                    b.HasOne("AspNetCore_Social_Entity.User", "User")
                         .WithMany("SocialMediaAccounts")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -662,9 +662,9 @@ namespace AspNetCore_Social_DataAccess.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("AspNetCore_Social_Entity.Entities.UserActivity", b =>
+            modelBuilder.Entity("AspNetCore_Social_Entity.UserActivity", b =>
                 {
-                    b.HasOne("AspNetCore_Social_Entity.Entities.User", "User")
+                    b.HasOne("AspNetCore_Social_Entity.User", "User")
                         .WithMany("ActivityHistory")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -724,12 +724,12 @@ namespace AspNetCore_Social_DataAccess.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("AspNetCore_Social_Entity.Entities.Post", b =>
+            modelBuilder.Entity("AspNetCore_Social_Entity.Post", b =>
                 {
                     b.Navigation("Comments");
                 });
 
-            modelBuilder.Entity("AspNetCore_Social_Entity.Entities.User", b =>
+            modelBuilder.Entity("AspNetCore_Social_Entity.User", b =>
                 {
                     b.Navigation("ActivityHistory");
 

@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AspNetCore_Social_Entity
+namespace AspNetCore_Social_Entity.Entities
 {
-    public class Interest
+    public class UserActivity
     {
         public int Id { get; set; }
+        public DateTime Date { get; set; }
         public string Name { get; set; }
-        public virtual List<User> Users { get; set; }
-   
+        public int UserId { get; set; }
+        public virtual User User { get; set; }
     }
 }

@@ -13,6 +13,7 @@ namespace AspNetCore_Social_DataAccess.Identity
 {
     public class AppUser : IdentityUser<int>
     {
+        public int UserId { get; set; }
         
     }
 }
