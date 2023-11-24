@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AspNetCore_Social_DataAccess.Migrations
 {
     [DbContext(typeof(SocialContext))]
-    [Migration("20231124172533_userinapp")]
-    partial class userinapp
+    [Migration("20231124192652_addNullable")]
+    partial class addNullable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -360,31 +360,28 @@ namespace AspNetCore_Social_DataAccess.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Biography")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("BirthDate")
+                    b.Property<DateTime?>("BirthDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CoverPicture")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("CreatedAt")
+                    b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("EducationInfo")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("FollowerCount")
+                    b.Property<int?>("FollowerCount")
                         .HasColumnType("int");
 
-                    b.Property<int>("FollowingCount")
+                    b.Property<int?>("FollowingCount")
                         .HasColumnType("int");
 
                     b.Property<string>("Gender")
@@ -392,7 +389,6 @@ namespace AspNetCore_Social_DataAccess.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("JobInfo")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Language1")
@@ -404,7 +400,7 @@ namespace AspNetCore_Social_DataAccess.Migrations
                     b.Property<string>("Language3")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("LastLogin")
+                    b.Property<DateTime?>("LastLogin")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("LastName")
@@ -412,22 +408,18 @@ namespace AspNetCore_Social_DataAccess.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Location")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PrivacySettingsId")
+                    b.Property<int?>("PrivacySettingsId")
                         .HasColumnType("int");
 
                     b.Property<string>("ProfilePicture")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Website")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
