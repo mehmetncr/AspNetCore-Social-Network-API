@@ -1,4 +1,11 @@
 using AspNetCore_Social_DataAccess.Context;
+using AspNetCore_Social_DataAccess.Repositories;
+using AspNetCore_Social_DataAccess.UnitOfWorks;
+using AspNetCore_Social_Entity.Repositories;
+using AspNetCore_Social_Entity.Services;
+using AspNetCore_Social_Entity.UnitOfWorks;
+using AspNetCore_Social_Service.Mapping;
+using AspNetCore_Social_Service.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
