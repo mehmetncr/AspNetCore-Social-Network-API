@@ -6,7 +6,7 @@ using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AspNetCore_Social_Entity
+namespace AspNetCore_Social_Entity.Entities
 {
     public class User
     {
@@ -19,7 +19,7 @@ namespace AspNetCore_Social_Entity
         public string CoverPicture { get; set; }
         public string Biography { get; set; }
         public string Location { get; set; }
-  
+
         public int FollowerCount { get; set; }
         public int FollowingCount { get; set; }
         public DateTime CreatedAt { get; set; }
@@ -27,16 +27,23 @@ namespace AspNetCore_Social_Entity
         public string Website { get; set; }
         public string JobInfo { get; set; }
         public string EducationInfo { get; set; }
-        public virtual List<Language> LanguageSkills { get; set; }
+        public string? Language1 { get; set; }
+        public string? Language2 { get; set; }
+        public string? Language3 { get; set; }
         public virtual List<SocialMediaAccount> SocialMediaAccounts { get; set; }
-        //public  List<string> Permissions { get; set; }
+
         public DateTime LastLogin { get; set; }
         public virtual List<UserActivity> ActivityHistory { get; set; }
-        public List<Notification> Notification { get; set; }
+        public virtual List<Notification> Notification { get; set; }
+
         public int PrivacySettingsId { get; set; }
-        public PrivacySettings PrivacySettings { get; set; }
-       // public List<Content> FavoriteContents { get; set; }
-        public List<User> SocialConnections { get; set; }
-        public List<Interest> Interests { get; set; }
+        public virtual PrivacySettings PrivacySettings { get; set; }
+
+        public virtual List<Friends> Friends { get; set; }
+        public virtual List<Interest> Interests { get; set; }
+
+        public virtual List<Post> Posts { get; set; }
+        public virtual List<Comment> Comments { get; set; }
+        public virtual List<ReplyComment> ReplyComments { get; set; }
     }
 }
