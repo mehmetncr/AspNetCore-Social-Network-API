@@ -10,6 +10,7 @@ namespace AspNetCore_Social_Entity.Services
 	public interface IAccountService
 	{
 		Task<string> RegisterAsync(RegisterDto model);
+		Task<int> CreateUser(RegisterDto model);
 		Task LogoutAsync();
 	}
 }
