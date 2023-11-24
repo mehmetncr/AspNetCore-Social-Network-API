@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AspNetCore_Social_Entity
+namespace AspNetCore_Social_Entity.Entities
 {
     public class PrivacySettings
     {

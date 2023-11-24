@@ -1,5 +1,5 @@
 ﻿using AspNetCore_Social_DataAccess.Identity;
-using AspNetCore_Social_Entity;
+using AspNetCore_Social_Entity.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;

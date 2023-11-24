@@ -6,7 +6,7 @@ using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AspNetCore_Social_Entity
+namespace AspNetCore_Social_Entity.Entities
 {
     public class User
     {
@@ -19,7 +19,7 @@ namespace AspNetCore_Social_Entity
         public string CoverPicture { get; set; }
         public string Biography { get; set; }
         public string Location { get; set; }
-  
+
         public int FollowerCount { get; set; }
         public int FollowingCount { get; set; }
         public DateTime CreatedAt { get; set; }
@@ -35,7 +35,7 @@ namespace AspNetCore_Social_Entity
         public List<Notification> Notification { get; set; }
         public int PrivacySettingsId { get; set; }
         public PrivacySettings PrivacySettings { get; set; }
-       // public List<Content> FavoriteContents { get; set; }
+        // public List<Content> FavoriteContents { get; set; }
         public List<User> SocialConnections { get; set; }
         public List<Interest> Interests { get; set; }
     }
