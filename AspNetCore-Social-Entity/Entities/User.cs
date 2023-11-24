@@ -27,6 +27,7 @@ namespace AspNetCore_Social_Entity.Entities
         public string Website { get; set; }
         public string JobInfo { get; set; }
         public string EducationInfo { get; set; }
+
         public string? Language1 { get; set; }
         public string? Language2 { get; set; }
         public string? Language3 { get; set; }
@@ -45,5 +46,6 @@ namespace AspNetCore_Social_Entity.Entities
         public virtual List<Post> Posts { get; set; }
         public virtual List<Comment> Comments { get; set; }
         public virtual List<ReplyComment> ReplyComments { get; set; }
+
     }
 }

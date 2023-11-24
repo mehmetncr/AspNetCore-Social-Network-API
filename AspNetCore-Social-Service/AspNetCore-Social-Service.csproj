@@ -16,4 +16,10 @@
     <ProjectReference Include="..\AspNetCore-Social-DataAccess\AspNetCore-Social-DataAccess.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Extensions\" />
+    <Folder Include="Mapping\" />
+    <Folder Include="Services\" />
+  </ItemGroup>
+
 </Project>

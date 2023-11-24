@@ -13,7 +13,6 @@ namespace AspNetCore_Social_Entity.Entities
         public bool FriendRequest { get; set; }
         public bool MessageRequest { get; set; }
         public bool HiddenProfile { get; set; }
-
         public virtual User User { get; set; }
     }
 }

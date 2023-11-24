@@ -6,13 +6,10 @@ using System.Threading.Tasks;
 
 namespace AspNetCore_Social_Entity.Entities
 {
-    public class SocialMediaAccount
+    public class Language
     {
         public int Id { get; set; }
-        public int UserId { get; set; }
         public string Name { get; set; }
-        public string Url { get; set; }
-        public virtual User User { get; set; }
-
+        public virtual List<User> Users { get; set; }
     }
 }
