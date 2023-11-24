@@ -21,8 +21,4 @@
     <ProjectReference Include="..\AspNetCore-Social-Service\AspNetCore-Social-Service.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
 </Project>
