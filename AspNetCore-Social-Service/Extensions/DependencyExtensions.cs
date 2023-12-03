@@ -5,6 +5,7 @@ using AspNetCore_Social_DataAccess.UnitOfWorks;
 using AspNetCore_Social_Entity.Repositories;
 using AspNetCore_Social_Entity.Services;
 using AspNetCore_Social_Entity.UnitOfWorks;
+using AspNetCore_Social_Service.Mapping;
 using AspNetCore_Social_Service.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -43,8 +44,8 @@ namespace AspNetCore_Social_Service.Extensions
 			services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 			services.AddScoped<IUnitOfWork, UnitOfWork>();
 			services.AddScoped<IAccountService, AccountService>();
-			//services.AddAutoMapper(typeof(MappingProfile)); 
-			//services.AddScoped<IProfileService, ProfileService>();
+			services.AddAutoMapper(typeof(MappingProfile));
+			services.AddScoped<IProfileService, ProfileService>();
 
 
 		}

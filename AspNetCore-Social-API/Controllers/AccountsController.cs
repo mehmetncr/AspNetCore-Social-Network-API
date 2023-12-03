@@ -29,6 +29,12 @@ namespace AspNetCore_Social_API.Controllers
 			}
 			
 		}
+		[HttpPost("Login")]
+		public IActionResult Login([FromBody]LoginDto model)
+		{
+			return Ok();
+			
+		}
 
 
 	}
