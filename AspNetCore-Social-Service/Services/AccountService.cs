@@ -53,14 +53,19 @@ namespace AspNetCore_Social_Service.Services
                 message = "OK";
 
             }
+			else
+			{
+				// eğer appuser kaydı başarısız olursa user tablosundan eklenen kişi silelinecek
+			}
             foreach (var error in identityResult.Errors)
             {
-                message = error.Description;
+                message = error.Description;   //username Email için türkçe hata döndürülecek
             }
             return message;
 		}
 		public async Task<int> CreateUser(RegisterDto model)
 		{
+
 			User user = new User()
 			{
 				FirstName = model.FirstName,

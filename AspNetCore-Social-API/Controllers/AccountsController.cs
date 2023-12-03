@@ -1,5 +1,6 @@
 ﻿using AspNetCore_Social_Entity.DTOs;
 using AspNetCore_Social_Entity.Services;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,6 +8,7 @@ namespace AspNetCore_Social_API.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
+	[EnableCors]
 	public class AccountsController : ControllerBase
 	{
 		private readonly IAccountService _accountService;
