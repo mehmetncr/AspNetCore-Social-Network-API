@@ -16,7 +16,7 @@ namespace AspNetCore_Social_API.Controllers
 		}
 
 		[HttpPost("Register")]
-		public async Task<IActionResult> Register([FromBody]RegisterDto model)
+		public async Task<IActionResult> Register([FromBody] RegisterDto model)
 		{
 			string msg = await _accountService.RegisterAsync(model);
 			if (msg == "OK")
@@ -27,13 +27,23 @@ namespace AspNetCore_Social_API.Controllers
 			{
 				return BadRequest(msg);
 			}
-			
+
 		}
 		[HttpPost("Login")]
-		public IActionResult Login([FromBody]LoginDto model)
+		public async Task<IActionResult> Login([FromBody] LoginDto model)
 		{
+			var userId = await _accountService.Login(model);
+			if (userId == 0)
+			{
+				return NotFound("Kullanıcı adı veya şifre hatalı!");
+			}
+			return Ok(userId);
+		}
+		[HttpGet("Logout")]
+		public async Task<IActionResult> Logout()
+		{
+			await _accountService.LogoutAsync();
 			return Ok();
-			
 		}
 
 

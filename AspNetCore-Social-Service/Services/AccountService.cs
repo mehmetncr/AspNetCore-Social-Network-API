@@ -16,23 +16,23 @@ namespace AspNetCore_Social_Service.Services
 	public class AccountService : IAccountService
 	{
 		private readonly UserManager<AppUser> _userManager;
-		//private readonly RoleManager<AppRole> _roleManager;
-		//private readonly SignInManager<AppUser> _signInManager;
-		//private readonly IMapper _mapper;
+		private readonly RoleManager<AppRole> _roleManager;
+		private readonly SignInManager<AppUser> _signInManager;
 		private readonly IUnitOfWork _uow;
+		private readonly IMapper _mapper;
 
-		public AccountService(UserManager<AppUser> userManager/*, RoleManager<AppRole> roleManager, SignInManager<AppUser> signInManager, IMapper mapper*/, IUnitOfWork uow)
+		public AccountService(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, SignInManager<AppUser> signInManager, IUnitOfWork uow, IMapper mapper)
 		{
 			_userManager = userManager;
-			//_roleManager = roleManager;
-			//_signInManager = signInManager;
-			//_mapper = mapper;
+			_roleManager = roleManager;
+			_signInManager = signInManager;
 			_uow = uow;
+			_mapper = mapper;
 		}
 
-		public Task LogoutAsync()	//Çıkış yapma
+		public async Task LogoutAsync()	//Çıkış yapma
 		{
-			throw new NotImplementedException();
+			await _signInManager.SignOutAsync();
 		}
 
 		public async Task<string> RegisterAsync(RegisterDto model)	//Yeni kullanıcı oluşturma
@@ -73,6 +73,20 @@ namespace AspNetCore_Social_Service.Services
 			await _uow.CommitAsync();
 
 			return user.Id;
+		}
+
+		public async Task<int> Login(LoginDto model)
+		{
+			var user = await _userManager.FindByEmailAsync(model.Email);
+			if (user != null)
+			{
+				var signInResult = await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
+				if (signInResult.Succeeded)
+				{
+					return user.UserId;
+				}
+			}
+			return 0;
 		}
 	}
 }
