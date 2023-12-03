@@ -41,7 +41,7 @@ namespace AspNetCore_Social_Service.Services
 
             var appuser = new AppUser()
             {
-				UserName = model.FirstName+model.LastName,
+				UserName = model.UserName,
 				Email = model.Email,
 				UserId = await this.CreateUser(model)
             };
