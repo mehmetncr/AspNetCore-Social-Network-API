@@ -21,11 +21,6 @@ namespace AspNetCore_Social_Service.Extensions
 	{
 		public static void AddExtensions(this IServiceCollection services)
 		{
-			services.AddAuthentication("Identity.Application")
-	   .AddCookie("Identity.Application", options =>
-	   {
-		   // ...
-	   });
 			services.AddIdentity<AppUser, AppRole>(
 			opt =>
 			{
