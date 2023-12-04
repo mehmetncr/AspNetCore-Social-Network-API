@@ -14,7 +14,7 @@ namespace AspNetCore_Social_Entity.DTOs
 		public string Name { get; set; }
 
 
-		public int UserId { get; set; }
-		public virtual User User { get; set; }
+		public int UserDtoId { get; set; }
+		public virtual UserDto UserDto { get; set; }
 	}
 }

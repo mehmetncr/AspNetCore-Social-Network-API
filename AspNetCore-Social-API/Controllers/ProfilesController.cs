@@ -7,7 +7,7 @@ namespace AspNetCore_Social_API.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	[Authorize]
+	//[Authorize]
 	public class ProfilesController : ControllerBase
 	{
 		private readonly IProfileService _profileService;
