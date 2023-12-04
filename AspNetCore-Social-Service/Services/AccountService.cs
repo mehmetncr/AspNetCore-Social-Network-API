@@ -20,48 +20,50 @@ namespace AspNetCore_Social_Service.Services
 		private readonly SignInManager<AppUser> _signInManager;
 		private readonly IUnitOfWork _uow;
 		private readonly IMapper _mapper;
+		private readonly IProfileService _profileService;
 
-		public AccountService(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, SignInManager<AppUser> signInManager, IUnitOfWork uow, IMapper mapper)
+		public AccountService(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, SignInManager<AppUser> signInManager, IUnitOfWork uow, IMapper mapper, IProfileService profileService)
 		{
 			_userManager = userManager;
 			_roleManager = roleManager;
 			_signInManager = signInManager;
 			_uow = uow;
 			_mapper = mapper;
+			_profileService = profileService;
 		}
 
-		public async Task LogoutAsync()	//Çıkış yapma
+		public async Task LogoutAsync() //Çıkış yapma
 		{
 			await _signInManager.SignOutAsync();
 		}
 
-		public async Task<string> RegisterAsync(RegisterDto model)	//Yeni kullanıcı oluşturma
+		public async Task<string> RegisterAsync(RegisterDto model)  //Yeni kullanıcı oluşturma
 		{
 			string message = string.Empty;
 
-            var appuser = new AppUser()
-            {
+			var appuser = new AppUser()
+			{
 				UserName = model.UserName,
 				Email = model.Email,
 				UserId = await this.CreateUser(model)
-            };
+			};
 
-            var identityResult = await _userManager.CreateAsync(appuser, model.ConfirmPassword);
+			var identityResult = await _userManager.CreateAsync(appuser, model.ConfirmPassword);
 
-            if (identityResult.Succeeded)
-            {
-                message = "OK";
+			if (identityResult.Succeeded)
+			{
+				message = "OK";
 
-            }
+			}
 			else
 			{
 				// eğer appuser kaydı başarısız olursa user tablosundan eklenen kişi silelinecek
 			}
-            foreach (var error in identityResult.Errors)
-            {
-                message = error.Description;   //username Email için türkçe hata döndürülecek
-            }
-            return message;
+			foreach (var error in identityResult.Errors)
+			{
+				message = error.Description;   //username Email için türkçe hata döndürülecek
+			}
+			return message;
 		}
 		public async Task<int> CreateUser(RegisterDto model)
 		{
@@ -80,18 +82,20 @@ namespace AspNetCore_Social_Service.Services
 			return user.Id;
 		}
 
-		public async Task<int> Login(LoginDto model)
+		public async Task<UserDto> Login(LoginDto model)
 		{
-			var user = await _userManager.FindByEmailAsync(model.Email);
-			if (user != null)
+			var appuser = await _userManager.FindByEmailAsync(model.Email);
+			if (appuser != null)
 			{
-				var signInResult = await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
+				var signInResult = await _signInManager.PasswordSignInAsync(appuser, model.Password, model.RememberMe, false);
 				if (signInResult.Succeeded)
 				{
-					return user.UserId;
+					return await _profileService.GetById(appuser.UserId);
+
 				}
 			}
-			return 0;
+			return null;
 		}
+
 	}
 }

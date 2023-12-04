@@ -19,6 +19,7 @@ namespace AspNetCore_Social_Entity.Entities
         [ForeignKey("PostId")]
         public int PostId { get; set; }
         public virtual Post Post { get; set; }
+        public virtual List<ReplyComment> ReplyComments { get; set; }
 
     }
 }
