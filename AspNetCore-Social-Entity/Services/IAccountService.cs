@@ -11,7 +11,7 @@ namespace AspNetCore_Social_Entity.Services
 	{
 		Task<string> RegisterAsync(RegisterDto model);
 		Task<int> CreateUser(RegisterDto model);
-		Task<int> Login(LoginDto model);
+		Task<UserDto> Login(LoginDto model);
 		Task LogoutAsync();
 	}
 }

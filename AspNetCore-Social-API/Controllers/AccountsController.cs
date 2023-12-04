@@ -34,12 +34,12 @@ namespace AspNetCore_Social_API.Controllers
 		[HttpPost("Login")]
 		public async Task<IActionResult> Login([FromBody] LoginDto model)
 		{
-			var userId = await _accountService.Login(model);
-			if (userId == 0)
+			var user = await _accountService.Login(model);
+			if (user == null)
 			{
 				return NotFound("Kullanıcı adı veya şifre hatalı!");
 			}
-			return Ok(userId);
+			return Ok(user);
 		}
 		[HttpGet("Logout")]
 		public async Task<IActionResult> Logout()

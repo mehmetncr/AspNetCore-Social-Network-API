@@ -1,4 +1,4 @@
-using AspNetCore_Social_Entity.DTOs;
+﻿using AspNetCore_Social_Entity.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace AspNetCore_Social_Entity.Services
 {
-
-	public interface IHomeService
+	public interface IPostService
 	{
-		public HomeDto GetHome(int userId);
-
+		public Task<List<PostDto>> GetAllPostsWithUserId(int userId);
 	}
 }

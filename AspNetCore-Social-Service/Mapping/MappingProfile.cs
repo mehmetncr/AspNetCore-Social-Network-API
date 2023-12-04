@@ -15,6 +15,7 @@ namespace AspNetCore_Social_Service.Mapping
 		public MappingProfile() 
 		{
 			CreateMap<User, UserDto>().ReverseMap();
+			CreateMap<Post, PostDto>().ReverseMap();
 		}
 	}
 }
