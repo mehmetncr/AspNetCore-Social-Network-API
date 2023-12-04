@@ -14,11 +14,14 @@ namespace AspNetCore_Social_Entity.DTOs
 		public DateTime CreateDate { get; set; }
 		public string TextContent { get; set; }
 		public string ImageUrl { get; set; }
+		public string VideoUrl { get; set; }
+		public string YoutubeUrl { get; set; }
 		public int CommentNumber { get; set; }
 		public int LikeNumber { get; set; }
 		public int DislikeNumber { get; set; }
 		public string PostLink { get; set; }
-		public virtual List<Comment> Comments { get; set; }
-		public virtual User User { get; set; }
+		public string PostType { get; set; }
+		public virtual List<CommentDto> CommentsDto { get; set; }
+		public virtual UserDto UserDto { get; set; }
 	}
 }

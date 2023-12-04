@@ -1,4 +1,4 @@
-﻿using AspNetCore_Social_Entity.Entities;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,20 +30,22 @@ namespace AspNetCore_Social_Entity.DTOs
 		public string? Language1 { get; set; }
 		public string? Language2 { get; set; }
 		public string? Language3 { get; set; }
-		public virtual List<SocialMediaAccount> SocialMediaAccounts { get; set; }
-		public bool IsOnline { get; set; }
+
+		public virtual List<SocialMediaAccountDto> SocialMediaAccountsDto { get; set; }
+
+
 		public DateTime LastLogin { get; set; }
-		public virtual List<UserActivity> ActivityHistory { get; set; }
-		public virtual List<Notification> Notification { get; set; }
+		public virtual List<UserActivityDto> ActivityHistoryDto { get; set; }
+		public virtual List<NotificationDto> NotificationDto { get; set; }
 
 		public int PrivacySettingsId { get; set; }
-		public virtual PrivacySettings PrivacySettings { get; set; }
+		public virtual PrivacySettingDto PrivacySettingsDto { get; set; }
 
-		public virtual List<Friends> Friends { get; set; }
-		public virtual List<Interest> Interests { get; set; }
+		public virtual List<FriendsDto> FriendsDto { get; set; }
+		public virtual List<InterestDto> InterestsDto { get; set; }
 
-		public virtual List<Post> Posts { get; set; }
-		public virtual List<Comment> Comments { get; set; }
-		public virtual List<ReplyComment> ReplyComments { get; set; }
+		public virtual List<PostDto> PostsDto { get; set; }
+		public virtual List<CommentDto> CommentsDto { get; set; }
+		public virtual List<ReplyCommentDto> ReplyCommentsDto { get; set; }
 	}
 }
