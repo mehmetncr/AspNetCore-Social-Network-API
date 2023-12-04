@@ -45,6 +45,9 @@ namespace AspNetCore_Social_Service.Extensions
 			services.AddScoped<IAccountService, AccountService>();
 			services.AddAutoMapper(typeof(MappingProfile));
 			services.AddScoped<IProfileService, ProfileService>();
+			services.AddScoped<IPostService, PostService>();
+			services.AddScoped<IHomeService, HomeService>();
+			services.AddScoped<IFriendService, FriendService>();
 
 
 		}

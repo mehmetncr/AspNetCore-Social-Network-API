@@ -7,11 +7,8 @@ using System.Threading.Tasks;
 
 namespace AspNetCore_Social_Entity.Services
 {
-	public interface IAccountService
+	public interface IHomeService
 	{
-		Task<string> RegisterAsync(RegisterDto model);
-		Task<int> CreateUser(RegisterDto model);
-		Task<UserDto> Login(LoginDto model);
-		Task LogoutAsync();
+		public HomeDto GetHome(int userId);
 	}
 }

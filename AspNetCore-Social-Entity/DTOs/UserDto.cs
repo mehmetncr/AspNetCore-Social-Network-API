@@ -31,7 +31,7 @@ namespace AspNetCore_Social_Entity.DTOs
 		public string? Language2 { get; set; }
 		public string? Language3 { get; set; }
 		public virtual List<SocialMediaAccount> SocialMediaAccounts { get; set; }
-
+		public bool IsOnline { get; set; }
 		public DateTime LastLogin { get; set; }
 		public virtual List<UserActivity> ActivityHistory { get; set; }
 		public virtual List<Notification> Notification { get; set; }
