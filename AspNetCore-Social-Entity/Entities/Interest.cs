@@ -8,11 +8,11 @@ namespace AspNetCore_Social_Entity.Entities
 {
     public class Interest
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
+        public int InterestId { get; set; }
+        public string InterestName { get; set; }
 
-        public int UserId { get; set; }
-        public virtual User User { get; set; }
+        public int InterestUserId { get; set; }
+        public virtual User InterestUser { get; set; }
 
 
     }

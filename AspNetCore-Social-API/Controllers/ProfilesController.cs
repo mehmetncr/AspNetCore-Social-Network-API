@@ -27,7 +27,8 @@ namespace AspNetCore_Social_API.Controllers
 		[HttpGet("GetPosts/{id}")]
 		public async Task<IActionResult> GetPosts(int id)
 		{
-			return Ok(await _postService.GetAllPostsWithUserId(id));
+			//return Ok(await _postService.GetAllPostsWithUserId(id));
+			return Ok(_postService.GetPosts(id));
 		}
 	}
 }

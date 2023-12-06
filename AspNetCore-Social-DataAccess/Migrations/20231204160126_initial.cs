@@ -77,6 +77,7 @@ namespace AspNetCore_Social_DataAccess.Migrations
                     Language1 = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Language2 = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Language3 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsOnline = table.Column<bool>(type: "bit", nullable: false),
                     LastLogin = table.Column<DateTime>(type: "datetime2", nullable: true),
                     PrivacySettingsId = table.Column<int>(type: "int", nullable: true)
                 },
@@ -262,10 +263,13 @@ namespace AspNetCore_Social_DataAccess.Migrations
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     TextContent = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    VideoUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    YoutubeUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CommentNumber = table.Column<int>(type: "int", nullable: false),
                     LikeNumber = table.Column<int>(type: "int", nullable: false),
                     DislikeNumber = table.Column<int>(type: "int", nullable: false),
-                    PostLink = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    PostLink = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PostType = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {

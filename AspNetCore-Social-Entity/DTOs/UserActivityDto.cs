@@ -9,12 +9,12 @@ namespace AspNetCore_Social_Entity.DTOs
 {
 	public class UserActivityDto
 	{
-		public int Id { get; set; }
-		public DateTime Date { get; set; }
-		public string Name { get; set; }
+		public int UserActivityId { get; set; }
+		public DateTime UserActivityDate { get; set; }
+		public string UserActivityName { get; set; }
 
 
-		public int UserDtoId { get; set; }
-		public virtual UserDto UserDto { get; set; }
+		public int UserActivityUserDtoId { get; set; }
+		public virtual UserDto UserActivityUserDto { get; set; }
 	}
 }

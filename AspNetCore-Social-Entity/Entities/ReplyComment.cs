@@ -8,15 +8,17 @@ namespace AspNetCore_Social_Entity.Entities
 {
     public class ReplyComment
     {
-        public int Id { get; set; }
-        public DateTime CommentDate { get; set; }
-        public string Content { get; set; }
+        public int ReplyCommentId { get; set; }
+        public DateTime ReplyCommentDate { get; set; }
+        public string ReplyCommentContent { get; set; }
 
-        public int UserId { get; set; }
-        public virtual User User { get; set; }
 
-        public int CommentId { get; set; }
-        public virtual Comment Comment { get; set; }
+        public int ReplyCommentUserId { get; set; }
+        public virtual User ReplyCommentUser { get; set; }
+
+
+        public int ReplyCommentCommentId { get; set; }
+        public virtual Comment ReplyCommentComment { get; set; }
 
 
     }

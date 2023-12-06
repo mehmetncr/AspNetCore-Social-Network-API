@@ -20,7 +20,7 @@ namespace AspNetCore_Social_Service.Services
 
 		public async Task<List<Friends>> GetFriends(int userId)
 		{
-			var list = await _uow.GetRepository<Friends>().GetAll(x=>x.UserId == userId);
+			var list = await _uow.GetRepository<Friends>().GetAll(x=>x.FriendsUserId == userId);
 			return list.ToList();
 		}
 	}

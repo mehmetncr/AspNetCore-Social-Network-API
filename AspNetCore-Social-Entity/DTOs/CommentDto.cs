@@ -10,16 +10,17 @@ namespace AspNetCore_Social_Entity.DTOs
 {
 	public class CommentDto
 	{
-		public int Id { get; set; }
-		public DateTime CommentDate { get; set; }
-		public string Content { get; set; }
+		public int CommentId { get; set; }
+        public DateTime CommentDate { get; set; }
+        public string CommentContent { get; set; }
 
-		
-		public int UserId { get; set; }
-		//public virtual UserDto User { get; set; }
-	
-		public int PostId { get; set; }
-		//public virtual PostDto Post { get; set; }
-		public List<ReplyCommentDto> ReplyComments { get; set; }
+
+		[ForeignKey("UserId")]
+		public int CommentUserDtoId { get; set; }
+		public virtual UserDto CommentUserDto { get; set; }
+		[ForeignKey("PostId")]
+		public int CommentPostDtoId { get; set; }
+		public virtual PostDto CommentPostDto { get; set; }
+
 	}
 }
