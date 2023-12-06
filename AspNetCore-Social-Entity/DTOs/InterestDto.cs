@@ -9,10 +9,10 @@ namespace AspNetCore_Social_Entity.DTOs
 {
 	public class InterestDto
 	{
-		public int Id { get; set; }
-		public string Name { get; set; }
+		public int InterestId { get; set; }
+		public string InterestName { get; set; }
 
-		public int UserDtoId { get; set; }
-		public virtual UserDto UserDto { get; set; }
+		public int InterestUserDtoId { get; set; }
+		public virtual UserDto InterestUserDto { get; set; }
 	}
 }

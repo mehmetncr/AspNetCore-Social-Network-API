@@ -8,10 +8,10 @@ namespace AspNetCore_Social_Entity.Entities
 {
     public class Friends
     {
-        public int Id { get; set; }
-        public int UserId { get; set; }
+        public int FriendsId { get; set; }
         public int FriendsUserId { get; set; }
+        public int FriendId { get; set; }
 
-        public virtual User User { get; set; }
+        public virtual User FriendsUser { get; set; }
     }
 }

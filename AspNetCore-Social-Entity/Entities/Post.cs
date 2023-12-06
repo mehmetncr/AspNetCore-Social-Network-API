@@ -8,20 +8,20 @@ namespace AspNetCore_Social_Entity.Entities
 {
     public class Post
     {
-        public int Id { get; set; }
-        public int UserId { get; set; }
-        public DateTime CreateDate { get; set; }
-        public string TextContent { get; set; }
-        public string ImageUrl { get; set; }
-        public string VideoUrl { get; set; }
-        public string YoutubeUrl { get; set; }
-        public int CommentNumber { get; set; }
-        public int LikeNumber { get; set; }
-        public int DislikeNumber { get; set; }
+        public int PostId { get; set; }
+        public int PostUserId { get; set; }
+        public DateTime PostCreateDate { get; set; } = DateTime.Now;
+        public string? PostTextContent { get; set; }
+        public string? PostImageUrl { get; set; }
+        public string? PostVideoUrl { get; set; }
+        public string? PostYoutubeUrl { get; set; }
+        public int PostCommentNumber { get; set; }
+        public int PostLikeNumber { get; set; }
+        public int PostDislikeNumber { get; set; }
         public string PostLink { get; set; }
         public string PostType { get; set; }
         public virtual List<Comment> Comments { get; set; }
-        public virtual User User { get; set; }
+        public virtual User PostUser { get; set; }
 
     }
 }

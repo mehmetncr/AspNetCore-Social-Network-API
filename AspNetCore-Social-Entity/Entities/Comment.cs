@@ -9,16 +9,16 @@ namespace AspNetCore_Social_Entity.Entities
 {
     public class Comment
     {
-        public int Id { get; set; }
+        public int CommentId { get; set; }
         public DateTime CommentDate { get; set; }
-        public string Content { get; set; }
+        public string CommentContent { get; set; }
 
         [ForeignKey("UserId")]
-        public int UserId { get; set; }
-        public virtual User User { get; set; }
+        public int CommentUserId { get; set; }
+        public virtual User CommentUser { get; set; }
         [ForeignKey("PostId")]
-        public int PostId { get; set; }
-        public virtual Post Post { get; set; }
+        public int CommentPostId { get; set; }
+        public virtual Post CommentPost { get; set; }
         public virtual List<ReplyComment> ReplyComments { get; set; }
 
     }

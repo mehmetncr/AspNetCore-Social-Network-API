@@ -70,16 +70,16 @@ namespace AspNetCore_Social_Service.Services
 
 			User user = new User()
 			{
-				FirstName = model.FirstName,
-				LastName = model.LastName,
-				Gender = model.Gender,
-				CreatedAt = DateTime.Now,
+				UserFirstName = model.FirstName,
+				UserLastName = model.LastName,
+				UserGender = model.Gender,
+				UserCreatedAt = DateTime.Now,
 			};
 
 			await _uow.GetRepository<User>().Add(user);
 			await _uow.CommitAsync();
 
-			return user.Id;
+			return user.UserId;
 		}
 
 		public async Task<UserDto> Login(LoginDto model)

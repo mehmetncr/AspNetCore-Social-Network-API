@@ -9,11 +9,11 @@ namespace AspNetCore_Social_Entity.DTOs
 {
 	public class PrivacySettingDto
 	{
-		public int Id { get; set; }
-		public int UserDtoId { get; set; }
-		public bool FriendRequest { get; set; }
-		public bool MessageRequest { get; set; }
-		public bool HiddenProfile { get; set; }
-		public virtual UserDto UserDto { get; set; }
+		public int PrivacySettingsId { get; set; }
+		public int PrivacySettingsUserDtoId { get; set; }
+		public bool PrivacySettingsFriendRequest { get; set; }
+		public bool PrivacySettingsMessageRequest { get; set; }
+		public bool PrivacySettingsHiddenProfile { get; set; }
+		public virtual UserDto PrivacySettingsUserDto { get; set; }
 	}
 }

@@ -1,13 +1,13 @@
-﻿using AspNetCore_Social_Entity.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace AspNetCore_Social_Entity.DTOs
 {
-	public class PostDto
+	public class PostsCommentsReplyCommentsDto
 	{
 		public int PostId { get; set; }
 		public int PostUserId { get; set; }
@@ -21,7 +21,15 @@ namespace AspNetCore_Social_Entity.DTOs
 		public int PostDislikeNumber { get; set; }
 		public string PostLink { get; set; }
 		public string PostType { get; set; }
-		public virtual List<CommentDto> CommentsDto { get; set; }
-		public virtual UserDto PostUserDto { get; set; }
+		public int CommentId { get; set; }
+		public DateTime CommentDate { get; set; }
+		public string CommentContent { get; set; }
+		public int CommentUserId { get; set; }
+		public int CommentPostId { get; set; }
+		public int ReplyCommentId { get; set; }
+		public DateTime ReplyCommentDate { get; set; }
+		public string ReplyCommentContent { get; set; }
+		public int ReplyCommentUserId { get; set; }
+		public int ReplyCommentCommentId { get; set; }
 	}
 }
