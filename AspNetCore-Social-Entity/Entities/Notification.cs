@@ -8,11 +8,11 @@ namespace AspNetCore_Social_Entity.Entities
 {
     public class Notification
     {
-        public int Id { get; set; }
-        public int UserId { get; set; }
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public virtual User User { get; set; }
+        public int NotificationId { get; set; }
+        public int NotificationUserId { get; set; }
+        public string NotificationTitle { get; set; }
+        public string NotificationDescription { get; set; }
+        public virtual User NotificationUser { get; set; }
 
 
     }

@@ -9,10 +9,10 @@ namespace AspNetCore_Social_Entity.DTOs
 {
 	public class FriendsDto
 	{
-		public int Id { get; set; }
-		public int UserDtoId { get; set; }
-		public int FriendsUserId { get; set; }
+		public int FriendsId { get; set; }
+		public int FriendsUserDtoId { get; set; }
+		public int FriendsFriendsUserId { get; set; }
 
-		public virtual UserDto UserDto { get; set; }
+		public virtual UserDto FriendsUserDto { get; set; }
 	}
 }

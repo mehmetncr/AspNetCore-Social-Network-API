@@ -33,20 +33,20 @@ namespace AspNetCore_Social_DataAccess.Context
 		protected override void OnModelCreating(ModelBuilder builder)
 		{
 			builder.Entity<User>()
-				.HasOne(u => u.PrivacySettings)
-				.WithOne(p => p.User)
-				.HasForeignKey<PrivacySettings>(p => p.UserId);
+				.HasOne(u => u.UserPrivacySettings)
+				.WithOne(p => p.PrivacySettingsUser)
+				.HasForeignKey<PrivacySettings>(p => p.PrivacySettingsUserId);
 
 			builder.Entity<Comment>()
-			.HasOne(c => c.User)
+			.HasOne(c => c.CommentUser)
 			.WithMany(u => u.Comments)
-			.HasForeignKey(c => c.UserId)  // Foreign key olarak UserId'yi kullan
+			.HasForeignKey(c => c.CommentUserId)  // Foreign key olarak UserId'yi kullan
 			.OnDelete(DeleteBehavior.ClientSetNull);
 
 			builder.Entity<ReplyComment>()
-			.HasOne(c => c.User)
+			.HasOne(c => c.ReplyCommentUser)
 			.WithMany(u => u.ReplyComments)
-			.HasForeignKey(c => c.UserId)  // Foreign key olarak UserId'yi kullan
+			.HasForeignKey(c => c.ReplyCommentUserId)  // Foreign key olarak UserId'yi kullan
 			.OnDelete(DeleteBehavior.ClientSetNull);
 
 
