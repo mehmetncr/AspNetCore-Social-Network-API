@@ -16,6 +16,7 @@ namespace AspNetCore_Social_Entity.Entities
         public int ReplyCommentUserId { get; set; }
         public virtual User ReplyCommentUser { get; set; }
 
+
         public int ReplyCommentCommentId { get; set; }
         public virtual Comment ReplyCommentComment { get; set; }
 

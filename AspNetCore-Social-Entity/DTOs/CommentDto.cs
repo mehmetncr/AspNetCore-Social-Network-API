@@ -14,11 +14,13 @@ namespace AspNetCore_Social_Entity.DTOs
         public DateTime CommentDate { get; set; }
         public string CommentContent { get; set; }
 
+
 		[ForeignKey("UserId")]
 		public int CommentUserDtoId { get; set; }
 		public virtual UserDto CommentUserDto { get; set; }
 		[ForeignKey("PostId")]
 		public int CommentPostDtoId { get; set; }
 		public virtual PostDto CommentPostDto { get; set; }
+
 	}
 }

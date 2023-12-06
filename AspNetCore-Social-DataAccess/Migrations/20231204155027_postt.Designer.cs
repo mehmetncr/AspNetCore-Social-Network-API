@@ -4,6 +4,7 @@ using AspNetCore_Social_DataAccess.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AspNetCore_Social_DataAccess.Migrations
 {
     [DbContext(typeof(SocialContext))]
-    partial class SocialContextModelSnapshot : ModelSnapshot
+    [Migration("20231204155027_postt")]
+    partial class postt
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -125,180 +128,180 @@ namespace AspNetCore_Social_DataAccess.Migrations
 
             modelBuilder.Entity("AspNetCore_Social_Entity.Entities.Comment", b =>
                 {
-                    b.Property<int>("CommentId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CommentId"));
-
-                    b.Property<string>("CommentContent")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CommentDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("CommentPostId")
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PostId")
                         .HasColumnType("int");
 
-                    b.Property<int>("CommentUserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.HasKey("CommentId");
+                    b.HasKey("Id");
 
-                    b.HasIndex("CommentPostId");
+                    b.HasIndex("PostId");
 
-                    b.HasIndex("CommentUserId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("AspNetCore_Social_Entity.Entities.Friends", b =>
                 {
-                    b.Property<int>("FriendsId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FriendsId"));
-
-                    b.Property<int>("FriendId")
-                        .HasColumnType("int");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("FriendsUserId")
                         .HasColumnType("int");
 
-                    b.HasKey("FriendsId");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("FriendsUserId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Friends");
                 });
 
             modelBuilder.Entity("AspNetCore_Social_Entity.Entities.Interest", b =>
                 {
-                    b.Property<int>("InterestId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("InterestId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("InterestName")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("InterestUserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.HasKey("InterestId");
+                    b.HasKey("Id");
 
-                    b.HasIndex("InterestUserId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Interests");
                 });
 
             modelBuilder.Entity("AspNetCore_Social_Entity.Entities.Notification", b =>
                 {
-                    b.Property<int>("NotificationId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("NotificationId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("NotificationDescription")
+                    b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("NotificationTitle")
+                    b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("NotificationUserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.HasKey("NotificationId");
+                    b.HasKey("Id");
 
-                    b.HasIndex("NotificationUserId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Notifications");
                 });
 
             modelBuilder.Entity("AspNetCore_Social_Entity.Entities.Post", b =>
                 {
-                    b.Property<int>("PostId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PostId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("PostCommentNumber")
+                    b.Property<int>("CommentNumber")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("PostCreateDate")
+                    b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("PostDislikeNumber")
+                    b.Property<int>("DislikeNumber")
                         .HasColumnType("int");
 
-                    b.Property<string>("PostImageUrl")
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PostLikeNumber")
+                    b.Property<int>("LikeNumber")
                         .HasColumnType("int");
 
                     b.Property<string>("PostLink")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-
-                    b.Property<string>("PostTextContent")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("PostType")
-
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PostUserId")
+                    b.Property<string>("TextContent")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
-
-                    b.Property<string>("PostVideoUrl")
+                    b.Property<string>("VideoUrl")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-
-                    b.Property<string>("PostYoutubeUrl")
+                    b.Property<string>("YoutubeUrl")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("PostId");
+                    b.HasKey("Id");
 
-                    b.HasIndex("PostUserId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Posts");
                 });
 
             modelBuilder.Entity("AspNetCore_Social_Entity.Entities.PrivacySettings", b =>
                 {
-                    b.Property<int>("PrivacySettingsId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PrivacySettingsId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<bool>("PrivacySettingsFriendRequest")
+                    b.Property<bool>("FriendRequest")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("PrivacySettingsHiddenProfile")
+                    b.Property<bool>("HiddenProfile")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("PrivacySettingsMessageRequest")
+                    b.Property<bool>("MessageRequest")
                         .HasColumnType("bit");
 
-                    b.Property<int>("PrivacySettingsUserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.HasKey("PrivacySettingsId");
+                    b.HasKey("Id");
 
-                    b.HasIndex("PrivacySettingsUserId")
+                    b.HasIndex("UserId")
                         .IsUnique();
 
                     b.ToTable("PrivacySettings");
@@ -306,163 +309,165 @@ namespace AspNetCore_Social_DataAccess.Migrations
 
             modelBuilder.Entity("AspNetCore_Social_Entity.Entities.ReplyComment", b =>
                 {
-                    b.Property<int>("ReplyCommentId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReplyCommentId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ReplyCommentCommentId")
+                    b.Property<DateTime>("CommentDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("CommentId")
                         .HasColumnType("int");
 
-                    b.Property<string>("ReplyCommentContent")
+                    b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-
-                    b.Property<DateTime>("ReplyCommentDate")
-                        .HasColumnType("datetime2");
-
-
+                    b.Property<int>("PostId")
                         .HasColumnType("int");
 
-                    b.HasKey("ReplyCommentId");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("ReplyCommentCommentId");
+                    b.HasKey("Id");
 
+                    b.HasIndex("CommentId");
 
-                    b.HasIndex("ReplyCommentUserId");
+                    b.HasIndex("PostId");
 
+                    b.HasIndex("UserId");
 
                     b.ToTable("ReplyComments");
                 });
 
             modelBuilder.Entity("AspNetCore_Social_Entity.Entities.SocialMediaAccount", b =>
                 {
-                    b.Property<int>("SocialMediaAccountId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SocialMediaAccountId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("SocialMediaAccountName")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("SocialMediaAccountUrl")
+                    b.Property<string>("Url")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SocialMediaAccountUserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.HasKey("SocialMediaAccountId");
+                    b.HasKey("Id");
 
-                    b.HasIndex("SocialMediaAccountUserId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("SocialMediaAccounts");
                 });
 
             modelBuilder.Entity("AspNetCore_Social_Entity.Entities.User", b =>
                 {
-                    b.Property<int>("UserId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("UserBiography")
+                    b.Property<string>("Biography")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("UserBirthDate")
+                    b.Property<DateTime?>("BirthDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("UserCoverPicture")
+                    b.Property<string>("CoverPicture")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("UserCreatedAt")
+                    b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("UserEducationInfo")
+                    b.Property<string>("EducationInfo")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserFirstName")
+                    b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UserFollowerCount")
+                    b.Property<int?>("FollowerCount")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UserFollowingCount")
+                    b.Property<int?>("FollowingCount")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserGender")
+                    b.Property<string>("Gender")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("UserIsOnline")
+                    b.Property<bool>("IsOnline")
                         .HasColumnType("bit");
 
-                    b.Property<string>("UserJobInfo")
-
+                    b.Property<string>("JobInfo")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserLanguage1")
+                    b.Property<string>("Language1")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserLanguage2")
+                    b.Property<string>("Language2")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserLanguage3")
+                    b.Property<string>("Language3")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("UserLastLogin")
+                    b.Property<DateTime?>("LastLogin")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("UserLastName")
+                    b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserLocation")
+                    b.Property<string>("Location")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserPhoneNumber")
+                    b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UserPrivacySettingsId")
+                    b.Property<int?>("PrivacySettingsId")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserProfilePicture")
+                    b.Property<string>("ProfilePicture")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserWebsite")
+                    b.Property<string>("Website")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("UserId");
+                    b.HasKey("Id");
 
                     b.ToTable("Users");
                 });
 
             modelBuilder.Entity("AspNetCore_Social_Entity.Entities.UserActivity", b =>
                 {
-                    b.Property<int>("UserActivityId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserActivityId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("UserActivityDate")
+                    b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("UserActivityName")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserActivityUserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.HasKey("UserActivityId");
+                    b.HasKey("Id");
 
-                    b.HasIndex("UserActivityUserId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("UserActivities");
                 });
@@ -572,119 +577,123 @@ namespace AspNetCore_Social_DataAccess.Migrations
 
             modelBuilder.Entity("AspNetCore_Social_Entity.Entities.Comment", b =>
                 {
-                    b.HasOne("AspNetCore_Social_Entity.Entities.Post", "CommentPost")
+                    b.HasOne("AspNetCore_Social_Entity.Entities.Post", "Post")
                         .WithMany("Comments")
-                        .HasForeignKey("CommentPostId")
+                        .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("AspNetCore_Social_Entity.Entities.User", "CommentUser")
+                    b.HasOne("AspNetCore_Social_Entity.Entities.User", "User")
                         .WithMany("Comments")
-                        .HasForeignKey("CommentUserId")
+                        .HasForeignKey("UserId")
                         .IsRequired();
 
-                    b.Navigation("CommentPost");
+                    b.Navigation("Post");
 
-                    b.Navigation("CommentUser");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("AspNetCore_Social_Entity.Entities.Friends", b =>
                 {
-                    b.HasOne("AspNetCore_Social_Entity.Entities.User", "FriendsUser")
+                    b.HasOne("AspNetCore_Social_Entity.Entities.User", "User")
                         .WithMany("Friends")
-                        .HasForeignKey("FriendsUserId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("FriendsUser");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("AspNetCore_Social_Entity.Entities.Interest", b =>
                 {
-                    b.HasOne("AspNetCore_Social_Entity.Entities.User", "InterestUser")
+                    b.HasOne("AspNetCore_Social_Entity.Entities.User", "User")
                         .WithMany("Interests")
-                        .HasForeignKey("InterestUserId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("InterestUser");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("AspNetCore_Social_Entity.Entities.Notification", b =>
                 {
-                    b.HasOne("AspNetCore_Social_Entity.Entities.User", "NotificationUser")
+                    b.HasOne("AspNetCore_Social_Entity.Entities.User", "User")
                         .WithMany("Notification")
-                        .HasForeignKey("NotificationUserId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("NotificationUser");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("AspNetCore_Social_Entity.Entities.Post", b =>
                 {
-                    b.HasOne("AspNetCore_Social_Entity.Entities.User", "PostUser")
+                    b.HasOne("AspNetCore_Social_Entity.Entities.User", "User")
                         .WithMany("Posts")
-                        .HasForeignKey("PostUserId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("PostUser");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("AspNetCore_Social_Entity.Entities.PrivacySettings", b =>
                 {
-                    b.HasOne("AspNetCore_Social_Entity.Entities.User", "PrivacySettingsUser")
-                        .WithOne("UserPrivacySettings")
-                        .HasForeignKey("AspNetCore_Social_Entity.Entities.PrivacySettings", "PrivacySettingsUserId")
+                    b.HasOne("AspNetCore_Social_Entity.Entities.User", "User")
+                        .WithOne("PrivacySettings")
+                        .HasForeignKey("AspNetCore_Social_Entity.Entities.PrivacySettings", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("PrivacySettingsUser");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("AspNetCore_Social_Entity.Entities.ReplyComment", b =>
                 {
-
-                    b.HasOne("AspNetCore_Social_Entity.Entities.Comment", "ReplyCommentComment")
+                    b.HasOne("AspNetCore_Social_Entity.Entities.Comment", "Comment")
                         .WithMany("ReplyComments")
-                        .HasForeignKey("ReplyCommentCommentId")
+                        .HasForeignKey("CommentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("AspNetCore_Social_Entity.Entities.User", "ReplyCommentUser")
-
+                    b.HasOne("AspNetCore_Social_Entity.Entities.Post", "Post")
                         .WithMany("ReplyComments")
-                        .HasForeignKey("ReplyCommentUserId")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("ReplyCommentComment");
+                    b.HasOne("AspNetCore_Social_Entity.Entities.User", "User")
+                        .WithMany("ReplyComments")
+                        .HasForeignKey("UserId")
+                        .IsRequired();
 
+                    b.Navigation("Comment");
 
-                    b.Navigation("ReplyCommentUser");
+                    b.Navigation("Post");
 
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("AspNetCore_Social_Entity.Entities.SocialMediaAccount", b =>
                 {
-                    b.HasOne("AspNetCore_Social_Entity.Entities.User", "SocialMediaAccountUser")
+                    b.HasOne("AspNetCore_Social_Entity.Entities.User", "User")
                         .WithMany("SocialMediaAccounts")
-                        .HasForeignKey("SocialMediaAccountUserId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("SocialMediaAccountUser");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("AspNetCore_Social_Entity.Entities.UserActivity", b =>
                 {
-                    b.HasOne("AspNetCore_Social_Entity.Entities.User", "UserActivityUser")
+                    b.HasOne("AspNetCore_Social_Entity.Entities.User", "User")
                         .WithMany("ActivityHistory")
-                        .HasForeignKey("UserActivityUserId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("UserActivityUser");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -764,12 +773,12 @@ namespace AspNetCore_Social_DataAccess.Migrations
 
                     b.Navigation("Posts");
 
+                    b.Navigation("PrivacySettings")
+                        .IsRequired();
+
                     b.Navigation("ReplyComments");
 
                     b.Navigation("SocialMediaAccounts");
-
-                    b.Navigation("UserPrivacySettings")
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

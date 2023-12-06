@@ -13,6 +13,8 @@ using System.Threading.Tasks;
 
 namespace AspNetCore_Social_Service.Services
 {
+
+
 	public class PostService : IPostService
 	{
 		private readonly IUnitOfWork _uow;
@@ -46,4 +48,5 @@ namespace AspNetCore_Social_Service.Services
 			return null;
 		}
 	}
+
 }
