@@ -21,7 +21,8 @@ namespace AspNetCore_Social_Entity.DTOs
 		public int DislikeNumber { get; set; }
 		public string PostLink { get; set; }
 		public string PostType { get; set; }
-		public virtual List<CommentDto> CommentsDto { get; set; }
-		public virtual UserDto UserDto { get; set; }
+		public virtual List<CommentDto> Comments { get; set; }
+		public virtual List<ReplyCommentDto> ReplyComments { get; set; }
+		//public virtual UserDto User { get; set; }
 	}
 }

@@ -48,6 +48,7 @@ namespace AspNetCore_Social_Service.Extensions
 			services.AddScoped<IPostService, PostService>();
 			services.AddScoped<IHomeService, HomeService>();
 			services.AddScoped<IFriendService, FriendService>();
+			services.AddScoped<IReplyCommentService, ReplyCommentService>();
 
 
 		}

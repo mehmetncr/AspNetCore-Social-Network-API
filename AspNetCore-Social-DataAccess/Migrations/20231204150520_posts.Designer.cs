@@ -4,6 +4,7 @@ using AspNetCore_Social_DataAccess.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AspNetCore_Social_DataAccess.Migrations
 {
     [DbContext(typeof(SocialContext))]
-    partial class SocialContextModelSnapshot : ModelSnapshot
+    [Migration("20231204150520_posts")]
+    partial class posts
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -322,17 +325,12 @@ namespace AspNetCore_Social_DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PostId")
-                        .HasColumnType("int");
-
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CommentId");
-
-                    b.HasIndex("PostId");
 
                     b.HasIndex("UserId");
 
@@ -653,20 +651,12 @@ namespace AspNetCore_Social_DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("AspNetCore_Social_Entity.Entities.Post", "Post")
-                        .WithMany("ReplyComments")
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("AspNetCore_Social_Entity.Entities.User", "User")
                         .WithMany("ReplyComments")
                         .HasForeignKey("UserId")
                         .IsRequired();
 
                     b.Navigation("Comment");
-
-                    b.Navigation("Post");
 
                     b.Navigation("User");
                 });
@@ -752,8 +742,6 @@ namespace AspNetCore_Social_DataAccess.Migrations
             modelBuilder.Entity("AspNetCore_Social_Entity.Entities.Post", b =>
                 {
                     b.Navigation("Comments");
-
-                    b.Navigation("ReplyComments");
                 });
 
             modelBuilder.Entity("AspNetCore_Social_Entity.Entities.User", b =>
