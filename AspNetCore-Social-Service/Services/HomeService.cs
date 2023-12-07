@@ -10,9 +10,22 @@ namespace AspNetCore_Social_Service.Services
 {
 	public class HomeService : IHomeService
 	{
-		public HomeDto GetHome(int userId)
+		private readonly IPostService _postService;
+		private readonly IFriendService _friendService;
+
+		public HomeService(IPostService postService, IFriendService friendService)
 		{
-			throw new NotImplementedException();
+			_postService = postService;
+			_friendService = friendService;
 		}
+
+		public async Task<HomeDto> GetHome(int userId)
+		{
+			HomeDto homeDto = new HomeDto();
+			homeDto.OnlineFriendsDtos = await _friendService.GetOnlineFriends(userId);
+			homeDto.OfferUserDtos = await _friendService.GetOfferFriends(userId);
+			homeDto.PostDtos = await _postService.GetPosts(userId);
+			return homeDto;
+        }
 	}
 }
