@@ -249,22 +249,18 @@ namespace AspNetCore_Social_DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-
                     b.Property<string>("PostTextContent")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PostType")
-
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("PostUserId")
                         .HasColumnType("int");
 
-
                     b.Property<string>("PostVideoUrl")
                         .HasColumnType("nvarchar(max)");
-
 
                     b.Property<string>("PostYoutubeUrl")
                         .HasColumnType("nvarchar(max)");
@@ -319,20 +315,17 @@ namespace AspNetCore_Social_DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-
                     b.Property<DateTime>("ReplyCommentDate")
                         .HasColumnType("datetime2");
 
-
+                    b.Property<int>("ReplyCommentUserId")
                         .HasColumnType("int");
 
                     b.HasKey("ReplyCommentId");
 
                     b.HasIndex("ReplyCommentCommentId");
 
-
                     b.HasIndex("ReplyCommentUserId");
-
 
                     b.ToTable("ReplyComments");
                 });
@@ -403,7 +396,6 @@ namespace AspNetCore_Social_DataAccess.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("UserJobInfo")
-
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserLanguage1")
@@ -645,7 +637,6 @@ namespace AspNetCore_Social_DataAccess.Migrations
 
             modelBuilder.Entity("AspNetCore_Social_Entity.Entities.ReplyComment", b =>
                 {
-
                     b.HasOne("AspNetCore_Social_Entity.Entities.Comment", "ReplyCommentComment")
                         .WithMany("ReplyComments")
                         .HasForeignKey("ReplyCommentCommentId")
@@ -653,16 +644,13 @@ namespace AspNetCore_Social_DataAccess.Migrations
                         .IsRequired();
 
                     b.HasOne("AspNetCore_Social_Entity.Entities.User", "ReplyCommentUser")
-
                         .WithMany("ReplyComments")
                         .HasForeignKey("ReplyCommentUserId")
                         .IsRequired();
 
                     b.Navigation("ReplyCommentComment");
 
-
                     b.Navigation("ReplyCommentUser");
-
                 });
 
             modelBuilder.Entity("AspNetCore_Social_Entity.Entities.SocialMediaAccount", b =>
@@ -746,8 +734,6 @@ namespace AspNetCore_Social_DataAccess.Migrations
             modelBuilder.Entity("AspNetCore_Social_Entity.Entities.Post", b =>
                 {
                     b.Navigation("Comments");
-
-                    b.Navigation("ReplyComments");
                 });
 
             modelBuilder.Entity("AspNetCore_Social_Entity.Entities.User", b =>
