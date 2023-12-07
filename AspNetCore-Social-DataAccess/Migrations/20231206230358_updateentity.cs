@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace AspNetCore_Social_DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class updateentity : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -57,33 +57,33 @@ namespace AspNetCore_Social_DataAccess.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    UserId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    BirthDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Gender = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ProfilePicture = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CoverPicture = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Biography = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Location = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    FollowerCount = table.Column<int>(type: "int", nullable: true),
-                    FollowingCount = table.Column<int>(type: "int", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Website = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    JobInfo = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    EducationInfo = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Language1 = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Language2 = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Language3 = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsOnline = table.Column<bool>(type: "bit", nullable: false),
-                    LastLogin = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    PrivacySettingsId = table.Column<int>(type: "int", nullable: true)
+                    UserFirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserLastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserBirthDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UserGender = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserProfilePicture = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserCoverPicture = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserBiography = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserLocation = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserFollowerCount = table.Column<int>(type: "int", nullable: true),
+                    UserFollowingCount = table.Column<int>(type: "int", nullable: true),
+                    UserCreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UserPhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserWebsite = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserJobInfo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserEducationInfo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserLanguage1 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserLanguage2 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserLanguage3 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserIsOnline = table.Column<bool>(type: "bit", nullable: false),
+                    UserLastLogin = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UserPrivacySettingsId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.PrimaryKey("PK_Users", x => x.UserId);
                 });
 
             migrationBuilder.CreateTable(
@@ -196,19 +196,19 @@ namespace AspNetCore_Social_DataAccess.Migrations
                 name: "Friends",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    FriendsId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    FriendsUserId = table.Column<int>(type: "int", nullable: false)
+                    FriendsUserId = table.Column<int>(type: "int", nullable: false),
+                    FriendId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Friends", x => x.Id);
+                    table.PrimaryKey("PK_Friends", x => x.FriendsId);
                     table.ForeignKey(
-                        name: "FK_Friends_Users_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Friends_Users_FriendsUserId",
+                        column: x => x.FriendsUserId,
                         principalTable: "Users",
-                        principalColumn: "Id",
+                        principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -216,19 +216,19 @@ namespace AspNetCore_Social_DataAccess.Migrations
                 name: "Interests",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    InterestId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false)
+                    InterestName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    InterestUserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Interests", x => x.Id);
+                    table.PrimaryKey("PK_Interests", x => x.InterestId);
                     table.ForeignKey(
-                        name: "FK_Interests_Users_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Interests_Users_InterestUserId",
+                        column: x => x.InterestUserId,
                         principalTable: "Users",
-                        principalColumn: "Id",
+                        principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -236,20 +236,20 @@ namespace AspNetCore_Social_DataAccess.Migrations
                 name: "Notifications",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    NotificationId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    NotificationUserId = table.Column<int>(type: "int", nullable: false),
+                    NotificationTitle = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    NotificationDescription = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Notifications", x => x.Id);
+                    table.PrimaryKey("PK_Notifications", x => x.NotificationId);
                     table.ForeignKey(
-                        name: "FK_Notifications_Users_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Notifications_Users_NotificationUserId",
+                        column: x => x.NotificationUserId,
                         principalTable: "Users",
-                        principalColumn: "Id",
+                        principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -257,28 +257,28 @@ namespace AspNetCore_Social_DataAccess.Migrations
                 name: "Posts",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    PostId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TextContent = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    VideoUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    YoutubeUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CommentNumber = table.Column<int>(type: "int", nullable: false),
-                    LikeNumber = table.Column<int>(type: "int", nullable: false),
-                    DislikeNumber = table.Column<int>(type: "int", nullable: false),
+                    PostUserId = table.Column<int>(type: "int", nullable: false),
+                    PostCreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PostTextContent = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PostImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PostVideoUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PostYoutubeUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PostCommentNumber = table.Column<int>(type: "int", nullable: false),
+                    PostLikeNumber = table.Column<int>(type: "int", nullable: false),
+                    PostDislikeNumber = table.Column<int>(type: "int", nullable: false),
                     PostLink = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PostType = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Posts", x => x.Id);
+                    table.PrimaryKey("PK_Posts", x => x.PostId);
                     table.ForeignKey(
-                        name: "FK_Posts_Users_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Posts_Users_PostUserId",
+                        column: x => x.PostUserId,
                         principalTable: "Users",
-                        principalColumn: "Id",
+                        principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -286,21 +286,21 @@ namespace AspNetCore_Social_DataAccess.Migrations
                 name: "PrivacySettings",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    PrivacySettingsId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    FriendRequest = table.Column<bool>(type: "bit", nullable: false),
-                    MessageRequest = table.Column<bool>(type: "bit", nullable: false),
-                    HiddenProfile = table.Column<bool>(type: "bit", nullable: false)
+                    PrivacySettingsUserId = table.Column<int>(type: "int", nullable: false),
+                    PrivacySettingsFriendRequest = table.Column<bool>(type: "bit", nullable: false),
+                    PrivacySettingsMessageRequest = table.Column<bool>(type: "bit", nullable: false),
+                    PrivacySettingsHiddenProfile = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PrivacySettings", x => x.Id);
+                    table.PrimaryKey("PK_PrivacySettings", x => x.PrivacySettingsId);
                     table.ForeignKey(
-                        name: "FK_PrivacySettings_Users_UserId",
-                        column: x => x.UserId,
+                        name: "FK_PrivacySettings_Users_PrivacySettingsUserId",
+                        column: x => x.PrivacySettingsUserId,
                         principalTable: "Users",
-                        principalColumn: "Id",
+                        principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -308,20 +308,20 @@ namespace AspNetCore_Social_DataAccess.Migrations
                 name: "SocialMediaAccounts",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    SocialMediaAccountId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Url = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    SocialMediaAccountUserId = table.Column<int>(type: "int", nullable: false),
+                    SocialMediaAccountName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SocialMediaAccountUrl = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SocialMediaAccounts", x => x.Id);
+                    table.PrimaryKey("PK_SocialMediaAccounts", x => x.SocialMediaAccountId);
                     table.ForeignKey(
-                        name: "FK_SocialMediaAccounts_Users_UserId",
-                        column: x => x.UserId,
+                        name: "FK_SocialMediaAccounts_Users_SocialMediaAccountUserId",
+                        column: x => x.SocialMediaAccountUserId,
                         principalTable: "Users",
-                        principalColumn: "Id",
+                        principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -329,20 +329,20 @@ namespace AspNetCore_Social_DataAccess.Migrations
                 name: "UserActivities",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    UserActivityId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false)
+                    UserActivityDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserActivityName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserActivityUserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserActivities", x => x.Id);
+                    table.PrimaryKey("PK_UserActivities", x => x.UserActivityId);
                     table.ForeignKey(
-                        name: "FK_UserActivities_Users_UserId",
-                        column: x => x.UserId,
+                        name: "FK_UserActivities_Users_UserActivityUserId",
+                        column: x => x.UserActivityUserId,
                         principalTable: "Users",
-                        principalColumn: "Id",
+                        principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -350,54 +350,54 @@ namespace AspNetCore_Social_DataAccess.Migrations
                 name: "Comments",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    CommentId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CommentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    PostId = table.Column<int>(type: "int", nullable: false)
+                    CommentContent = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CommentUserId = table.Column<int>(type: "int", nullable: false),
+                    CommentPostId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Comments", x => x.Id);
+                    table.PrimaryKey("PK_Comments", x => x.CommentId);
                     table.ForeignKey(
-                        name: "FK_Comments_Posts_PostId",
-                        column: x => x.PostId,
+                        name: "FK_Comments_Posts_CommentPostId",
+                        column: x => x.CommentPostId,
                         principalTable: "Posts",
-                        principalColumn: "Id",
+                        principalColumn: "PostId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Comments_Users_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Comments_Users_CommentUserId",
+                        column: x => x.CommentUserId,
                         principalTable: "Users",
-                        principalColumn: "Id");
+                        principalColumn: "UserId");
                 });
 
             migrationBuilder.CreateTable(
                 name: "ReplyComments",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    ReplyCommentId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CommentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    CommentId = table.Column<int>(type: "int", nullable: false)
+                    ReplyCommentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ReplyCommentContent = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ReplyCommentUserId = table.Column<int>(type: "int", nullable: false),
+                    ReplyCommentCommentId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ReplyComments", x => x.Id);
+                    table.PrimaryKey("PK_ReplyComments", x => x.ReplyCommentId);
                     table.ForeignKey(
-                        name: "FK_ReplyComments_Comments_CommentId",
-                        column: x => x.CommentId,
+                        name: "FK_ReplyComments_Comments_ReplyCommentCommentId",
+                        column: x => x.ReplyCommentCommentId,
                         principalTable: "Comments",
-                        principalColumn: "Id",
+                        principalColumn: "CommentId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ReplyComments_Users_UserId",
-                        column: x => x.UserId,
+                        name: "FK_ReplyComments_Users_ReplyCommentUserId",
+                        column: x => x.ReplyCommentUserId,
                         principalTable: "Users",
-                        principalColumn: "Id");
+                        principalColumn: "UserId");
                 });
 
             migrationBuilder.CreateIndex(
@@ -440,60 +440,60 @@ namespace AspNetCore_Social_DataAccess.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comments_PostId",
+                name: "IX_Comments_CommentPostId",
                 table: "Comments",
-                column: "PostId");
+                column: "CommentPostId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comments_UserId",
+                name: "IX_Comments_CommentUserId",
                 table: "Comments",
-                column: "UserId");
+                column: "CommentUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Friends_UserId",
+                name: "IX_Friends_FriendsUserId",
                 table: "Friends",
-                column: "UserId");
+                column: "FriendsUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Interests_UserId",
+                name: "IX_Interests_InterestUserId",
                 table: "Interests",
-                column: "UserId");
+                column: "InterestUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Notifications_UserId",
+                name: "IX_Notifications_NotificationUserId",
                 table: "Notifications",
-                column: "UserId");
+                column: "NotificationUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Posts_UserId",
+                name: "IX_Posts_PostUserId",
                 table: "Posts",
-                column: "UserId");
+                column: "PostUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PrivacySettings_UserId",
+                name: "IX_PrivacySettings_PrivacySettingsUserId",
                 table: "PrivacySettings",
-                column: "UserId",
+                column: "PrivacySettingsUserId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_ReplyComments_CommentId",
+                name: "IX_ReplyComments_ReplyCommentCommentId",
                 table: "ReplyComments",
-                column: "CommentId");
+                column: "ReplyCommentCommentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ReplyComments_UserId",
+                name: "IX_ReplyComments_ReplyCommentUserId",
                 table: "ReplyComments",
-                column: "UserId");
+                column: "ReplyCommentUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SocialMediaAccounts_UserId",
+                name: "IX_SocialMediaAccounts_SocialMediaAccountUserId",
                 table: "SocialMediaAccounts",
-                column: "UserId");
+                column: "SocialMediaAccountUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserActivities_UserId",
+                name: "IX_UserActivities_UserActivityUserId",
                 table: "UserActivities",
-                column: "UserId");
+                column: "UserActivityUserId");
         }
 
         /// <inheritdoc />
