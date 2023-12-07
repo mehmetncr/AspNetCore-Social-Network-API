@@ -10,7 +10,7 @@ namespace AspNetCore_Social_Entity.Services
 
 	public interface IHomeService
 	{
-		public HomeDto GetHome(int userId);
+		public Task<HomeDto> GetHome(int userId);
 
 	}
 }

@@ -47,7 +47,7 @@ namespace AspNetCore_Social_Service.Services
         }
 
 
-        public async Task<List<Post>> GetPosts(int userId)
+        public async Task<List<PostDto>> GetPosts(int userId)
         {       
 
             var userIdParameter = new SqlParameter("@userId", userId);
@@ -69,19 +69,19 @@ namespace AspNetCore_Social_Service.Services
 
                         if (reader.HasRows)
                         {
-                            List<Post> posts = new List<Post>();
+                            List<PostDto> posts = new List<PostDto>();
                             while (reader.Read())
                             {
                                 int postId = reader.IsDBNull("PostId") ? default(int) : reader.GetInt32("PostId");
 
-                                // Check if the post already exists in the list
-                                Post existingPost = posts.FirstOrDefault(p => p.PostId == postId);
+								// Check if the post already exists in the list
+								PostDto existingPost = posts.FirstOrDefault(p => p.PostId == postId);
 
                                 if (existingPost == null)
                                 {
                                     // If the post doesn't exist, create a new post
-                                    existingPost = new Post
-                                    {
+                                    existingPost = new PostDto
+									{
                                         PostId = postId,
                                         PostUserId = reader.IsDBNull("PostUserId") ? default(int) : reader.GetInt32("PostUserId"),
                                         PostCreateDate = reader.IsDBNull("PostCreateDate") ? default(DateTime) : reader.GetDateTime("PostCreateDate"),
@@ -94,8 +94,8 @@ namespace AspNetCore_Social_Service.Services
                                         PostDislikeNumber = reader.IsDBNull("PostDislikeNumber") ? default(int) : reader.GetInt32("PostDislikeNumber"),
                                         PostLink = reader.IsDBNull("PostLink") ? string.Empty : reader.GetString("PostLink"),
                                         PostType = reader.IsDBNull("PostType") ? string.Empty : reader.GetString("PostType"),
-                                        PostUser = FillUserPostDetails(reader, "PostUserId"),
-                                        Comments = new List<Comment>() // Initialize the Comments list
+                                        PostUserDto = FillUserPostDetails(reader, "PostUserId"),
+                                        CommentsDto = new List<CommentDto>() // Initialize the Comments list
 
                                     };
 
@@ -106,42 +106,42 @@ namespace AspNetCore_Social_Service.Services
                                 int commentId = reader.IsDBNull("CommentId") ? default(int) : reader.GetInt32("CommentId");
 
                                 // Check if the comment already exists in the post's Comments list
-                                Comment existingComment = existingPost.Comments.FirstOrDefault(c => c.CommentId == commentId);
+                                CommentDto existingComment = existingPost.CommentsDto.FirstOrDefault(c => c.CommentId == commentId);
 
                                 if (existingComment == null)
                                 {
                                     // Create a new Comment and add it to the existing post's Comments list
-                                    Comment comment = new Comment
+                                    CommentDto comment = new CommentDto
                                     {
                                         CommentId = commentId,
-                                        CommentUserId = reader.IsDBNull("CommentUserId") ? default(int) : reader.GetInt32("CommentUserId"),
+                                        CommentUserDtoId = reader.IsDBNull("CommentUserId") ? default(int) : reader.GetInt32("CommentUserId"),
                                         CommentContent = reader.IsDBNull("CommentContent") ? string.Empty : reader.GetString("CommentContent"),
                                         CommentDate = reader.IsDBNull("CommentDate") ? default(DateTime) : reader.GetDateTime("CommentDate"),
-                                        CommentUser = FillUserCommentDetails(reader, "CommentUserId"),
-                                        ReplyComments = new List<ReplyComment>() // Initialize the ReplyComments list
+                                        CommentUserDto = FillUserCommentDetails(reader, "CommentUserId"),
+                                        ReplyCommentsDto = new List<ReplyCommentDto>() // Initialize the ReplyComments list
                                     };
 
-                                    existingPost.Comments.Add(comment);
+                                    existingPost.CommentsDto.Add(comment);
                                 }
-                                Comment existingCommentt = existingPost.Comments.FirstOrDefault(c => c.CommentId == commentId);
+                                CommentDto existingCommentt = existingPost.CommentsDto.FirstOrDefault(c => c.CommentId == commentId);
                                 int replyCommentId = reader.IsDBNull("ReplyCommentId") ? default(int) : reader.GetInt32("ReplyCommentId");
 
                                 // Check if the reply comment already exists in the comment's ReplyComments list
-                                ReplyComment existingReplyComment = existingCommentt.ReplyComments.FirstOrDefault(rc => rc.ReplyCommentId == replyCommentId);
+                                ReplyCommentDto existingReplyComment = existingCommentt.ReplyCommentsDto.FirstOrDefault(rc => rc.ReplyCommentId == replyCommentId);
 
                                 if (existingReplyComment == null)
                                 {
                                     // Create a new ReplyComment and add it to the existing comment's ReplyComments list
-                                    ReplyComment replyComment = new ReplyComment
+                                    ReplyCommentDto replyComment = new ReplyCommentDto
                                     {
                                         ReplyCommentId = replyCommentId,
-                                        ReplyCommentUserId = reader.IsDBNull("ReplyCommentUserId") ? default(int) : reader.GetInt32("ReplyCommentUserId"),
+                                        ReplyCommentUserDtoId = reader.IsDBNull("ReplyCommentUserId") ? default(int) : reader.GetInt32("ReplyCommentUserId"),
                                         ReplyCommentContent = reader.IsDBNull("ReplyCommentContent") ? string.Empty : reader.GetString("ReplyCommentContent"),
                                         ReplyCommentDate = reader.IsDBNull("ReplyCommentDate") ? default(DateTime) : reader.GetDateTime("ReplyCommentDate"),
-                                        ReplyCommentUser = FillUserReplyCommentDetails(reader, "ReplyCommentUserId"),
+                                        ReplyCommentUserDto = FillUserReplyCommentDetails(reader, "ReplyCommentUserId"),
                                     };
 
-                                    existingCommentt.ReplyComments.Add(replyComment);
+                                    existingCommentt.ReplyCommentsDto.Add(replyComment);
                                 }
                             }
 
@@ -149,9 +149,9 @@ namespace AspNetCore_Social_Service.Services
                             connection.Close();
 
                             // mapp eklenecek!!!!!!!!!!!!!!!!!!!!!
-                            return posts;
+                            return _mapper.Map<List<PostDto>>(posts);
 
-                            User FillUserPostDetails(DbDataReader reader, string userIdColumnName)
+                            UserDto FillUserPostDetails(DbDataReader reader, string userIdColumnName)
                             {
                                 int userId = reader.IsDBNull(userIdColumnName) ? default(int) : reader.GetInt32(userIdColumnName);
 
@@ -165,9 +165,9 @@ namespace AspNetCore_Social_Service.Services
                                     // Diğer özellikleri ekleyebilirsiniz.
                                 };
 
-                                return user;
+                                return _mapper.Map<UserDto>(user);
                             }
-                            User FillUserCommentDetails(DbDataReader reader, string userIdColumnName)
+                            UserDto FillUserCommentDetails(DbDataReader reader, string userIdColumnName)
                             {
                                 int userId = reader.IsDBNull(userIdColumnName) ? default(int) : reader.GetInt32(userIdColumnName);
 
@@ -181,9 +181,9 @@ namespace AspNetCore_Social_Service.Services
                                     // Diğer özellikleri ekleyebilirsiniz.
                                 };
 
-                                return user;
+                                return _mapper.Map<UserDto>(user);
                             }
-                            User FillUserReplyCommentDetails(DbDataReader reader, string userIdColumnName)
+                            UserDto FillUserReplyCommentDetails(DbDataReader reader, string userIdColumnName)
                             {
                                 int userId = reader.IsDBNull(userIdColumnName) ? default(int) : reader.GetInt32(userIdColumnName);
 
@@ -197,14 +197,13 @@ namespace AspNetCore_Social_Service.Services
                                     // Diğer özellikleri ekleyebilirsiniz.
                                 };
 
-                                return user;
+                                return _mapper.Map<UserDto>(user);
                             }
 
 
                         }
                         else
                         {
-                            connection.Close();
                             return null;
                         }
 

@@ -1,4 +1,5 @@
 ﻿
+using AspNetCore_Social_Entity.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -21,6 +22,6 @@ namespace AspNetCore_Social_Entity.DTOs
 		[ForeignKey("PostId")]
 		public int CommentPostDtoId { get; set; }
 		public virtual PostDto CommentPostDto { get; set; }
-
+		public virtual List<ReplyCommentDto> ReplyCommentsDto { get; set; }
 	}
 }
