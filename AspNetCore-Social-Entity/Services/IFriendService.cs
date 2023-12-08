@@ -10,7 +10,7 @@ namespace AspNetCore_Social_Entity.Services
 {
 	public interface IFriendService
 	{
-		public Task<List<Friends>> GetFriends(int userId);
+		public Task<List<FriendsDto>> GetFriends(int userId);
 		Task<List<FriendsDto>> GetOnlineFriends(int userId);
 		Task<List<UserDto>> GetOfferFriends(int userId);
 	}

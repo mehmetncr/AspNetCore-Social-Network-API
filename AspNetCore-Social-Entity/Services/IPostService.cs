@@ -11,6 +11,6 @@ namespace AspNetCore_Social_Entity.Services
 	public interface IPostService
 	{
 		public Task<List<PostDto>> GetAllPostsWithUserId(int userId);
-		Task<List<PostDto>> GetPosts(int userId);
+		Task<List<PostDto>> GetPosts(int userId, string storeProcName);
 	}
 }

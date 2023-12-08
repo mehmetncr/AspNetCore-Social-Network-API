@@ -16,23 +16,19 @@ namespace AspNetCore_Social_Service.Services
 	public class AccountService : IAccountService
 	{
 		private readonly UserManager<AppUser> _userManager;
-		private readonly RoleManager<AppRole> _roleManager;
 		private readonly SignInManager<AppUser> _signInManager;
 		private readonly IUnitOfWork _uow;
-		private readonly IMapper _mapper;
-		private readonly IProfileService _profileService;
+		private readonly IUserService _userService;
 
-		public AccountService(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, SignInManager<AppUser> signInManager, IUnitOfWork uow, IMapper mapper, IProfileService profileService)
-		{
-			_userManager = userManager;
-			_roleManager = roleManager;
-			_signInManager = signInManager;
-			_uow = uow;
-			_mapper = mapper;
-			_profileService = profileService;
-		}
+        public AccountService(UserManager<AppUser> userManager,SignInManager<AppUser> signInManager, IUnitOfWork uow, IUserService userService)
+        {
+            _userManager = userManager;
+            _signInManager = signInManager;
+            _uow = uow;    
+            _userService = userService;
+        }
 
-		public async Task LogoutAsync() //Çıkış yapma
+        public async Task LogoutAsync() //Çıkış yapma
 		{
 			await _signInManager.SignOutAsync();
 		}
@@ -90,12 +86,17 @@ namespace AspNetCore_Social_Service.Services
 				var signInResult = await _signInManager.PasswordSignInAsync(appuser, model.Password, model.RememberMe, false);
 				if (signInResult.Succeeded)
 				{
-					return await _profileService.GetById(appuser.UserId);
+					return await _userService.GetUserById(appuser.UserId);
 
 				}
 			}
 			return null;
 		}
 
+		public async Task<int> GetUserIdByAppUserId(int userId)
+		{
+            var appuser = await _userManager.FindByIdAsync(userId.ToString());
+			return appuser.UserId;
+        }
 	}
 }

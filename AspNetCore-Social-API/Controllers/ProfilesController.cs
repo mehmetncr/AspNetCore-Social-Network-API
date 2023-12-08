@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace AspNetCore_Social_API.Controllers
 {
@@ -19,16 +20,10 @@ namespace AspNetCore_Social_API.Controllers
 			_postService = postService;
 		}
 
-		[HttpGet("{id}")]
-		public async Task<IActionResult> Get(int id)
+		[HttpGet]
+		public async Task<IActionResult> Get()
 		{
-			return Ok( await _profileService.GetById(id));
-		}
-		[HttpGet("GetPosts/{id}")]
-		public async Task<IActionResult> GetPosts(int id)
-		{
-			//return Ok(await _postService.GetAllPostsWithUserId(id));
-			return Ok(_postService.GetPosts(id));
-		}
+			return Ok( await _profileService.GetById(Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier))));
+		}	
 	}
 }

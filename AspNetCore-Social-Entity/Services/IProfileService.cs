@@ -9,6 +9,6 @@ namespace AspNetCore_Social_Entity.Services
 {
 	public interface IProfileService
 	{
-		Task<UserDto> GetById(int id);
+		Task<ProfileDto> GetById(int userId);
 	}
 }
