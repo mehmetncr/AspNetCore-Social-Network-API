@@ -26,12 +26,16 @@ namespace AspNetCore_Social_Service.Services
         private readonly IFriendService _friendService;
         private readonly IMapper _mapper;
         private readonly SocialContext _socialContext;
-        public PostService(IUnitOfWork uow, IFriendService friendService, IMapper mapper, SocialContext socialContext)
+        private readonly IAccountService _accountService;
+
+
+        public PostService(IUnitOfWork uow, IFriendService friendService, IMapper mapper, SocialContext socialContext, IAccountService accountService)
         {
             _uow = uow;
             _friendService = friendService;
             _mapper = mapper;
             _socialContext = socialContext;
+            _accountService = accountService;
         }
 
 
@@ -214,19 +218,27 @@ namespace AspNetCore_Social_Service.Services
                 }
             }
         }
-        public async void AddPost(string textContent)
+        public async Task AddPost(NewPostDto model)
         {
-            PostDto post = new PostDto()
+            model.PostCreateDate = DateTime.Now;
+            try
             {
-                PostCreateDate = DateTime.Now,
-                PostCommentNumber = 0,
-                PostDislikeNumber = 0,
-                PostLikeNumber = 0,
-                PostTextContent = textContent,
-                PostLink = ""
-            };
-            await _uow.GetRepository<Post>().Add(_mapper.Map<Post>(post));
-            _uow.Commit();
+				await _uow.GetRepository<Post>().Add(_mapper.Map<Post>(model));
+			}
+            catch (Exception)
+            {
+
+                throw;
+            }
+            try
+            {
+				_uow.Commit();
+			}
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
     }

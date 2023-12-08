@@ -19,6 +19,7 @@ namespace AspNetCore_Social_Service.Mapping
 			CreateMap<Comment, CommentDto>().ReverseMap();
 			CreateMap<ReplyComment, ReplyCommentDto>().ReverseMap();
 			CreateMap<Friends, FriendsDto>().ReverseMap();
+			CreateMap<Post, NewPostDto>().ReverseMap();
 		}
 	}
 }

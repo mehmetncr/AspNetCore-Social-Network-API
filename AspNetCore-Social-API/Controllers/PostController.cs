@@ -17,10 +17,12 @@ namespace AspNetCore_Social_API.Controllers
             _postService = postService;
         }
 
-        [HttpPost]
-        public IActionResult AddPost(string textContent)
+        [HttpPost("AddPost")]
+        public async Task<IActionResult> AddPost([FromBody]NewPostDto model)
         {
-           // _postService.AddPost(Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier)), textContent);
+
+            await _postService.AddPost(model);
+
             return Ok();
         }
     }
