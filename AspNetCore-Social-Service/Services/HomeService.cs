@@ -24,7 +24,7 @@ namespace AspNetCore_Social_Service.Services
 			HomeDto homeDto = new HomeDto();
 			homeDto.OnlineFriendsDtos = await _friendService.GetOnlineFriends(userId);
 			homeDto.OfferUserDtos = await _friendService.GetOfferFriends(userId);
-			homeDto.PostDtos = await _postService.GetPosts(userId);
+			homeDto.PostDtos = await _postService.GetPosts(userId,"sp_DinamikSorgu");
 			return homeDto;
         }
 	}

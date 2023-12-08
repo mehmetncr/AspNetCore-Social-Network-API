@@ -36,8 +36,8 @@ namespace AspNetCore_Social_Service.Services
 
         public async Task<List<PostDto>> GetAllPostsWithUserId(int userId)
         {
-            List<Friends> friends = await _friendService.GetFriends(userId);
-            Friends user = new Friends()
+            List<FriendsDto> friends = await _friendService.GetFriends(userId);
+            FriendsDto user = new FriendsDto()
             {
                 FriendsUserId = userId,
             };
@@ -47,7 +47,7 @@ namespace AspNetCore_Social_Service.Services
         }
 
 
-        public async Task<List<PostDto>> GetPosts(int userId)
+        public async Task<List<PostDto>> GetPosts(int userId, string storeProcName)
         {       
 
             var userIdParameter = new SqlParameter("@userId", userId);
@@ -59,7 +59,7 @@ namespace AspNetCore_Social_Service.Services
 
                 using (DbCommand command = connection.CreateCommand())
                 {
-                    command.CommandText = "sp_DinamikSorgu";
+                    command.CommandText = storeProcName;
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.Add(userIdParameter);
                     command.Parameters.Add(postCountParameter);
