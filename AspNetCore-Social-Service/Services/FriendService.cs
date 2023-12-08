@@ -23,10 +23,10 @@ namespace AspNetCore_Social_Service.Services
 			_mapper = mapper;
 		}
 
-		public async Task<List<Friends>> GetFriends(int userId)
+		public async Task<List<FriendsDto>> GetFriends(int userId)
 		{
-			var list = await _uow.GetRepository<Friends>().GetAll(x=>x.FriendsUserId == userId);
-			return list.ToList();
+			var list = await _uow.GetRepository<Friends>().GetAll(x=>x.FriendsUserId == userId,null,x=>x.Friend);
+			return _mapper.Map<List<FriendsDto>>(list);
 		}
 		public async Task<List<FriendsDto>> GetOnlineFriends(int userId)
 		{

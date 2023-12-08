@@ -11,21 +11,36 @@ using System.Threading.Tasks;
 
 namespace AspNetCore_Social_Service.Services
 {
-	public class ProfileService : IProfileService
-	{
-		private readonly IUnitOfWork _uow;
-		private readonly IMapper _mapper;
+    public class ProfileService : IProfileService
+    {
+        private readonly IUnitOfWork _uow;
+        private readonly IMapper _mapper;
+        private readonly IPostService _postService;
+        private readonly IUserService _userService;
+        private readonly IFriendService _friendService;
+        private readonly IAccountService _accountService;
 
-		public ProfileService(IUnitOfWork uow, IMapper mapper)
-		{
-			_uow = uow;
-			_mapper = mapper;
-		}	
+        public ProfileService(IUnitOfWork uow, IMapper mapper, IPostService postService, IUserService userService, IFriendService friendService, IAccountService accountService)
+        {
+            _uow = uow;
+            _mapper = mapper;
+            _postService = postService;
+            _userService = userService;
+            _friendService = friendService;
+            _accountService = accountService;
+        }
 
-		public async Task<UserDto> GetById(int id)
-		{
-		   return _mapper.Map<UserDto>(await _uow.GetRepository<User>().GetById(id));
-		}
+        public async Task<ProfileDto> GetById(int userId)
+        {
+            int id = await _accountService.GetUserIdByAppUserId(userId);
 
-	}
+            ProfileDto profile = new ProfileDto()
+            {                
+                User = await _userService.GetUserById(id),
+                Friends = await _friendService.GetFriends(id),
+                Posts = await _postService.GetPosts(id, "sp_DinamikSorguProfil")
+            };
+            return profile;
+        }
+    }
 }

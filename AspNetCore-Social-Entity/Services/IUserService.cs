@@ -9,5 +9,6 @@ namespace AspNetCore_Social_Entity.Services
 {
 	public interface IUserService
 	{
+        Task<UserDto> GetUserById(int userId);
 	}
 }

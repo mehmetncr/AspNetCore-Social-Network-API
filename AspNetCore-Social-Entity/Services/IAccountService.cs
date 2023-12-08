@@ -13,5 +13,7 @@ namespace AspNetCore_Social_Entity.Services
 		Task<int> CreateUser(RegisterDto model);
 		Task<UserDto> Login(LoginDto model);
 		Task LogoutAsync();
-	}
+		Task<int> GetUserIdByAppUserId(int userId);
+
+    }
 }
