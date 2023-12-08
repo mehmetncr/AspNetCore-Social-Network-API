@@ -34,6 +34,7 @@ namespace AspNetCore_Social_Service.Services
             _socialContext = socialContext;
         }
 
+
         public async Task<List<PostDto>> GetAllPostsWithUserId(int userId)
         {
             List<FriendsDto> friends = await _friendService.GetFriends(userId);
@@ -213,8 +214,21 @@ namespace AspNetCore_Social_Service.Services
                 }
             }
         }
+        public async void AddPost(string textContent)
+        {
+            PostDto post = new PostDto()
+            {
+                PostCreateDate = DateTime.Now,
+                PostCommentNumber = 0,
+                PostDislikeNumber = 0,
+                PostLikeNumber = 0,
+                PostTextContent = textContent,
+                PostLink = ""
+            };
+            await _uow.GetRepository<Post>().Add(_mapper.Map<Post>(post));
+            _uow.Commit();
+        }
 
-    
     }
 }
 
