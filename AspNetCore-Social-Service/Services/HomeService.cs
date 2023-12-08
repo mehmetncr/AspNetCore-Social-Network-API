@@ -12,19 +12,22 @@ namespace AspNetCore_Social_Service.Services
 	{
 		private readonly IPostService _postService;
 		private readonly IFriendService _friendService;
+		private readonly IAccountService _accountService;
 
-		public HomeService(IPostService postService, IFriendService friendService)
-		{
-			_postService = postService;
-			_friendService = friendService;
-		}
+        public HomeService(IPostService postService, IFriendService friendService, IAccountService accountService)
+        {
+            _postService = postService;
+            _friendService = friendService;
+            _accountService = accountService;
+        }
 
-		public async Task<HomeDto> GetHome(int userId)
+        public async Task<HomeDto> GetHome(int userId)
 		{
-			HomeDto homeDto = new HomeDto();
-			homeDto.OnlineFriendsDtos = await _friendService.GetOnlineFriends(userId);
-			homeDto.OfferUserDtos = await _friendService.GetOfferFriends(userId);
-			homeDto.PostDtos = await _postService.GetPosts(userId,"sp_DinamikSorgu");
+            int id = await _accountService.GetUserIdByAppUserId(userId);
+            HomeDto homeDto = new HomeDto();
+			homeDto.OnlineFriendsDtos = await _friendService.GetOnlineFriends(id);
+			homeDto.OfferUserDtos = await _friendService.GetOfferFriends(id);
+			homeDto.PostDtos = await _postService.GetPosts(id, "sp_DinamikSorgu");
 			return homeDto;
         }
 	}

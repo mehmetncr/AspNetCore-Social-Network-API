@@ -20,7 +20,7 @@ namespace AspNetCore_Social_API.Controllers
         [HttpPost]
         public IActionResult AddPost(string textContent)
         {
-            _postService.AddPost(Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier)), textContent);
+           // _postService.AddPost(Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier)), textContent);
             return Ok();
         }
     }
