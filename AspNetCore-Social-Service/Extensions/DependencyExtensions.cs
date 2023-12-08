@@ -35,7 +35,7 @@ namespace AspNetCore_Social_Service.Extensions
 				opt.User.RequireUniqueEmail = true;
 
 				opt.Lockout.MaxFailedAccessAttempts = 3;    //default : 5
-				opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1); //default 5 dk
+				opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(240); //default 5 dk
 			}
 			).AddEntityFrameworkStores<SocialContext>();
 
