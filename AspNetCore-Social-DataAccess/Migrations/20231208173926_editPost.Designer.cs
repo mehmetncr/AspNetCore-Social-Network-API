@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AspNetCore_Social_DataAccess.Migrations
 {
     [DbContext(typeof(SocialContext))]
-    [Migration("20231206230358_updateentity")]
-    partial class updateentity
+    [Migration("20231208173926_editPost")]
+    partial class editPost
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -172,7 +172,7 @@ namespace AspNetCore_Social_DataAccess.Migrations
 
                     b.HasKey("FriendsId");
 
-                    b.HasIndex("FriendsUserId");
+                    b.HasIndex("FriendId");
 
                     b.ToTable("Friends");
                 });
@@ -249,7 +249,6 @@ namespace AspNetCore_Social_DataAccess.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("PostLink")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PostTextContent")
@@ -585,13 +584,13 @@ namespace AspNetCore_Social_DataAccess.Migrations
 
             modelBuilder.Entity("AspNetCore_Social_Entity.Entities.Friends", b =>
                 {
-                    b.HasOne("AspNetCore_Social_Entity.Entities.User", "FriendsUser")
+                    b.HasOne("AspNetCore_Social_Entity.Entities.User", "Friend")
                         .WithMany("Friends")
-                        .HasForeignKey("FriendsUserId")
+                        .HasForeignKey("FriendId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("FriendsUser");
+                    b.Navigation("Friend");
                 });
 
             modelBuilder.Entity("AspNetCore_Social_Entity.Entities.Interest", b =>
