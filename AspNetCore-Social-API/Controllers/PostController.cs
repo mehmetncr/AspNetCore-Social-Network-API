@@ -20,7 +20,9 @@ namespace AspNetCore_Social_API.Controllers
         [HttpPost("AddPost")]
         public async Task<IActionResult> AddPost([FromBody]NewPostDto model)
         {
+
             await _postService.AddPost(model);
+
             return Ok();
         }
     }

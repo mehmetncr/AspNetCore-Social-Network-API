@@ -21,6 +21,7 @@ builder.Services.AddCors(cors => cors.AddDefaultPolicy(cors => cors.AllowAnyOrig
 
 
 
+
 var app = builder.Build();
 
 app.UseCors();

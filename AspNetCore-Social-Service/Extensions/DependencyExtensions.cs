@@ -9,6 +9,7 @@ using AspNetCore_Social_Service.Mapping;
 using AspNetCore_Social_Service.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,18 +30,19 @@ namespace AspNetCore_Social_Service.Extensions
 				opt.Password.RequireUppercase = false;
 				opt.Password.RequireLowercase = false;
 				opt.Password.RequireDigit = false;
+                opt.SignIn.RequireConfirmedAccount = false;
 
-				//opt.User.AllowedUserNameCharacters = "abcdefghijklmnoprstuvyzqw0123456789";
+               //opt.User.AllowedUserNameCharacters = "abcdefghijklmnoprstuvyzqw0123456789";
 
-				opt.User.RequireUniqueEmail = true;
+                opt.User.RequireUniqueEmail = true;
 
 				opt.Lockout.MaxFailedAccessAttempts = 3;    //default : 5
 				opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(240); //default 5 dk
 			}
 			).AddEntityFrameworkStores<SocialContext>();
+          
 
-
-			services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 			services.AddScoped<IUnitOfWork, UnitOfWork>();
 			services.AddScoped<IAccountService, AccountService>();
 			services.AddAutoMapper(typeof(MappingProfile));
