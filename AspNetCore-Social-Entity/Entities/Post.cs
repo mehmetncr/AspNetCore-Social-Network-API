@@ -18,7 +18,7 @@ namespace AspNetCore_Social_Entity.Entities
         public int PostCommentNumber { get; set; }
         public int PostLikeNumber { get; set; }
         public int PostDislikeNumber { get; set; }
-        public string PostLink { get; set; }
+        public string? PostLink { get; set; }
         public string PostType { get; set; }
         public virtual List<Comment> Comments { get; set; }
         public virtual User PostUser { get; set; }
