@@ -11,10 +11,10 @@ namespace AspNetCore_Social_Entity.Services
 	public interface IPostService
 	{
 		Task AddPost(NewPostDto model);
-
-
+		Task AddComment(NewCommentDto model);
         public Task<List<PostDto>> GetAllPostsWithUserId(int userId);
 		Task<List<PostDto>> GetPosts(int userId, string storeProcName);
-
+		Task<PostDto> GetPostById(int postId);
+		void UpdatePost(PostDto model);
 	}
 }

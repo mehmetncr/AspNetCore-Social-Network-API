@@ -26,16 +26,14 @@ namespace AspNetCore_Social_Service.Services
         private readonly IFriendService _friendService;
         private readonly IMapper _mapper;
         private readonly SocialContext _socialContext;
-        private readonly IAccountService _accountService;
 
 
-        public PostService(IUnitOfWork uow, IFriendService friendService, IMapper mapper, SocialContext socialContext, IAccountService accountService)
+        public PostService(IUnitOfWork uow, IFriendService friendService, IMapper mapper, SocialContext socialContext)
         {
             _uow = uow;
             _friendService = friendService;
             _mapper = mapper;
             _socialContext = socialContext;
-            _accountService = accountService;
         }
 
 
@@ -50,8 +48,6 @@ namespace AspNetCore_Social_Service.Services
             var list = await _uow.GetRepository<Post>().GetAll(x => friends.Select(f => f.FriendsUserId).Contains(x.PostUserId), x => x.OrderByDescending(x => x.PostCreateDate), x => x.Comments);
             return _mapper.Map<List<PostDto>>(list);
         }
-
-
         public async Task<List<PostDto>> GetPosts(int userId, string storeProcName)
         {       
 
@@ -119,11 +115,11 @@ namespace AspNetCore_Social_Service.Services
                                     CommentDto comment = new CommentDto
                                     {
                                         CommentId = commentId,
-                                        CommentUserDtoId = reader.IsDBNull("CommentUserId") ? default(int) : reader.GetInt32("CommentUserId"),
+                                        CommentUserId = reader.IsDBNull("CommentUserId") ? default(int) : reader.GetInt32("CommentUserId"),
                                         CommentContent = reader.IsDBNull("CommentContent") ? string.Empty : reader.GetString("CommentContent"),
                                         CommentDate = reader.IsDBNull("CommentDate") ? default(DateTime) : reader.GetDateTime("CommentDate"),
-                                        CommentUserDto = FillUserCommentDetails(reader, "CommentUserId"),
-                                        ReplyCommentsDto = new List<ReplyCommentDto>() // Initialize the ReplyComments list
+                                        CommentUser = FillUserCommentDetails(reader, "CommentUserId"),
+                                        ReplyComments = new List<ReplyCommentDto>() // Initialize the ReplyComments list
                                     };
 
                                     existingPost.CommentsDto.Add(comment);
@@ -132,7 +128,7 @@ namespace AspNetCore_Social_Service.Services
                                 int replyCommentId = reader.IsDBNull("ReplyCommentId") ? default(int) : reader.GetInt32("ReplyCommentId");
 
                                 // Check if the reply comment already exists in the comment's ReplyComments list
-                                ReplyCommentDto existingReplyComment = existingCommentt.ReplyCommentsDto.FirstOrDefault(rc => rc.ReplyCommentId == replyCommentId);
+                                ReplyCommentDto existingReplyComment = existingCommentt.ReplyComments.FirstOrDefault(rc => rc.ReplyCommentId == replyCommentId);
 
                                 if (existingReplyComment == null)
                                 {
@@ -146,7 +142,7 @@ namespace AspNetCore_Social_Service.Services
                                         ReplyCommentUserDto = FillUserReplyCommentDetails(reader, "ReplyCommentUserId"),
                                     };
 
-                                    existingCommentt.ReplyCommentsDto.Add(replyComment);
+                                    existingCommentt.ReplyComments.Add(replyComment);
                                 }
                             }
 
@@ -241,7 +237,67 @@ namespace AspNetCore_Social_Service.Services
             }
         }
 
-    }
+        public async Task AddComment(NewCommentDto model)
+        {
+            try
+            {
+				var post = await _uow.GetRepository<Post>().Get(x => x.PostId == model.CommentPostId);
+				post.PostCommentNumber++;
+                this.UpdatePost(_mapper.Map<PostDto>(post));
+			}
+            catch (Exception)
+            {
+
+                throw;
+            }
+            try
+            {
+                await _uow.GetRepository<Comment>().Add(_mapper.Map<Comment>(model));
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            try
+            {
+                _uow.Commit();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+		public async Task<PostDto> GetPostById(int postId)
+		{
+            var post = await _uow.GetRepository<Post>().Get(x => x.PostId == postId);
+            return _mapper.Map<PostDto>(post);
+		}
+        public void UpdatePost(PostDto model)
+        {
+            try
+            {
+				_uow.GetRepository<Post>().Update(_mapper.Map<Post>(model));
+			}
+            catch (Exception)
+            {
+
+                throw;
+            }
+            try
+            {
+				_uow.Commit();
+			}
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
+        }
+	}
 }
 
 
