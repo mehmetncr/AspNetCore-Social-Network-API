@@ -49,9 +49,14 @@ namespace AspNetCore_Social_DataAccess.Context
 			.HasForeignKey(c => c.ReplyCommentUserId)  // Foreign key olarak UserId'yi kullan
 			.OnDelete(DeleteBehavior.ClientSetNull);
 
+            builder.Entity<FriendRequest>()
+        .HasOne(c => c.FriendReqFriendReqSender)
+        .WithMany(u => u.FriendRequests)
+        .HasForeignKey(c => c.FriendReqFriendReqSenderId)  // Foreign key olarak UserId'yi kullan
+        .OnDelete(DeleteBehavior.ClientSetNull);
 
 
-			base.OnModelCreating(builder);
+            base.OnModelCreating(builder);
 		}
 	}
 }
