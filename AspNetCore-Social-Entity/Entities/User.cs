@@ -46,6 +46,7 @@ namespace AspNetCore_Social_Entity.Entities
         public virtual List<Post> Posts { get; set; }
         public virtual List<Comment> Comments { get; set; }
         public virtual List<ReplyComment> ReplyComments { get; set; }
+        public virtual List<FriendRequest> FriendRequests { get; set; }
 
     }
 }

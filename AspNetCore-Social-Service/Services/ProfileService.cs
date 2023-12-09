@@ -35,12 +35,37 @@ namespace AspNetCore_Social_Service.Services
             int id = await _accountService.GetUserIdByAppUserId(userId);
 
             ProfileDto profile = new ProfileDto()
-            {                
+            {
                 User = await _userService.GetUserById(id),
                 Friends = await _friendService.GetFriends(id),
                 Posts = await _postService.GetPosts(id, "sp_DinamikSorguProfil")
             };
             return profile;
+        }
+        public async Task<List<PostDto>> GetImagesByUserId(int userId)
+        {
+            int id = await _accountService.GetUserIdByAppUserId(userId);
+            List<PostDto> posts = await _postService.GetPosts(id, "sp_DinamikSorguProfil");
+            return posts.Where(x => x.PostType == "Image").ToList();
+        }
+        public async Task<List<PostDto>> GetVideosByUserId(int userId)
+        {
+            int id = await _accountService.GetUserIdByAppUserId(userId);
+            List<PostDto> posts = await _postService.GetPosts(id, "sp_DinamikSorguProfil");
+            return posts.Where(x => x.PostType == "Video" || x.PostType == "Youtube").ToList();
+        }
+        public async Task<ProfileFriendsDto> GetFriendsByUserId(int userId)
+        {
+            int id = await _accountService.GetUserIdByAppUserId(userId);
+
+            ProfileFriendsDto friendsandreq = new ProfileFriendsDto()
+            {
+                friends = await _friendService.GetFriends(id),
+                friendRequests=  await _friendService.GetFriendsReq(id)
+                
+            };
+
+            return friendsandreq;
         }
     }
 }

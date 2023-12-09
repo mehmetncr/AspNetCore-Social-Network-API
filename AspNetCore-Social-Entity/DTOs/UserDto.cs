@@ -1,4 +1,5 @@
 ﻿
+using AspNetCore_Social_Entity.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,5 +49,6 @@ namespace AspNetCore_Social_Entity.DTOs
 		public virtual List<PostDto> PostsDto { get; set; }
 		public virtual List<CommentDto> CommentsDto { get; set; }
 		public virtual List<ReplyCommentDto> ReplyCommentsDto { get; set; }
-	}
+        public virtual List<FriendRequestDto> FriendRequestDto { get; set; }
+    }
 }
