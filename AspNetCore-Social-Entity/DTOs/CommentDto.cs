@@ -17,11 +17,11 @@ namespace AspNetCore_Social_Entity.DTOs
 
 
 		[ForeignKey("UserId")]
-		public int CommentUserDtoId { get; set; }
-		public virtual UserDto CommentUserDto { get; set; }
+		public int CommentUserId { get; set; }
+		public virtual UserDto? CommentUser { get; set; }
 		[ForeignKey("PostId")]
-		public int CommentPostDtoId { get; set; }
-		public virtual PostDto CommentPostDto { get; set; }
-		public virtual List<ReplyCommentDto> ReplyCommentsDto { get; set; }
+		public int CommentPostId { get; set; }
+		public virtual PostDto? CommentPost { get; set; }
+		public virtual List<ReplyCommentDto>? ReplyComments { get; set; }
 	}
 }

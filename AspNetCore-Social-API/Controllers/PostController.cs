@@ -20,10 +20,32 @@ namespace AspNetCore_Social_API.Controllers
         [HttpPost("AddPost")]
         public async Task<IActionResult> AddPost([FromBody]NewPostDto model)
         {
-
-            await _postService.AddPost(model);
-
-            return Ok();
+            try
+            {
+				await _postService.AddPost(model);
+				return Ok();
+			}
+            catch (Exception)
+            {
+                BadRequest();
+                throw;
+            }
+            
+        }
+        [HttpPost("AddComment")]
+        public async Task<IActionResult> AddComment([FromBody]NewCommentDto model)
+        {
+            try
+            {
+				await _postService.AddComment(model);
+				return Ok();
+			}
+            catch (Exception)
+            {
+                return BadRequest();
+                throw;
+            }
+            
         }
     }
 }
