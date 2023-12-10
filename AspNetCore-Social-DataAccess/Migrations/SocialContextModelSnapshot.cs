@@ -213,12 +213,12 @@ namespace AspNetCore_Social_DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("InterestUserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("InterestId");
 
-                    b.HasIndex("InterestUserId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Interests");
                 });
@@ -239,12 +239,12 @@ namespace AspNetCore_Social_DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("NotificationUserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("NotificationId");
 
-                    b.HasIndex("NotificationUserId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Notifications");
                 });
@@ -372,12 +372,12 @@ namespace AspNetCore_Social_DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SocialMediaAccountUserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("SocialMediaAccountId");
 
-                    b.HasIndex("SocialMediaAccountUserId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("SocialMediaAccounts");
                 });
@@ -403,6 +403,10 @@ namespace AspNetCore_Social_DataAccess.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UserEducationInfo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserEmail")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserFirstName")
@@ -475,12 +479,12 @@ namespace AspNetCore_Social_DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserActivityUserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("UserActivityId");
 
-                    b.HasIndex("UserActivityUserId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("UserActivities");
                 });
@@ -629,24 +633,20 @@ namespace AspNetCore_Social_DataAccess.Migrations
 
             modelBuilder.Entity("AspNetCore_Social_Entity.Entities.Interest", b =>
                 {
-                    b.HasOne("AspNetCore_Social_Entity.Entities.User", "InterestUser")
+                    b.HasOne("AspNetCore_Social_Entity.Entities.User", null)
                         .WithMany("Interests")
-                        .HasForeignKey("InterestUserId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("InterestUser");
                 });
 
             modelBuilder.Entity("AspNetCore_Social_Entity.Entities.Notification", b =>
                 {
-                    b.HasOne("AspNetCore_Social_Entity.Entities.User", "NotificationUser")
+                    b.HasOne("AspNetCore_Social_Entity.Entities.User", null)
                         .WithMany("Notification")
-                        .HasForeignKey("NotificationUserId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("NotificationUser");
                 });
 
             modelBuilder.Entity("AspNetCore_Social_Entity.Entities.Post", b =>
@@ -691,24 +691,20 @@ namespace AspNetCore_Social_DataAccess.Migrations
 
             modelBuilder.Entity("AspNetCore_Social_Entity.Entities.SocialMediaAccount", b =>
                 {
-                    b.HasOne("AspNetCore_Social_Entity.Entities.User", "SocialMediaAccountUser")
+                    b.HasOne("AspNetCore_Social_Entity.Entities.User", null)
                         .WithMany("SocialMediaAccounts")
-                        .HasForeignKey("SocialMediaAccountUserId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("SocialMediaAccountUser");
                 });
 
             modelBuilder.Entity("AspNetCore_Social_Entity.Entities.UserActivity", b =>
                 {
-                    b.HasOne("AspNetCore_Social_Entity.Entities.User", "UserActivityUser")
+                    b.HasOne("AspNetCore_Social_Entity.Entities.User", null)
                         .WithMany("ActivityHistory")
-                        .HasForeignKey("UserActivityUserId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("UserActivityUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>

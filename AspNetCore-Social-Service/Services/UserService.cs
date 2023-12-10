@@ -26,8 +26,39 @@ namespace AspNetCore_Social_Service.Services
         }
 
         public async Task<UserDto> GetUserById(int userId)
-        {           
-            return  _mapper.Map<UserDto>( await _uow.GetRepository<User>().Get(x=>x.UserId==userId,null,x=>x.SocialMediaAccounts));
+        {
+            var user = await _uow.GetRepository<User>().Get(x => x.UserId == userId, null, x => x.SocialMediaAccounts, x => x.Interests);
+
+			return  _mapper.Map<UserDto>(user);
+        }
+        public async Task<string> UpdateUser(UserUpdateDto model)
+        {
+            try
+            {
+                User user = await _uow.GetRepository<User>().Get(x => x.UserId == model.UserId);
+                user.UserGender = model.UserGender;
+                user.UserBiography = model.UserBiography;
+                user.UserBirthDate = model.UserBirthDate;
+                user.UserFirstName = model.UserFirstName;
+                user.UserLastName = model.UserLastName;
+                user.UserJobInfo = model.UserJobInfo;
+                user.UserEducationInfo = model.UserEducationInfo;
+                user.UserLocation = model.UserLocation;
+                user.UserPhoneNumber = model.UserPhoneNumber;
+                _uow.GetRepository<User>().Update(user);
+                _uow.Commit();
+                return "Ok";
+
+            }
+            catch (Exception ex)
+            {
+
+                return ex.Message;
+            }
+          
+
+          
+            
         }
     }
 }

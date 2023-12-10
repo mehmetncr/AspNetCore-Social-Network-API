@@ -193,6 +193,27 @@ namespace AspNetCore_Social_DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "FriendRequest",
+                columns: table => new
+                {
+                    FriendReqId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FriendReqCreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    FriendReqStatus = table.Column<bool>(type: "bit", nullable: false),
+                    FriendReqUserId = table.Column<int>(type: "int", nullable: false),
+                    FriendReqFriendReqSenderId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FriendRequest", x => x.FriendReqId);
+                    table.ForeignKey(
+                        name: "FK_FriendRequest_Users_FriendReqFriendReqSenderId",
+                        column: x => x.FriendReqFriendReqSenderId,
+                        principalTable: "Users",
+                        principalColumn: "UserId");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Friends",
                 columns: table => new
                 {
@@ -219,14 +240,14 @@ namespace AspNetCore_Social_DataAccess.Migrations
                     InterestId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     InterestName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    InterestUserId = table.Column<int>(type: "int", nullable: false)
+                    UserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Interests", x => x.InterestId);
                     table.ForeignKey(
-                        name: "FK_Interests_Users_InterestUserId",
-                        column: x => x.InterestUserId,
+                        name: "FK_Interests_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
@@ -238,7 +259,7 @@ namespace AspNetCore_Social_DataAccess.Migrations
                 {
                     NotificationId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    NotificationUserId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
                     NotificationTitle = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     NotificationDescription = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
@@ -246,8 +267,8 @@ namespace AspNetCore_Social_DataAccess.Migrations
                 {
                     table.PrimaryKey("PK_Notifications", x => x.NotificationId);
                     table.ForeignKey(
-                        name: "FK_Notifications_Users_NotificationUserId",
-                        column: x => x.NotificationUserId,
+                        name: "FK_Notifications_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
@@ -310,7 +331,7 @@ namespace AspNetCore_Social_DataAccess.Migrations
                 {
                     SocialMediaAccountId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    SocialMediaAccountUserId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
                     SocialMediaAccountName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SocialMediaAccountUrl = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
@@ -318,8 +339,8 @@ namespace AspNetCore_Social_DataAccess.Migrations
                 {
                     table.PrimaryKey("PK_SocialMediaAccounts", x => x.SocialMediaAccountId);
                     table.ForeignKey(
-                        name: "FK_SocialMediaAccounts_Users_SocialMediaAccountUserId",
-                        column: x => x.SocialMediaAccountUserId,
+                        name: "FK_SocialMediaAccounts_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
@@ -333,14 +354,14 @@ namespace AspNetCore_Social_DataAccess.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserActivityDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UserActivityName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserActivityUserId = table.Column<int>(type: "int", nullable: false)
+                    UserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UserActivities", x => x.UserActivityId);
                     table.ForeignKey(
-                        name: "FK_UserActivities_Users_UserActivityUserId",
-                        column: x => x.UserActivityUserId,
+                        name: "FK_UserActivities_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
@@ -450,19 +471,24 @@ namespace AspNetCore_Social_DataAccess.Migrations
                 column: "CommentUserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_FriendRequest_FriendReqFriendReqSenderId",
+                table: "FriendRequest",
+                column: "FriendReqFriendReqSenderId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Friends_FriendId",
                 table: "Friends",
                 column: "FriendId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Interests_InterestUserId",
+                name: "IX_Interests_UserId",
                 table: "Interests",
-                column: "InterestUserId");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Notifications_NotificationUserId",
+                name: "IX_Notifications_UserId",
                 table: "Notifications",
-                column: "NotificationUserId");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Posts_PostUserId",
@@ -486,14 +512,14 @@ namespace AspNetCore_Social_DataAccess.Migrations
                 column: "ReplyCommentUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SocialMediaAccounts_SocialMediaAccountUserId",
+                name: "IX_SocialMediaAccounts_UserId",
                 table: "SocialMediaAccounts",
-                column: "SocialMediaAccountUserId");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserActivities_UserActivityUserId",
+                name: "IX_UserActivities_UserId",
                 table: "UserActivities",
-                column: "UserActivityUserId");
+                column: "UserId");
         }
 
         /// <inheritdoc />
@@ -513,6 +539,9 @@ namespace AspNetCore_Social_DataAccess.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "FriendRequest");
 
             migrationBuilder.DropTable(
                 name: "Friends");

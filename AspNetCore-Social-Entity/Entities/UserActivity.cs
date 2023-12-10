@@ -13,7 +13,7 @@ namespace AspNetCore_Social_Entity.Entities
         public string UserActivityName { get; set; }
 
 
-        public int UserActivityUserId { get; set; }
-        public virtual User UserActivityUser { get; set; }
+        public int UserId { get; set; }
+
     }
 }
