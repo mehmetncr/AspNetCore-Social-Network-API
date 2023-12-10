@@ -19,6 +19,11 @@ builder.Services.AddCors(cors => cors.AddDefaultPolicy(cors => cors.AllowAnyOrig
 
     );
 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
+    options.SlidingExpiration = true;
+});
 
 
 

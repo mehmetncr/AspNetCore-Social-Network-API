@@ -70,6 +70,7 @@ namespace AspNetCore_Social_Service.Services
 				UserLastName = model.LastName,
 				UserGender = model.Gender,
 				UserCreatedAt = DateTime.Now,
+				UserEmail = model.Email,
 			};
 
 			await _uow.GetRepository<User>().Add(user);

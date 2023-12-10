@@ -9,10 +9,10 @@ namespace AspNetCore_Social_Entity.Entities
     public class SocialMediaAccount
     {
         public int SocialMediaAccountId { get; set; }
-        public int SocialMediaAccountUserId { get; set; }
+        public int UserId { get; set; }
         public string SocialMediaAccountName { get; set; }
         public string SocialMediaAccountUrl { get; set; }
-        public virtual User SocialMediaAccountUser { get; set; }
+
 
     }
 }

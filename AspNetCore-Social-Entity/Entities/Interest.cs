@@ -11,8 +11,8 @@ namespace AspNetCore_Social_Entity.Entities
         public int InterestId { get; set; }
         public string InterestName { get; set; }
 
-        public int InterestUserId { get; set; }
-        public virtual User InterestUser { get; set; }
+        public int UserId { get; set; }
+
 
 
     }
