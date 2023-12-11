@@ -12,7 +12,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddExtensions();
+
 
 builder.Services.AddDbContext<SocialContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("ConnStr")));
 
@@ -20,7 +20,7 @@ builder.Services.AddCors(cors => cors.AddDefaultPolicy(cors => cors.AllowAnyOrig
 
     );
 
-
+builder.Services.AddExtensions(builder.Configuration);
 
 
 

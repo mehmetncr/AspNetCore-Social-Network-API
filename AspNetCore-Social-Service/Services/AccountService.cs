@@ -19,13 +19,16 @@ namespace AspNetCore_Social_Service.Services
 		private readonly SignInManager<AppUser> _signInManager;
 		private readonly IUnitOfWork _uow;
 		private readonly IUserService _userService;
+		private readonly IAuthService _authService;
 
-        public AccountService(UserManager<AppUser> userManager,SignInManager<AppUser> signInManager, IUnitOfWork uow, IUserService userService)
+
+        public AccountService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IUnitOfWork uow, IUserService userService, IAuthService authService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _uow = uow;    
+            _uow = uow;
             _userService = userService;
+            _authService = authService;
         }
 
         public async Task LogoutAsync() //Çıkış yapma
@@ -87,7 +90,11 @@ namespace AspNetCore_Social_Service.Services
 				var signInResult = await _signInManager.PasswordSignInAsync(appuser, model.Password, model.RememberMe, false);
 				if (signInResult.Succeeded)
 				{
-					return await _userService.GetUserById(appuser.UserId);
+
+					
+					UserDto user = await _userService.GetUserById(appuser.UserId);
+					user.AccessToken= _authService.GenereteToken(appuser.UserId.ToString());
+					return user;
 
 				}
 			}

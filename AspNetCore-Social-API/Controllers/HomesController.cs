@@ -1,4 +1,5 @@
-﻿using AspNetCore_Social_Entity.Services;
+﻿using AspNetCore_Social_Entity.Entities;
+using AspNetCore_Social_Entity.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -23,10 +24,16 @@ namespace AspNetCore_Social_API.Controllers
 		[Authorize]
 		public async Task<IActionResult> GetHome() 
 		{
-			var Id = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var userIdClaim = User.FindFirst(ClaimTypes.UserData);
+            if (userIdClaim != null)
+            {
+                var userId = userIdClaim.Value; 
+                var value = await _homeService.GetHome(Convert.ToInt32(userId));
+                return Ok(value);
+            }
+			return BadRequest();
 
-            var value = await _homeService.GetHome(Id);
-			return Ok(value);
+		
 		}
 	}
 }

@@ -20,6 +20,7 @@ namespace AspNetCore_Social_Entity.DTOs
 		public string? UserCoverPicture { get; set; }
 		public string? UserBiography { get; set; }
 		public string? UserLocation { get; set; }
+		public string AccessToken { get; set; }
 
 		public int? UserFollowerCount { get; set; }
 		public int? UserFollowingCount { get; set; }
