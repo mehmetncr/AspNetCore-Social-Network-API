@@ -1,108 +1,162 @@
-﻿using AspNetCore_Social_Entity.DTOs;
+﻿using AspNetCore_Social_DataAccess.Identity;
+using AspNetCore_Social_Entity.DTOs;
 using AspNetCore_Social_Entity.Entities;
 using AspNetCore_Social_Entity.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Razor.TagHelpers;
+using Microsoft.Extensions.Hosting;
 using System.Security.Claims;
 
 namespace AspNetCore_Social_API.Controllers
 {
-	[Route("api/[controller]")]
-	[ApiController]
-	//[Authorize]
-	public class ProfilesController : ControllerBase
-	{
-		private readonly IProfileService _profileService;
-		private readonly IPostService _postService;
-		private readonly IFriendService _friendService;
-		private readonly IUserService _userService;
-		private readonly IInterestService _interestService;
+    [Route("api/[controller]")]
+    [ApiController]
+    //[Authorize]
+    public class ProfilesController : ControllerBase
+    {
+        private readonly IProfileService _profileService;
+        private readonly IPostService _postService;
+        private readonly IFriendService _friendService;
+        private readonly IUserService _userService;
+        private readonly IInterestService _interestService;
+        private readonly IAccountService _accountService;
 
-        public ProfilesController(IProfileService profileService, IPostService postService, IFriendService friendService, IUserService userService, IInterestService interestService)
+        public ProfilesController(IProfileService profileService, IPostService postService, IFriendService friendService, IUserService userService, IInterestService interestService, IAccountService accountService)
         {
             _profileService = profileService;
             _postService = postService;
             _friendService = friendService;
             _userService = userService;
             _interestService = interestService;
+            _accountService = accountService;
         }
 
         [HttpGet("MyProfile")]
-		public async Task<IActionResult> Get()
-		{
-            return Ok( await _profileService.GetById(Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier))));
-		}
+        [Authorize]
+        public async Task<IActionResult> Get()
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.UserData);
+            if (userIdClaim != null)
+            {
+                int userId = Convert.ToInt32(userIdClaim.Value);
+                ProfileDto profile = await _profileService.GetById(userId);
+                return Ok(profile);
+            }
+            return BadRequest();
 
-		[HttpGet("Images")]
-		public async Task<IActionResult> GetImages()
-		{
-			return Ok(await _profileService.GetImagesByUserId(Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier))));
-		}
-		[HttpGet("Videos")]
-		public async Task<IActionResult> GetVideos()
-		{
-			return Ok(await _profileService.GetVideosByUserId(Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier))));
-		}
-		[HttpGet("Friends")]
-		public async Task<IActionResult> GetFriends()
-		{
-			return Ok(await _profileService.GetFriendsByUserId(Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier))));
-		}
-		[HttpPut("update")]
-		public async Task<IActionResult> PostUpdate([FromBody] UserUpdateDto model)
-		{
-			if(User.Identity.IsAuthenticated)
-			{
-                model.UserId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
-                string msg = await _userService.UpdateUser(model);
+        }
+
+        [HttpGet("Images")]
+        [Authorize]
+        public async Task<IActionResult> GetImages()
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.UserData);
+            if (userIdClaim != null)
+            {
+                int userId = Convert.ToInt32(userIdClaim.Value);
+                List<PostDto> posts = await _profileService.GetImagesByUserId(userId);
+                return Ok(posts);
+            }
+            return BadRequest();
+
+        }
+        [HttpGet("Videos")]
+        [Authorize]
+        public async Task<IActionResult> GetVideos()
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.UserData);
+            if (userIdClaim != null)
+            {
+                int userId = Convert.ToInt32(userIdClaim.Value);
+                List<PostDto> posts = await _profileService.GetVideosByUserId(userId);
+                return Ok(posts);
+            }
+            return BadRequest();
+        }
+        [HttpGet("Friends")]
+        [Authorize]
+        public async Task<IActionResult> GetFriends()
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.UserData);
+            if (userIdClaim != null)
+            {
+                int userId = Convert.ToInt32(userIdClaim.Value);
+                ProfileFriendsDto friends = await _profileService.GetFriendsByUserId(userId);
+                return Ok(friends);
+            }
+            return BadRequest();
+        }
+        [HttpPut("update")]
+        [Authorize]
+        public async Task<IActionResult> PostUpdate([FromBody] UserUpdateDto model)
+        {
+
+            var userIdClaim = User.FindFirst(ClaimTypes.UserData);
+            if (userIdClaim != null)
+            {
+                int userId = Convert.ToInt32(userIdClaim.Value);
+                model.UserId = userId;
+            }
+            string msg = await _userService.UpdateUser(model);
+            if (msg == "Ok")
+            {
+                return Ok(await _userService.GetUserById(model.UserId));
+            }
+            return BadRequest(msg);
+
+
+        }
+        [HttpPost("AddInterest")]
+        [Authorize]
+        public async Task<IActionResult> InterestUpdate([FromBody] string interest)
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.UserData);
+            if (userIdClaim != null)
+            {
+                int appUserId = Convert.ToInt32(userIdClaim.Value);
+                Interest newInterest = new Interest()
+                {
+                    InterestName = interest,
+                    UserId = appUserId
+                };
+                string msg = await _interestService.AddInterest(newInterest);
                 if (msg == "Ok")
                 {
-                    return Ok( await _userService.GetUserById(model.UserId));
+                    int userId=  await _accountService.GetUserIdByAppUserId(appUserId);
+                    return Ok(await _userService.GetUserById(userId));
                 }
                 return BadRequest(msg);
             }
-
-           return Unauthorized();
+            return BadRequest();
         }
-		[HttpPost("AddInterest")]
-		[Authorize]
-		public async Task<IActionResult> InterestUpdate([FromBody] string interest)
-		{
-			var userId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));   // app userdan normal usera geçilecek
-
-            Interest newInterest = new Interest()
-			{
-				InterestName=interest,
-				UserId=userId
-            };
-
-			string msg = await _interestService.AddInterest(newInterest);
-			if (msg == "Ok")
-			{
-                return Ok(await _userService.GetUserById(userId));
-            }
-			return BadRequest(msg);
-		}
         [HttpDelete("DeleteInterest")]
-		
+        [Authorize]
+
         public async Task<IActionResult> InterestDelete([FromBody] string interest)
         {
-            var userId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));   // app userdan normal usera geçilecek
+            var userIdClaim = User.FindFirst(ClaimTypes.UserData);
+            if (userIdClaim != null)
+            {
+                int appUserId = Convert.ToInt32(userIdClaim.Value);
+                         
 
             Interest newInterest = new Interest()
             {
                 InterestName = interest,
-                UserId = userId
+                UserId = appUserId
             };
 
             string msg = await _interestService.DeleteInterest(newInterest);
             if (msg == "Ok")
             {
+                int userId = await _accountService.GetUserIdByAppUserId(appUserId);
                 return Ok(await _userService.GetUserById(userId));
             }
             return BadRequest(msg);
+            }
+            return BadRequest();
         }
     }
 }

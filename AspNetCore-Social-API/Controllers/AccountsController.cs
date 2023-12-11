@@ -1,8 +1,11 @@
 ﻿using AspNetCore_Social_Entity.DTOs;
 using AspNetCore_Social_Entity.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace AspNetCore_Social_API.Controllers
 {
@@ -33,8 +36,8 @@ namespace AspNetCore_Social_API.Controllers
 		}
 		[HttpPost("Login")]
 		public async Task<IActionResult> Login([FromBody] LoginDto model)
-		{
-			var user = await _accountService.Login(model);
+		{           
+            var user = await _accountService.Login(model);
 			if (user == null)
 			{
 				return NotFound("Kullanıcı adı veya şifre hatalı!");

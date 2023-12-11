@@ -37,7 +37,7 @@ namespace AspNetCore_Social_Service.Services
                     UserLastName = x.Friend.UserLastName,
                     UserId = x.Friend.UserId,
                     UserProfilePicture = x.Friend.UserProfilePicture,
-                    UserIsOnline=x.Friend.UserIsOnline
+                    UserIsOnline = x.Friend.UserIsOnline
                 }
             }).ToList();
             return _mapper.Map<List<FriendsDto>>(friends);
@@ -68,8 +68,15 @@ namespace AspNetCore_Social_Service.Services
             //arkadaşların arkadaşları çekilecek önerilen arkadaş olarak
             var friends = await _uow.GetRepository<User>().GetAll();
             friends.Take(10);
+            List<User> offerfriends = friends.Select(x => new User
+            {
+                UserFirstName = x.UserFirstName,
+                UserLastName = x.UserLastName,
+                UserId = x.UserId,
+                UserProfilePicture = x.UserProfilePicture
+            }).ToList();
 
-            return _mapper.Map<List<UserDto>>(friends);
+            return _mapper.Map<List<UserDto>>(offerfriends);
         }
     }
 }
