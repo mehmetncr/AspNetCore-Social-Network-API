@@ -5,6 +5,7 @@ using AspNetCore_Social_Entity.UnitOfWorks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -49,7 +50,18 @@ namespace AspNetCore_Social_Service.Services
         public async Task<List<FriendsDto>> GetOnlineFriends(int userId)  //online olan arkadaşları döndürür
         {
             var userFriends = await _uow.GetRepository<Friends>().GetAll(x => x.FriendsUserId == userId && x.Friend.UserIsOnline == true, null, x => x.Friend);
-            return _mapper.Map<List<FriendsDto>>(userFriends);
+            List<Friends> friends = userFriends.Select(x => new Friends
+            {
+                Friend = new User
+                {
+                    UserFirstName = x.Friend.UserFirstName,
+                    UserLastName = x.Friend.UserLastName,
+                    UserId = x.Friend.UserId,
+                    UserProfilePicture = x.Friend.UserProfilePicture,
+                    UserIsOnline = x.Friend.UserIsOnline
+                }
+            }).ToList();
+            return _mapper.Map<List<FriendsDto>>(friends);
         }
         public async Task<List<UserDto>> GetOfferFriends(int userId) //arkadaşlık önerileri 
         {
