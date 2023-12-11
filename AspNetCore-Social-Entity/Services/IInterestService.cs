@@ -10,5 +10,6 @@ namespace AspNetCore_Social_Entity.Services
     public  interface IInterestService
     {
         Task<string> AddInterest(Interest model);
+        Task<string> DeleteInterest(Interest model);
     }
 }
