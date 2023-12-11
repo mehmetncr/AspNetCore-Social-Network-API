@@ -68,5 +68,13 @@ namespace AspNetCore_Social_API.Controllers
             }
 
         }
+        [HttpGet("PostLike/{postId}")]
+        public async Task<IActionResult> PostLike(int postId)
+        {
+            PostDto post = await _postService.GetPostById(postId);
+            post.PostLikeNumber++;
+            _postService.UpdatePost(post);
+            return Ok(post.PostLikeNumber);
+        }
     }
 }

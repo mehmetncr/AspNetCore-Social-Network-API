@@ -52,7 +52,7 @@ namespace AspNetCore_Social_Service.Services
         {       
 
             var userIdParameter = new SqlParameter("@userId", userId);
-            var postCountParameter = new SqlParameter("@postCount", 10);
+            var postCountParameter = new SqlParameter("@postCount", 100);
 
             using (DbConnection connection = _socialContext.Database.GetDbConnection())
             {
