@@ -24,6 +24,7 @@ namespace AspNetCore_Social_Service.Mapping
 			CreateMap<Comment, NewCommentDto>().ReverseMap();
 			CreateMap<SocialMediaAccount, SocialMediaAccountDto>().ReverseMap();
 			CreateMap<Interest, InterestDto>().ReverseMap();
+			CreateMap<PrivacySettings, PrivacySettingDto>().ReverseMap();
 
 
 		}

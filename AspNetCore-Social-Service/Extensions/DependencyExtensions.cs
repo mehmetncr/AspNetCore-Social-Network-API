@@ -7,6 +7,7 @@ using AspNetCore_Social_Entity.Services;
 using AspNetCore_Social_Entity.UnitOfWorks;
 using AspNetCore_Social_Service.Mapping;
 using AspNetCore_Social_Service.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -40,7 +41,24 @@ namespace AspNetCore_Social_Service.Extensions
 				opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(240); //default 5 dk
 			}
 			).AddEntityFrameworkStores<SocialContext>();
-          
+
+            services.ConfigureApplicationCookie(op =>
+            {
+               
+                op.ExpireTimeSpan = TimeSpan.FromMinutes(100); //cookie ömrü dk
+                                                              //op.AccessDeniedPath = new PathString("yetisi yok sayfası"); // yetkisi olmayinca yönlendirme
+                op.SlidingExpiration = true; //üsstteki 10 dk dolmadan tekar login olursa tekrar süreyi başa alır
+                op.Cookie = new CookieBuilder()
+                {
+                    Name = "IdentityAppCookie", //cookie adı
+                    HttpOnly = false,  //sadece tarayıcıdan girilsin programlar yakalayamayacak
+
+                };
+
+            });
+
+            
+
 
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 			services.AddScoped<IUnitOfWork, UnitOfWork>();

@@ -32,10 +32,10 @@ namespace AspNetCore_Social_DataAccess.Context
 
 		protected override void OnModelCreating(ModelBuilder builder)
 		{
-			builder.Entity<User>()
-				.HasOne(u => u.UserPrivacySettings)
-				.WithOne(p => p.PrivacySettingsUser)
-				.HasForeignKey<PrivacySettings>(p => p.PrivacySettingsUserId);
+			//builder.Entity<User>()
+			//	.HasOne(u => u.UserPrivacySettings)
+			//	.WithOne(p => p.PrivacySettingsUser)
+			//	.HasForeignKey<PrivacySettings>(p => p.PrivacySettingsUserId);
 
 			builder.Entity<Comment>()
 			.HasOne(c => c.CommentUser)

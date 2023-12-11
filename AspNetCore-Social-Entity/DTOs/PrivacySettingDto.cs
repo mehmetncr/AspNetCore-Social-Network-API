@@ -14,6 +14,6 @@ namespace AspNetCore_Social_Entity.DTOs
 		public bool PrivacySettingsFriendRequest { get; set; }
 		public bool PrivacySettingsMessageRequest { get; set; }
 		public bool PrivacySettingsHiddenProfile { get; set; }
-		public virtual UserDto PrivacySettingsUserDto { get; set; }
+
 	}
 }

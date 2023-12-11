@@ -29,10 +29,10 @@ namespace AspNetCore_Social_API.Controllers
             _interestService = interestService;
         }
 
-        [HttpGet]
+        [HttpGet("MyProfile")]
 		public async Task<IActionResult> Get()
 		{
-			return Ok( await _profileService.GetById(Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier))));
+            return Ok( await _profileService.GetById(Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier))));
 		}
 
 		[HttpGet("Images")]
@@ -67,6 +67,7 @@ namespace AspNetCore_Social_API.Controllers
            return Unauthorized();
         }
 		[HttpPost("AddInterest")]
+		[Authorize]
 		public async Task<IActionResult> InterestUpdate([FromBody] string interest)
 		{
 			var userId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));   // app userdan normal usera geçilecek
@@ -84,5 +85,24 @@ namespace AspNetCore_Social_API.Controllers
             }
 			return BadRequest(msg);
 		}
-	}
+        [HttpDelete("DeleteInterest")]
+		
+        public async Task<IActionResult> InterestDelete([FromBody] string interest)
+        {
+            var userId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));   // app userdan normal usera geçilecek
+
+            Interest newInterest = new Interest()
+            {
+                InterestName = interest,
+                UserId = userId
+            };
+
+            string msg = await _interestService.DeleteInterest(newInterest);
+            if (msg == "Ok")
+            {
+                return Ok(await _userService.GetUserById(userId));
+            }
+            return BadRequest(msg);
+        }
+    }
 }

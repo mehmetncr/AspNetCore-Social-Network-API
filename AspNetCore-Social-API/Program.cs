@@ -1,5 +1,6 @@
 using AspNetCore_Social_DataAccess.Context;
 using AspNetCore_Social_Service.Extensions;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,11 +20,8 @@ builder.Services.AddCors(cors => cors.AddDefaultPolicy(cors => cors.AllowAnyOrig
 
     );
 
-builder.Services.ConfigureApplicationCookie(options =>
-{
-    options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
-    options.SlidingExpiration = true;
-});
+
+
 
 
 

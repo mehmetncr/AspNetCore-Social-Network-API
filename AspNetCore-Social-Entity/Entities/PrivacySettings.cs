@@ -13,6 +13,5 @@ namespace AspNetCore_Social_Entity.Entities
         public bool PrivacySettingsFriendRequest { get; set; }
         public bool PrivacySettingsMessageRequest { get; set; }
         public bool PrivacySettingsHiddenProfile { get; set; }
-        public virtual User PrivacySettingsUser { get; set; }
     }
 }
