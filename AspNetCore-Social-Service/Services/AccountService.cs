@@ -106,5 +106,23 @@ namespace AspNetCore_Social_Service.Services
             var appuser = await _userManager.FindByIdAsync(userId.ToString());
 			return appuser.UserId;
         }
+
+		public async Task<string> EditUserPassword(EditPasswordDto model)
+		{
+			AppUser user = await _userManager.FindByIdAsync(model.AppUserId.ToString());
+			if (user != null)
+			{
+				var result = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+				if (result.Succeeded)
+				{
+					return "Ok";
+				}
+				else
+				{
+					return result.Errors.ToString();
+				}
+			}
+			return "WrongUser";
+		}
 	}
 }

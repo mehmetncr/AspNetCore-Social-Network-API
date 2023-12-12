@@ -8,10 +8,9 @@ using System.Threading.Tasks;
 
 namespace AspNetCore_Social_Entity.Services
 {
-    public  interface IInterestService
+    public interface IPrivacySettingsService
     {
-        Task<List<InterestDto>> AddInterest(Interest model);
-        Task<List<InterestDto>> UpdateInterest(Interest model);
-        Task<List<InterestDto>> GetUserInterests(int appUserId);
+        Task<PrivacySettingDto> GetPrivacySettings(int appUserId);
+        Task<PrivacySettingDto> UpdatePrivacySettings(UpdatePrivacySettingsDto setting);
     }
 }

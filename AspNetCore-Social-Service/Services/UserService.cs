@@ -27,7 +27,7 @@ namespace AspNetCore_Social_Service.Services
 
         public async Task<UserDto> GetUserById(int userId)
         {
-            var user = await _uow.GetRepository<User>().Get(x => x.UserId == userId, null, x => x.SocialMediaAccounts, x => x.Interests,x=>x.UserPrivacySettings);
+            var user = await _uow.GetRepository<User>().Get(x => x.UserId == userId, null, x => x.SocialMediaAccounts);
 
 			return  _mapper.Map<UserDto>(user);
 

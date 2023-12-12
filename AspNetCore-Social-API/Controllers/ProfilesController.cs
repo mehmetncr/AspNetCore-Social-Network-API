@@ -22,8 +22,10 @@ namespace AspNetCore_Social_API.Controllers
         private readonly IUserService _userService;
         private readonly IInterestService _interestService;
         private readonly IAccountService _accountService;
+        private readonly IPrivacySettingsService _privacySettingsService;
 
-        public ProfilesController(IProfileService profileService, IPostService postService, IFriendService friendService, IUserService userService, IInterestService interestService, IAccountService accountService)
+
+        public ProfilesController(IProfileService profileService, IPostService postService, IFriendService friendService, IUserService userService, IInterestService interestService, IAccountService accountService, IPrivacySettingsService privacySettingsService)
         {
             _profileService = profileService;
             _postService = postService;
@@ -31,6 +33,7 @@ namespace AspNetCore_Social_API.Controllers
             _userService = userService;
             _interestService = interestService;
             _accountService = accountService;
+            _privacySettingsService = privacySettingsService;
         }
 
         [HttpGet("MyProfile")]
@@ -106,11 +109,23 @@ namespace AspNetCore_Social_API.Controllers
             }
             return BadRequest(msg);
 
-
+        }
+        [HttpGet("GetInterest")]
+        [Authorize]
+        public async Task<IActionResult> GetUserInterest()
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.UserData);
+            if (userIdClaim != null)
+            {
+                int appUserId = Convert.ToInt32(userIdClaim.Value);
+                List<InterestDto> interests = await _interestService.GetUserInterests(appUserId);
+                return Ok(interests);
+            }
+            return BadRequest();
         }
         [HttpPost("AddInterest")]
         [Authorize]
-        public async Task<IActionResult> InterestUpdate([FromBody] string interest)
+        public async Task<IActionResult> AddInterest([FromBody] string interest)
         {
             var userIdClaim = User.FindFirst(ClaimTypes.UserData);
             if (userIdClaim != null)
@@ -121,40 +136,71 @@ namespace AspNetCore_Social_API.Controllers
                     InterestName = interest,
                     UserId = appUserId
                 };
-                string msg = await _interestService.AddInterest(newInterest);
-                if (msg == "Ok")
+                List<InterestDto> interests = await _interestService.AddInterest(newInterest);
+                if (interests.Count() > 0)
                 {
-                    int userId=  await _accountService.GetUserIdByAppUserId(appUserId);
-                    return Ok(await _userService.GetUserById(userId));
+
+                    return Ok(interests);
                 }
-                return BadRequest(msg);
+                List<InterestDto> model = new List<InterestDto>();
+                return BadRequest(model);
             }
             return BadRequest();
         }
-        [HttpDelete("DeleteInterest")]
+        [HttpPut("UpdateInterest")]
         [Authorize]
-
-        public async Task<IActionResult> InterestDelete([FromBody] string interest)
+        public async Task<IActionResult> UpdateInterest([FromBody] string interest)
         {
             var userIdClaim = User.FindFirst(ClaimTypes.UserData);
             if (userIdClaim != null)
             {
                 int appUserId = Convert.ToInt32(userIdClaim.Value);
-                         
+                Interest newInterest = new Interest()
+                {
+                    InterestName = interest,
+                    UserId = appUserId
+                };
 
-            Interest newInterest = new Interest()
-            {
-                InterestName = interest,
-                UserId = appUserId
-            };
+                List<InterestDto> interests = await _interestService.UpdateInterest(newInterest);
+                if (interests.Count() > 0)
+                {
 
-            string msg = await _interestService.DeleteInterest(newInterest);
-            if (msg == "Ok")
-            {
-                int userId = await _accountService.GetUserIdByAppUserId(appUserId);
-                return Ok(await _userService.GetUserById(userId));
+                    return Ok(interests);
+                }
+                List<InterestDto> model = new List<InterestDto>();
+                return BadRequest(model);
             }
-            return BadRequest(msg);
+            return BadRequest();
+        }
+        [HttpGet("UserSettings")]
+        [Authorize]
+        public async Task<IActionResult> GetUserSettings()
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.UserData);
+            if (userIdClaim != null)
+            {
+                int appUserId = Convert.ToInt32(userIdClaim.Value);
+                PrivacySettingDto userSettings = await _privacySettingsService.GetPrivacySettings(appUserId);
+                return Ok(userSettings);
+
+            }
+            return BadRequest();
+        }
+        [HttpPut("UpdateSettigs")]
+        [Authorize]
+        public async Task<IActionResult> UpdateSettigs([FromBody]string settingName)
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.UserData);
+            if (userIdClaim != null)
+            {
+                int appUserId = Convert.ToInt32(userIdClaim.Value);
+                UpdatePrivacySettingsDto setting = new UpdatePrivacySettingsDto()
+                {
+                    AppUserId = appUserId,
+                    SettingName = settingName
+                };
+               PrivacySettingDto updatedSettings =   await _privacySettingsService.UpdatePrivacySettings(setting);
+                return Ok(updatedSettings);
             }
             return BadRequest();
         }
