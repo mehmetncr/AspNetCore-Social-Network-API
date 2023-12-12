@@ -15,14 +15,15 @@ namespace AspNetCore_Social_API.Controllers
     {
         private readonly IPostService _postService;
         private readonly IAccountService _accountService;
+        private readonly ICommentService _commentService;
+		public PostController(IPostService postService, IAccountService accountService, ICommentService commentService)
+		{
+			_postService = postService;
+			_accountService = accountService;
+			_commentService = commentService;
+		}
 
-        public PostController(IPostService postService, IAccountService accountService)
-        {
-            _postService = postService;
-            _accountService = accountService;
-        }
-
-        [HttpPost("AddPost")]
+		[HttpPost("AddPost")]
         [Authorize]
         public async Task<IActionResult> AddPost([FromBody] NewPostDto model)
         {
@@ -47,28 +48,29 @@ namespace AspNetCore_Social_API.Controllers
         }
         [HttpPost("AddComment")]
         [Authorize]
-        public async Task<IActionResult> AddComment([FromBody] NewCommentDto model)
-        {
-            try
-            {
-                var userIdClaim = User.FindFirst(ClaimTypes.UserData);
-                if (userIdClaim != null)
-                {
-                    int appUserId = Convert.ToInt32(userIdClaim.Value);
-                    int userId = await _accountService.GetUserIdByAppUserId(appUserId);
-                    model.CommentUserId = userId;
-                    await _postService.AddComment(model);
-                }
-                return Ok();
-            }
-            catch (Exception)
-            {
-                return BadRequest();
-                throw;
-            }
+		public async Task<IActionResult> AddComment([FromBody] NewCommentDto model)
+		{
+			try
+			{
+				var userIdClaim = User.FindFirst(ClaimTypes.UserData);
+				if (userIdClaim != null)
+				{
+					int appUserId = Convert.ToInt32(userIdClaim.Value);
+					int userId = await _accountService.GetUserIdByAppUserId(appUserId);
+					model.CommentUserId = userId;
+					await _postService.AddComment(model);
+				}
+                var comments = await _commentService.GetCommentsByPostId(model.CommentPostId);
+				return Ok(comments);
+			}
+			catch (Exception)
+			{
+				return BadRequest();
+				// throw; // throw kullanmanız gerekiyorsa ekleyin
+			}
+		}
 
-        }
-        [HttpGet("PostLike/{postId}")]
+		[HttpGet("PostLike/{postId}")]
         public async Task<IActionResult> PostLike(int postId)
         {
             PostDto post = await _postService.GetPostById(postId);
