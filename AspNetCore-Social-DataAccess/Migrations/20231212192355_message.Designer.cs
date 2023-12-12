@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AspNetCore_Social_DataAccess.Migrations
 {
     [DbContext(typeof(SocialContext))]
-    [Migration("20231211140044_init")]
-    partial class init
+    [Migration("20231212192355_message")]
+    partial class message
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -224,6 +224,52 @@ namespace AspNetCore_Social_DataAccess.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Interests");
+                });
+
+            modelBuilder.Entity("AspNetCore_Social_Entity.Entities.Message", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("OwnerUserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Messages");
+                });
+
+            modelBuilder.Entity("AspNetCore_Social_Entity.Entities.MessageDetail", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("MessageContent")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("MessageId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("SendDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MessageId");
+
+                    b.ToTable("MessageDetail");
                 });
 
             modelBuilder.Entity("AspNetCore_Social_Entity.Entities.Notification", b =>
@@ -642,6 +688,28 @@ namespace AspNetCore_Social_DataAccess.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("AspNetCore_Social_Entity.Entities.Message", b =>
+                {
+                    b.HasOne("AspNetCore_Social_Entity.Entities.User", "User")
+                        .WithMany("Messages")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("AspNetCore_Social_Entity.Entities.MessageDetail", b =>
+                {
+                    b.HasOne("AspNetCore_Social_Entity.Entities.Message", "Message")
+                        .WithMany("MessageDetails")
+                        .HasForeignKey("MessageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Message");
+                });
+
             modelBuilder.Entity("AspNetCore_Social_Entity.Entities.Notification", b =>
                 {
                     b.HasOne("AspNetCore_Social_Entity.Entities.User", null)
@@ -763,6 +831,11 @@ namespace AspNetCore_Social_DataAccess.Migrations
                     b.Navigation("ReplyComments");
                 });
 
+            modelBuilder.Entity("AspNetCore_Social_Entity.Entities.Message", b =>
+                {
+                    b.Navigation("MessageDetails");
+                });
+
             modelBuilder.Entity("AspNetCore_Social_Entity.Entities.Post", b =>
                 {
                     b.Navigation("Comments");
@@ -779,6 +852,8 @@ namespace AspNetCore_Social_DataAccess.Migrations
                     b.Navigation("Friends");
 
                     b.Navigation("Interests");
+
+                    b.Navigation("Messages");
 
                     b.Navigation("Notification");
 

@@ -124,5 +124,40 @@ namespace AspNetCore_Social_Service.Services
 			}
 			return "WrongUser";
 		}
-	}
+
+        public async Task<string> ResetUSerPasswordCode(string email)
+        {
+			string msg = string.Empty;
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user != null) 
+            {
+
+                 string Token = await _userManager.GeneratePasswordResetTokenAsync(user);  //doğrulamak için bir token oluşturulur             
+
+
+                return Token;
+            }
+			msg = "Not Found";
+			return msg;
+        }
+
+		public async Task<string> ResetPassword(ResetPasswordDto model)
+		{
+			var user = await _userManager.FindByEmailAsync(model.Email);
+			if (user != null)
+			{
+				var result = await _userManager.ResetPasswordAsync(user, model.ReqToken, model.Password);
+				if (result.Succeeded)
+				{
+					return "Ok";
+				}
+				else
+				{
+                    return result.Errors.ToString();
+                }
+				
+			}
+			return string.Empty;
+		}
+    }
 }
