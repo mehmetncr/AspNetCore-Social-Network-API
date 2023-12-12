@@ -101,6 +101,7 @@ namespace AspNetCore_Social_Service.Extensions
 			services.AddScoped<IUserService, UserService>();
 			services.AddScoped<IInterestService,InterestService>();
 			services.AddScoped<IAuthService,AuthService>();
+            services.AddScoped<IPrivacySettingsService, PrivacySettingsService>();
 
 
 		}

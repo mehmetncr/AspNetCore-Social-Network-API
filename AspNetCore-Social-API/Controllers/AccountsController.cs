@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
+using System.Diagnostics.Contracts;
 
 namespace AspNetCore_Social_API.Controllers
 {
@@ -50,7 +52,26 @@ namespace AspNetCore_Social_API.Controllers
 			await _accountService.LogoutAsync();
 			return Ok();
 		}
-
-
+		[HttpPut("EditPassword")]
+		[Authorize]
+		public async Task<IActionResult> EditPassword([FromBody] EditPasswordDto model)
+		{
+			var userIdClaim = User.FindFirst(ClaimTypes.UserData);
+			if (userIdClaim != null)
+			{
+				int appUserId = Convert.ToInt32(userIdClaim.Value);
+				model.AppUserId = appUserId;
+				string msg = await _accountService.EditUserPassword(model);
+				if (msg == "Ok")
+				{
+					return Ok();
+				}
+				else if (msg == "WrongUser")
+				{
+					return NotFound();
+				}
+			}
+			return BadRequest();
+		}
 	}
 }

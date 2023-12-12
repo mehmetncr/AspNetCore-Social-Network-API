@@ -14,6 +14,7 @@ namespace AspNetCore_Social_Entity.Services
 		Task<UserDto> Login(LoginDto model);
 		Task LogoutAsync();
 		Task<int> GetUserIdByAppUserId(int userId);
+		Task<string> EditUserPassword(EditPasswordDto model);
 
     }
 }
