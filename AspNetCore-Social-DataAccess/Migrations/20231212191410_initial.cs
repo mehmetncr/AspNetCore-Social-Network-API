@@ -54,36 +54,19 @@ namespace AspNetCore_Social_DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Users",
+                name: "PrivacySettings",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(type: "int", nullable: false)
+                    PrivacySettingsId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserFirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserLastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserBirthDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UserGender = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserProfilePicture = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserCoverPicture = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserBiography = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserLocation = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserFollowerCount = table.Column<int>(type: "int", nullable: true),
-                    UserFollowingCount = table.Column<int>(type: "int", nullable: true),
-                    UserCreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UserPhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserWebsite = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserJobInfo = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserEducationInfo = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserLanguage1 = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserLanguage2 = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserLanguage3 = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserIsOnline = table.Column<bool>(type: "bit", nullable: false),
-                    UserLastLogin = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UserPrivacySettingsId = table.Column<int>(type: "int", nullable: true)
+                    PrivacySettingsUserId = table.Column<int>(type: "int", nullable: false),
+                    PrivacySettingsFriendRequest = table.Column<bool>(type: "bit", nullable: false),
+                    PrivacySettingsMessageRequest = table.Column<bool>(type: "bit", nullable: false),
+                    PrivacySettingsHiddenProfile = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.UserId);
+                    table.PrimaryKey("PK_PrivacySettings", x => x.PrivacySettingsId);
                 });
 
             migrationBuilder.CreateTable(
@@ -193,6 +176,45 @@ namespace AspNetCore_Social_DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    UserId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserFirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserLastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserEmail = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserBirthDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UserGender = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserProfilePicture = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserCoverPicture = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserBiography = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserLocation = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserFollowerCount = table.Column<int>(type: "int", nullable: true),
+                    UserFollowingCount = table.Column<int>(type: "int", nullable: true),
+                    UserCreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UserPhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserWebsite = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserJobInfo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserEducationInfo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserLanguage1 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserLanguage2 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserLanguage3 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserIsOnline = table.Column<bool>(type: "bit", nullable: false),
+                    UserLastLogin = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UserPrivacySettingsId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.UserId);
+                    table.ForeignKey(
+                        name: "FK_Users_PrivacySettings_UserPrivacySettingsId",
+                        column: x => x.UserPrivacySettingsId,
+                        principalTable: "PrivacySettings",
+                        principalColumn: "PrivacySettingsId");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "FriendRequest",
                 columns: table => new
                 {
@@ -254,6 +276,26 @@ namespace AspNetCore_Social_DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Messages",
+                columns: table => new
+                {
+                    MessageId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    OwnerUserId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Messages", x => x.MessageId);
+                    table.ForeignKey(
+                        name: "FK_Messages_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Notifications",
                 columns: table => new
                 {
@@ -304,28 +346,6 @@ namespace AspNetCore_Social_DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PrivacySettings",
-                columns: table => new
-                {
-                    PrivacySettingsId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    PrivacySettingsUserId = table.Column<int>(type: "int", nullable: false),
-                    PrivacySettingsFriendRequest = table.Column<bool>(type: "bit", nullable: false),
-                    PrivacySettingsMessageRequest = table.Column<bool>(type: "bit", nullable: false),
-                    PrivacySettingsHiddenProfile = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PrivacySettings", x => x.PrivacySettingsId);
-                    table.ForeignKey(
-                        name: "FK_PrivacySettings_Users_PrivacySettingsUserId",
-                        column: x => x.PrivacySettingsUserId,
-                        principalTable: "Users",
-                        principalColumn: "UserId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "SocialMediaAccounts",
                 columns: table => new
                 {
@@ -364,6 +384,27 @@ namespace AspNetCore_Social_DataAccess.Migrations
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MessageDetail",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SendDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    MessageContent = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MessageId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MessageDetail", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MessageDetail_Messages_MessageId",
+                        column: x => x.MessageId,
+                        principalTable: "Messages",
+                        principalColumn: "MessageId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -486,6 +527,16 @@ namespace AspNetCore_Social_DataAccess.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_MessageDetail_MessageId",
+                table: "MessageDetail",
+                column: "MessageId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Messages_UserId",
+                table: "Messages",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Notifications_UserId",
                 table: "Notifications",
                 column: "UserId");
@@ -494,12 +545,6 @@ namespace AspNetCore_Social_DataAccess.Migrations
                 name: "IX_Posts_PostUserId",
                 table: "Posts",
                 column: "PostUserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PrivacySettings_PrivacySettingsUserId",
-                table: "PrivacySettings",
-                column: "PrivacySettingsUserId",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_ReplyComments_ReplyCommentCommentId",
@@ -520,6 +565,11 @@ namespace AspNetCore_Social_DataAccess.Migrations
                 name: "IX_UserActivities_UserId",
                 table: "UserActivities",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_UserPrivacySettingsId",
+                table: "Users",
+                column: "UserPrivacySettingsId");
         }
 
         /// <inheritdoc />
@@ -550,10 +600,10 @@ namespace AspNetCore_Social_DataAccess.Migrations
                 name: "Interests");
 
             migrationBuilder.DropTable(
-                name: "Notifications");
+                name: "MessageDetail");
 
             migrationBuilder.DropTable(
-                name: "PrivacySettings");
+                name: "Notifications");
 
             migrationBuilder.DropTable(
                 name: "ReplyComments");
@@ -571,6 +621,9 @@ namespace AspNetCore_Social_DataAccess.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
+                name: "Messages");
+
+            migrationBuilder.DropTable(
                 name: "Comments");
 
             migrationBuilder.DropTable(
@@ -578,6 +631,9 @@ namespace AspNetCore_Social_DataAccess.Migrations
 
             migrationBuilder.DropTable(
                 name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "PrivacySettings");
         }
     }
 }

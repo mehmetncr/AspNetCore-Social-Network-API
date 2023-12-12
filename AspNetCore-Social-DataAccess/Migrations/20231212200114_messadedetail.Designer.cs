@@ -4,6 +4,7 @@ using AspNetCore_Social_DataAccess.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AspNetCore_Social_DataAccess.Migrations
 {
     [DbContext(typeof(SocialContext))]
-    partial class SocialContextModelSnapshot : ModelSnapshot
+    [Migration("20231212200114_messadedetail")]
+    partial class messadedetail
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -257,9 +260,6 @@ namespace AspNetCore_Social_DataAccess.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("MessageId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("OwnerUserId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("SendDate")

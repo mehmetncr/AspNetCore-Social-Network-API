@@ -73,5 +73,23 @@ namespace AspNetCore_Social_API.Controllers
 			}
 			return BadRequest();
 		}
-	}
+		[HttpPost("ResetPasswordCode")]
+		public async Task<IActionResult> ResetPasswordCode([FromBody]string email)
+		{
+			string token = await _accountService.ResetUSerPasswordCode(email);
+			return Ok(token);
+        }
+        [HttpPut("ResetPassword")]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDto model)
+        {
+			string msg = await _accountService.ResetPassword(model);
+			if (msg=="Ok")
+			{
+				return Ok();
+			}
+
+            return BadRequest(msg);
+        }
+
+    }
 }

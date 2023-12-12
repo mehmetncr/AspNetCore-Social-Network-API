@@ -9,6 +9,7 @@ using AspNetCore_Social_Service.Mapping;
 using AspNetCore_Social_Service.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -21,10 +22,10 @@ using System.Threading.Tasks;
 
 namespace AspNetCore_Social_Service.Extensions
 {
-	public static class DependencyExtensions
-	{
-		public static void AddExtensions(this IServiceCollection services, IConfiguration configuration)
-		{
+    public static class DependencyExtensions
+    {
+        public static void AddExtensions(this IServiceCollection services, IConfiguration configuration)
+        {
             var jwtDefaults = configuration.GetSection("JwtDefaults");  //appsetting deki jwt verilerini almak için
             var secretKey = jwtDefaults["secretKey"]; //içinden secretKey i almak için
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
@@ -58,7 +59,8 @@ namespace AspNetCore_Social_Service.Extensions
                 options.Lockout.MaxFailedAccessAttempts = 3;  //3 yanlış denemeden sonra girişi altaki süre kadar durdur
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1);  // üstteki sayı kadaryanlış girişten sonra 1 dk girişi engeller
 
-            }).AddEntityFrameworkStores<SocialContext>();
+            }).AddEntityFrameworkStores<SocialContext>()
+                    .AddDefaultTokenProviders();
 
 
 
@@ -73,9 +75,9 @@ namespace AspNetCore_Social_Service.Extensions
 
             services.ConfigureApplicationCookie(op =>
             {
-               
+
                 op.ExpireTimeSpan = TimeSpan.FromMinutes(100); //cookie ömrü dk
-                                                              //op.AccessDeniedPath = new PathString("yetisi yok sayfası"); // yetkisi olmayinca yönlendirme
+                                                               //op.AccessDeniedPath = new PathString("yetisi yok sayfası"); // yetkisi olmayinca yönlendirme
                 op.SlidingExpiration = true; //üsstteki 10 dk dolmadan tekar login olursa tekrar süreyi başa alır
                 op.Cookie = new CookieBuilder()
                 {
@@ -85,25 +87,26 @@ namespace AspNetCore_Social_Service.Extensions
                 };
 
             });
-           
+
 
 
 
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-			services.AddScoped<IUnitOfWork, UnitOfWork>();
-			services.AddScoped<IAccountService, AccountService>();
-			services.AddAutoMapper(typeof(MappingProfile));
-			services.AddScoped<IProfileService, ProfileService>();
-			services.AddScoped<IPostService, PostService>();
-			services.AddScoped<IHomeService, HomeService>();
-			services.AddScoped<IFriendService, FriendService>();
-			services.AddScoped<IReplyCommentService, ReplyCommentService>();
-			services.AddScoped<IUserService, UserService>();
-			services.AddScoped<IInterestService,InterestService>();
-			services.AddScoped<IAuthService,AuthService>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IAccountService, AccountService>();
+            services.AddAutoMapper(typeof(MappingProfile));
+            services.AddScoped<IProfileService, ProfileService>();
+            services.AddScoped<IPostService, PostService>();
+            services.AddScoped<IHomeService, HomeService>();
+            services.AddScoped<IFriendService, FriendService>();
+            services.AddScoped<IReplyCommentService, ReplyCommentService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IInterestService, InterestService>();
+            services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IPrivacySettingsService, PrivacySettingsService>();
+            services.AddScoped<IMessageService,MessageService>();
 
 
-		}
-	}
+        }
+    }
 }

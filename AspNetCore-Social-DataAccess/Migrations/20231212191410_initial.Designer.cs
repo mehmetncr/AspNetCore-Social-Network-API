@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AspNetCore_Social_DataAccess.Migrations
 {
     [DbContext(typeof(SocialContext))]
-    [Migration("20231210130830_initial")]
+    [Migration("20231212191410_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -226,6 +226,52 @@ namespace AspNetCore_Social_DataAccess.Migrations
                     b.ToTable("Interests");
                 });
 
+            modelBuilder.Entity("AspNetCore_Social_Entity.Entities.Message", b =>
+                {
+                    b.Property<int>("MessageId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MessageId"));
+
+                    b.Property<int>("OwnerUserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("MessageId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Messages");
+                });
+
+            modelBuilder.Entity("AspNetCore_Social_Entity.Entities.MessageDetail", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("MessageContent")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("MessageId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("SendDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MessageId");
+
+                    b.ToTable("MessageDetail");
+                });
+
             modelBuilder.Entity("AspNetCore_Social_Entity.Entities.Notification", b =>
                 {
                     b.Property<int>("NotificationId")
@@ -323,9 +369,6 @@ namespace AspNetCore_Social_DataAccess.Migrations
 
                     b.HasKey("PrivacySettingsId");
 
-                    b.HasIndex("PrivacySettingsUserId")
-                        .IsUnique();
-
                     b.ToTable("PrivacySettings");
                 });
 
@@ -408,6 +451,10 @@ namespace AspNetCore_Social_DataAccess.Migrations
                     b.Property<string>("UserEducationInfo")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UserEmail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("UserFirstName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -459,6 +506,8 @@ namespace AspNetCore_Social_DataAccess.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("UserId");
+
+                    b.HasIndex("UserPrivacySettingsId");
 
                     b.ToTable("Users");
                 });
@@ -639,6 +688,28 @@ namespace AspNetCore_Social_DataAccess.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("AspNetCore_Social_Entity.Entities.Message", b =>
+                {
+                    b.HasOne("AspNetCore_Social_Entity.Entities.User", "User")
+                        .WithMany("Messages")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("AspNetCore_Social_Entity.Entities.MessageDetail", b =>
+                {
+                    b.HasOne("AspNetCore_Social_Entity.Entities.Message", "Message")
+                        .WithMany("MessageDetails")
+                        .HasForeignKey("MessageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Message");
+                });
+
             modelBuilder.Entity("AspNetCore_Social_Entity.Entities.Notification", b =>
                 {
                     b.HasOne("AspNetCore_Social_Entity.Entities.User", null)
@@ -657,17 +728,6 @@ namespace AspNetCore_Social_DataAccess.Migrations
                         .IsRequired();
 
                     b.Navigation("PostUser");
-                });
-
-            modelBuilder.Entity("AspNetCore_Social_Entity.Entities.PrivacySettings", b =>
-                {
-                    b.HasOne("AspNetCore_Social_Entity.Entities.User", "PrivacySettingsUser")
-                        .WithOne("UserPrivacySettings")
-                        .HasForeignKey("AspNetCore_Social_Entity.Entities.PrivacySettings", "PrivacySettingsUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("PrivacySettingsUser");
                 });
 
             modelBuilder.Entity("AspNetCore_Social_Entity.Entities.ReplyComment", b =>
@@ -695,6 +755,15 @@ namespace AspNetCore_Social_DataAccess.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("AspNetCore_Social_Entity.Entities.User", b =>
+                {
+                    b.HasOne("AspNetCore_Social_Entity.Entities.PrivacySettings", "UserPrivacySettings")
+                        .WithMany()
+                        .HasForeignKey("UserPrivacySettingsId");
+
+                    b.Navigation("UserPrivacySettings");
                 });
 
             modelBuilder.Entity("AspNetCore_Social_Entity.Entities.UserActivity", b =>
@@ -762,6 +831,11 @@ namespace AspNetCore_Social_DataAccess.Migrations
                     b.Navigation("ReplyComments");
                 });
 
+            modelBuilder.Entity("AspNetCore_Social_Entity.Entities.Message", b =>
+                {
+                    b.Navigation("MessageDetails");
+                });
+
             modelBuilder.Entity("AspNetCore_Social_Entity.Entities.Post", b =>
                 {
                     b.Navigation("Comments");
@@ -779,6 +853,8 @@ namespace AspNetCore_Social_DataAccess.Migrations
 
                     b.Navigation("Interests");
 
+                    b.Navigation("Messages");
+
                     b.Navigation("Notification");
 
                     b.Navigation("Posts");
@@ -786,9 +862,6 @@ namespace AspNetCore_Social_DataAccess.Migrations
                     b.Navigation("ReplyComments");
 
                     b.Navigation("SocialMediaAccounts");
-
-                    b.Navigation("UserPrivacySettings")
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
