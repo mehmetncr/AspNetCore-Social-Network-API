@@ -118,6 +118,7 @@ namespace AspNetCore_Social_Service.Services
                                         CommentUserId = reader.IsDBNull("CommentUserId") ? default(int) : reader.GetInt32("CommentUserId"),
                                         CommentContent = reader.IsDBNull("CommentContent") ? string.Empty : reader.GetString("CommentContent"),
                                         CommentDate = reader.IsDBNull("CommentDate") ? default(DateTime) : reader.GetDateTime("CommentDate"),
+                                        CommentPostId = reader.IsDBNull("CommentPostId") ? default(int) : reader.GetInt32("CommentPostId"),
                                         CommentUser = FillUserCommentDetails(reader, "CommentUserId"),
                                         ReplyComments = new List<ReplyCommentDto>() // Initialize the ReplyComments list
                                     };
