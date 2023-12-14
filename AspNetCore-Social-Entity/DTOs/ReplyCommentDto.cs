@@ -14,11 +14,11 @@ namespace AspNetCore_Social_Entity.DTOs
 		public string ReplyCommentContent { get; set; }
 
 
-		public int ReplyCommentUserDtoId { get; set; }
-		public virtual UserDto ReplyCommentUserDto { get; set; }
+		public int ReplyCommentUserId { get; set; }
+		public virtual UserDto ReplyCommentUser { get; set; }
 
-		public int ReplyCommentCommentDtoId { get; set; }
-		public virtual CommentDto ReplyCommentCommentDto { get; set; }
+		public int ReplyCommentCommentId { get; set; }
+		public virtual CommentDto ReplyCommentComment { get; set; }
 
 	}
 }

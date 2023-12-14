@@ -39,7 +39,21 @@ namespace AspNetCore_Social_Service.Services
 				CommentId = x.CommentId,
 				CommentPostId = x.CommentPostId,
 				CommentUserId = x.CommentUserId,
-				ReplyComments = x.ReplyComments.Where(r=>r.ReplyCommentCommentId == x.CommentId).ToList(),
+				ReplyComments = x.ReplyComments.Where(r=>r.ReplyCommentCommentId == x.CommentId).Select(rc => new ReplyComment
+				{
+					ReplyCommentUser = new User
+					{
+                        UserFirstName = rc.ReplyCommentUser.UserFirstName,
+                        UserLastName = rc.ReplyCommentUser.UserLastName,
+                        UserId = rc.ReplyCommentUser.UserId,
+                        UserProfilePicture = rc.ReplyCommentUser.UserProfilePicture
+                    },
+					ReplyCommentContent = rc.ReplyCommentContent,
+					ReplyCommentDate = rc.ReplyCommentDate,
+					ReplyCommentId = rc.ReplyCommentId,
+					ReplyCommentCommentId = rc.ReplyCommentCommentId,
+					ReplyCommentUserId = rc.ReplyCommentUserId,
+				}).ToList(),
 				
 			}).ToList();
 			return _mapper.Map<List<CommentDto>>(comments);

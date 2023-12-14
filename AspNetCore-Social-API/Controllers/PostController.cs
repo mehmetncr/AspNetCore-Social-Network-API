@@ -16,14 +16,16 @@ namespace AspNetCore_Social_API.Controllers
         private readonly IPostService _postService;
         private readonly IAccountService _accountService;
         private readonly ICommentService _commentService;
-		public PostController(IPostService postService, IAccountService accountService, ICommentService commentService)
-		{
-			_postService = postService;
-			_accountService = accountService;
-			_commentService = commentService;
-		}
+        private readonly IReplyCommentService _replyCommentService;
+        public PostController(IPostService postService, IAccountService accountService, ICommentService commentService, IReplyCommentService replyCommentService)
+        {
+            _postService = postService;
+            _accountService = accountService;
+            _commentService = commentService;
+            _replyCommentService = replyCommentService;
+        }
 
-		[HttpPost("AddPost")]
+        [HttpPost("AddPost")]
         [Authorize]
         public async Task<IActionResult> AddPost([FromBody] NewPostDto model)
         {
@@ -48,7 +50,7 @@ namespace AspNetCore_Social_API.Controllers
         }
         [HttpPost("AddComment")]
         [Authorize]
-		public async Task<IActionResult> AddComment([FromBody] NewCommentDto model)
+		public async Task<IActionResult> AddComment([FromBody] NewCommentAndReplyDto model)
 		{
 			try
 			{
@@ -57,11 +59,27 @@ namespace AspNetCore_Social_API.Controllers
 				{
 					int appUserId = Convert.ToInt32(userIdClaim.Value);
 					int userId = await _accountService.GetUserIdByAppUserId(appUserId);
-					model.CommentUserId = userId;
-					await _postService.AddComment(model);
+                    if (model.CommentModel != null)
+                    {
+                        model.CommentModel.CommentUserId = userId;
+                        await _postService.AddComment(model.CommentModel);
+                    }
+                    if (model.ReplyModel != null)
+                    {
+                        model.ReplyModel.ReplyCommentUserId = userId;
+                        await _replyCommentService.AddReplyComment(model.ReplyModel);
+                    }
 				}
-                var comments = await _commentService.GetCommentsByPostId(model.CommentPostId);
-				return Ok(comments);
+                if (model.CommentModel != null && model.CommentModel.CommentPostId != 0)
+                {
+                    var comments = await _commentService.GetCommentsByPostId(model.CommentModel.CommentPostId);
+                    return Ok(comments);
+                }
+                else
+                {
+                    var comments = await _commentService.GetCommentsByPostId(model.ReplyModel.PostId);
+                    return Ok(comments);
+                }
 			}
 			catch (Exception)
 			{
