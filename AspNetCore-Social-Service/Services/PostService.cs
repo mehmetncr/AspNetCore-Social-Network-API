@@ -137,10 +137,10 @@ namespace AspNetCore_Social_Service.Services
                                     ReplyCommentDto replyComment = new ReplyCommentDto
                                     {
                                         ReplyCommentId = replyCommentId,
-                                        ReplyCommentUserDtoId = reader.IsDBNull("ReplyCommentUserId") ? default(int) : reader.GetInt32("ReplyCommentUserId"),
+                                        ReplyCommentUserId = reader.IsDBNull("ReplyCommentUserId") ? default(int) : reader.GetInt32("ReplyCommentUserId"),
                                         ReplyCommentContent = reader.IsDBNull("ReplyCommentContent") ? string.Empty : reader.GetString("ReplyCommentContent"),
                                         ReplyCommentDate = reader.IsDBNull("ReplyCommentDate") ? default(DateTime) : reader.GetDateTime("ReplyCommentDate"),
-                                        ReplyCommentUserDto = FillUserReplyCommentDetails(reader, "ReplyCommentUserId"),
+                                        ReplyCommentUser = FillUserReplyCommentDetails(reader, "ReplyCommentUserId"),
                                     };
 
                                     existingCommentt.ReplyComments.Add(replyComment);
