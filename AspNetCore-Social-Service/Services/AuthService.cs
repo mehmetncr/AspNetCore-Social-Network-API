@@ -36,7 +36,9 @@ namespace AspNetCore_Social_Service.Services
             List<Claim> claims = new List<Claim>
             {
               new Claim(ClaimTypes.UserData, userId),
+              new Claim(ClaimTypes.Name, userId),
               new Claim("sub", userId), // "sub" claim'i genellikle kullanıcı ID'sini temsil eder
+
              };
 
 

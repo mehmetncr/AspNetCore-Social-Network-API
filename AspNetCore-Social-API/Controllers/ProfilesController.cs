@@ -59,7 +59,7 @@ namespace AspNetCore_Social_API.Controllers
             if (userIdClaim != null)
             {
                 int userId = Convert.ToInt32(userIdClaim.Value);
-                List<PostDto> posts = await _profileService.GetImagesByUserId(userId);
+                List<PostDto> posts = await _profileService.GetImagesByUserId(userId,false);
                 return Ok(posts);
             }
             return BadRequest();
@@ -73,7 +73,7 @@ namespace AspNetCore_Social_API.Controllers
             if (userIdClaim != null)
             {
                 int userId = Convert.ToInt32(userIdClaim.Value);
-                List<PostDto> posts = await _profileService.GetVideosByUserId(userId);
+                List<PostDto> posts = await _profileService.GetVideosByUserId(userId,false);
                 return Ok(posts);
             }
             return BadRequest();
@@ -203,6 +203,54 @@ namespace AspNetCore_Social_API.Controllers
                 return Ok(updatedSettings);
             }
             return BadRequest();
+        }
+        [HttpGet("GetOtherProfile/{id}")]
+        [Authorize]
+        public async Task<IActionResult> GetOtherProfile(int id)  //userId geliyor appUser değil!
+        {
+            var user =  await _profileService.OtherProfile(id);
+            if (user != null)
+            {
+                return Ok(user);
+            }
+            return BadRequest();
+            
+        }
+        [HttpGet("GetOtherPhotos/{id}")]
+        [Authorize]
+        public async Task<IActionResult> GetOtherPhotos(int id)  //userId geliyor appUser değil!
+        {
+            List<PostDto> posts = await _profileService.GetImagesByUserId(id, true);
+            if (posts != null)
+            {
+                return Ok(posts);
+            }
+            return BadRequest();
+
+        }
+        [HttpGet("GetOtherVideos/{id}")]
+        [Authorize]
+        public async Task<IActionResult> GetOtherVideos(int id)  //userId geliyor appUser değil!
+        {
+            List<PostDto> posts = await _profileService.GetVideosByUserId(id,true);           
+            if (posts != null)
+            {
+                return Ok(posts);
+            }
+            return BadRequest();
+
+        }
+        [HttpGet("GetOtherFriends/{id}")]
+        [Authorize]
+        public async Task<IActionResult> GetOtherFriends(int id)  //userId geliyor appUser değil!
+        {
+            List<FriendsDto> friends = await _friendService.GetFriends(id);
+            if (friends != null)
+            {
+                return Ok(friends);
+            }
+            return BadRequest();
+
         }
     }
 }
