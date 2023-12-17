@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using System.Diagnostics.Contracts;
+using AspNetCore_Social_DataAccess.Identity;
 
 namespace AspNetCore_Social_API.Controllers
 {
@@ -40,9 +41,10 @@ namespace AspNetCore_Social_API.Controllers
 		public async Task<IActionResult> Login([FromBody] LoginDto model)
 		{           
             var user = await _accountService.Login(model);
-			if (user == null)
+            if (user == null)
 			{
-				return NotFound("Kullanıcı adı veya şifre hatalı!");
+               
+                return NotFound("Kullanıcı adı veya şifre hatalı!");
 			}
 			return Ok(user);
 		}

@@ -5,10 +5,12 @@ using AspNetCore_Social_Entity.Services;
 using AspNetCore_Social_Entity.UnitOfWorks;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace AspNetCore_Social_Service.Services
@@ -88,11 +90,11 @@ namespace AspNetCore_Social_Service.Services
 			if (appuser != null)
 			{
 				var signInResult = await _signInManager.PasswordSignInAsync(appuser, model.Password, model.RememberMe, false);
-				if (signInResult.Succeeded)
-				{
+                if (signInResult.Succeeded)
+                {
 
-					
-					UserDto user = await _userService.GetUserById(appuser.UserId);
+                
+                    UserDto user = await _userService.GetUserById(appuser.UserId);
 					user.AccessToken= _authService.GenereteToken(appuser.UserId.ToString());
 					return user;
 

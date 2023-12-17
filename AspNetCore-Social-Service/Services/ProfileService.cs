@@ -42,17 +42,35 @@ namespace AspNetCore_Social_Service.Services
             };
             return profile;
         }
-        public async Task<List<PostDto>> GetImagesByUserId(int userId)
+        public async Task<List<PostDto>> GetImagesByUserId(int userId, bool? other)
         {
-            int id = await _accountService.GetUserIdByAppUserId(userId);
-            List<PostDto> posts = await _postService.GetPosts(id, "sp_DinamikSorguProfil");
-            return posts.Where(x => x.PostType == "Image").ToList();
+            if (other==true)
+            {
+                List<PostDto> posts = await _postService.GetPosts(userId, "sp_DinamikSorguProfil");
+                return posts.Where(x => x.PostType == "Image").ToList();
+            }
+            else
+            {
+                int id = await _accountService.GetUserIdByAppUserId(userId);
+                List<PostDto> posts = await _postService.GetPosts(id, "sp_DinamikSorguProfil");
+                return posts.Where(x => x.PostType == "Image").ToList();
+            }
+            
         }
-        public async Task<List<PostDto>> GetVideosByUserId(int userId)
+        public async Task<List<PostDto>> GetVideosByUserId(int userId, bool? other)
         {
-            int id = await _accountService.GetUserIdByAppUserId(userId);
-            List<PostDto> posts = await _postService.GetPosts(id, "sp_DinamikSorguProfil");
-            return posts.Where(x => x.PostType == "Video" || x.PostType == "Youtube").ToList();
+            if (other == true)
+            {
+                List<PostDto> posts = await _postService.GetPosts(userId, "sp_DinamikSorguProfil");
+                return posts.Where(x => x.PostType == "Video" || x.PostType == "Youtube").ToList();
+            }
+            else
+            {
+                int id = await _accountService.GetUserIdByAppUserId(userId);
+                List<PostDto> posts = await _postService.GetPosts(id, "sp_DinamikSorguProfil");
+                return posts.Where(x => x.PostType == "Video" || x.PostType == "Youtube").ToList();
+            }
+                
         }
         public async Task<ProfileFriendsDto> GetFriendsByUserId(int userId)
         {
@@ -66,6 +84,14 @@ namespace AspNetCore_Social_Service.Services
             };
 
             return friendsandreq;
+        }
+        public async Task<UserDto> OtherProfile(int userId)
+        {
+           var user=  await _uow.GetRepository<User>().Get(x => x.UserId == userId);
+            List<PostDto> posts = await _postService.GetPosts(userId, "sp_DinamikSorguProfil");          
+            UserDto mappedUser = _mapper.Map<UserDto>(user);
+            mappedUser.Posts = posts;
+            return mappedUser;
         }
     }
 }
