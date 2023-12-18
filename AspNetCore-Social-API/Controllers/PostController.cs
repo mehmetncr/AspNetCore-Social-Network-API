@@ -96,5 +96,13 @@ namespace AspNetCore_Social_API.Controllers
             _postService.UpdatePost(post);
             return Ok(post.PostLikeNumber);
         }
+        [HttpGet("PostTakeBackLike/{postId}")]
+        public async Task<IActionResult> PostTakeBackLike(int postId)
+        {
+            PostDto post = await _postService.GetPostById(postId);
+            post.PostLikeNumber--;
+            _postService.UpdatePost(post);
+            return Ok(post.PostLikeNumber);
+        }
     }
 }
