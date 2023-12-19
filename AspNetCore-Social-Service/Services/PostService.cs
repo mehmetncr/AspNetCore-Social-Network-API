@@ -164,6 +164,7 @@ namespace AspNetCore_Social_Service.Services
                                     UserFirstName = reader.IsDBNull("PostUserFirstName") ? string.Empty : reader.GetString("PostUserFirstName"),
                                     UserLastName = reader.IsDBNull("PostUserLastName") ? string.Empty : reader.GetString("PostUserLastName"),
                                     UserProfilePicture = reader.IsDBNull("PostUserProfilePicture") ? string.Empty : reader.GetString("PostUserProfilePicture"),
+                                    UserCoverPicture = reader.IsDBNull("PostUserCoverPicture") ? string.Empty : reader.GetString("PostUserCoverPicture"),
                                     // Diğer özellikleri ekleyebilirsiniz.
                                 };
 

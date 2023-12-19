@@ -72,10 +72,9 @@ namespace AspNetCore_Social_Service.Services
             }
                 
         }
-        public async Task<ProfileFriendsDto> GetFriendsByUserId(int userId)
+        public async Task<ProfileFriendsDto> GetFriendsByUserId(int userId)  
         {
-            int id = await _accountService.GetUserIdByAppUserId(userId);
-
+            int id = await _accountService.GetUserIdByAppUserId(userId);           
             ProfileFriendsDto friendsandreq = new ProfileFriendsDto()
             {
                 friends = await _friendService.GetFriends(id),
@@ -87,7 +86,7 @@ namespace AspNetCore_Social_Service.Services
         }
         public async Task<UserDto> OtherProfile(int userId)
         {
-           var user=  await _uow.GetRepository<User>().Get(x => x.UserId == userId);
+           var user=  await _uow.GetRepository<User>().Get(x => x.UserId == userId, null, x=>x.SocialMediaAccounts);
             List<PostDto> posts = await _postService.GetPosts(userId, "sp_DinamikSorguProfil");          
             UserDto mappedUser = _mapper.Map<UserDto>(user);
             mappedUser.Posts = posts;

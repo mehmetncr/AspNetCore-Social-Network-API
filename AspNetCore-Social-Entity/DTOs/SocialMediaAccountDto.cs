@@ -10,9 +10,9 @@ namespace AspNetCore_Social_Entity.DTOs
 	public class SocialMediaAccountDto
 	{
 		public int SocialMediaAccountId { get; set; }
-		public int SocialMediaAccountUserDtoId { get; set; }
+		public int SocialMediaAccountUserId { get; set; }
 		public string SocialMediaAccountName { get; set; }
 		public string SocialMediaAccountUrl { get; set; }
-		public virtual UserDto SocialMediaAccountUserDto { get; set; }
+
 	}
 }

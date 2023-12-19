@@ -220,10 +220,10 @@ namespace AspNetCore_Social_API.Controllers
         [Authorize]
         public async Task<IActionResult> GetOtherPhotos(int id)  //userId geliyor appUser değil!
         {
-            List<PostDto> posts = await _profileService.GetImagesByUserId(id, true);
-            if (posts != null)
+            UserDto user = await _userService.GetOtherUser(id);
+            if (user != null)
             {
-                return Ok(posts);
+                return Ok(user);
             }
             return BadRequest();
 
@@ -232,10 +232,10 @@ namespace AspNetCore_Social_API.Controllers
         [Authorize]
         public async Task<IActionResult> GetOtherVideos(int id)  //userId geliyor appUser değil!
         {
-            List<PostDto> posts = await _profileService.GetVideosByUserId(id,true);           
-            if (posts != null)
+            UserDto user = await _userService.GetOtherUser(id);      
+            if (user != null)
             {
-                return Ok(posts);
+                return Ok(user);
             }
             return BadRequest();
 
@@ -245,9 +245,16 @@ namespace AspNetCore_Social_API.Controllers
         public async Task<IActionResult> GetOtherFriends(int id)  //userId geliyor appUser değil!
         {
             List<FriendsDto> friends = await _friendService.GetFriends(id);
+           
             if (friends != null)
             {
-                return Ok(friends);
+                UserDto user = await _userService.GetUserById(id);
+                OtherFriendsDto otherFriends = new OtherFriendsDto()
+                {
+                    Friends = friends,
+                    User=user
+                };
+                return Ok(otherFriends);
             }
             return BadRequest();
 
