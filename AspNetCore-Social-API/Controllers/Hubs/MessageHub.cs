@@ -19,7 +19,7 @@ namespace AspNetCore_Social_API.Controllers.Hubs
         }
         public static List<UserConnection> OnlineUserConnections { get; set; } = new List<UserConnection>();
 
-
+      
         public override async Task OnConnectedAsync()
         {
             
@@ -45,11 +45,17 @@ namespace AspNetCore_Social_API.Controllers.Hubs
             await base.OnConnectedAsync();
         }
 
-        public async Task SendName(string targetUserId, string message)
+        public async Task MessageSend(string message,string targetUserId)
         {
+            //veri tabanı kaydı yapılacak
+            var userId = Context.User?.FindFirstValue(ClaimTypes.Name);
             UserConnection targetUser = OnlineUserConnections.FirstOrDefault(user => user.UserId == targetUserId);
-            await Clients.Client(targetUser.ConnectionId).SendAsync("ReceivePrivateMessage", targetUserId, message);             
-                      
+            if (targetUser != null)
+            {
+                await Clients.Client(targetUser.ConnectionId).SendAsync("ReceivePrivateMessage", userId, message);
+            }
+            
+
         }
     }
 }

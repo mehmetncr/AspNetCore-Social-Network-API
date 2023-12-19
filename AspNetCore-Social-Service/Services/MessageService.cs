@@ -26,9 +26,8 @@ namespace AspNetCore_Social_Service.Services
 			_mapper = mapper;
 		}
 
-		public async Task<List<MessageDto>> GetAllMessage(int AppUserId)
-		{
-			int userId = await _accountService.GetUserIdByAppUserId(AppUserId);
+		public async Task<List<MessageDto>> GetAllMessage(int userId)
+		{			
 			var messages = await _uow.GetRepository<Message>().GetAll(x => x.OwnerUserId == userId, null, x => x.User,x=>x.MessageDetails);
 			List<Message> messagesList = messages.Select(x => new Message
 			{
