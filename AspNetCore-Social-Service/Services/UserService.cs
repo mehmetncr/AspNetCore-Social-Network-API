@@ -24,10 +24,15 @@ namespace AspNetCore_Social_Service.Services
             _mapper = mapper;
             _uow = uow;       
         }
-
+        public async Task<UserDto> GetOtherUser(int userId)
+        {
+            var user = await _uow.GetRepository<User>().Get(x => x.UserId == userId, null, x => x.Posts);
+            var mappedUser = _mapper.Map<UserDto>(user);
+            return mappedUser;
+        }
         public async Task<UserDto> GetUserById(int userId)
         {
-            var user = await _uow.GetRepository<User>().Get(x => x.UserId == userId, null, x => x.SocialMediaAccounts);
+            var user = await _uow.GetRepository<User>().Get(x => x.UserId == userId, null,x=>x.SocialMediaAccounts);
 
 			return  _mapper.Map<UserDto>(user);
 
