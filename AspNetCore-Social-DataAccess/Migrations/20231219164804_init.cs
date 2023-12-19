@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace AspNetCore_Social_DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -279,14 +279,14 @@ namespace AspNetCore_Social_DataAccess.Migrations
                 name: "Messages",
                 columns: table => new
                 {
-                    MessageId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     OwnerUserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Messages", x => x.MessageId);
+                    table.PrimaryKey("PK_Messages", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Messages_Users_UserId",
                         column: x => x.UserId,
@@ -393,6 +393,7 @@ namespace AspNetCore_Social_DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    OwnerUserId = table.Column<int>(type: "int", nullable: false),
                     SendDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     MessageContent = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     MessageId = table.Column<int>(type: "int", nullable: false)
@@ -404,7 +405,7 @@ namespace AspNetCore_Social_DataAccess.Migrations
                         name: "FK_MessageDetail_Messages_MessageId",
                         column: x => x.MessageId,
                         principalTable: "Messages",
-                        principalColumn: "MessageId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
