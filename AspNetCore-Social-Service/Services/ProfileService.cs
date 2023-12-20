@@ -32,13 +32,13 @@ namespace AspNetCore_Social_Service.Services
 
         public async Task<ProfileDto> GetById(int userId)
         {
-            int id = await _accountService.GetUserIdByAppUserId(userId);
+          
 
             ProfileDto profile = new ProfileDto()
             {
-                User = await _userService.GetUserById(id),
-                Friends = await _friendService.GetFriends(id),
-                Posts = await _postService.GetPosts(id, "sp_DinamikSorguProfil")
+                User = await _userService.GetUserById(userId),
+                Friends = await _friendService.GetFriends(userId),
+                Posts = await _postService.GetPosts(userId, "sp_DinamikSorguProfil")
             };
             return profile;
         }
@@ -74,11 +74,11 @@ namespace AspNetCore_Social_Service.Services
         }
         public async Task<ProfileFriendsDto> GetFriendsByUserId(int userId)  
         {
-            int id = await _accountService.GetUserIdByAppUserId(userId);           
+                      
             ProfileFriendsDto friendsandreq = new ProfileFriendsDto()
             {
-                friends = await _friendService.GetFriends(id),
-                friendRequests=  await _friendService.GetFriendsReq(id)
+                friends = await _friendService.GetFriends(userId),
+                friendRequests=  await _friendService.GetFriendsReq(userId)
                 
             };
 

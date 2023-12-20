@@ -1,4 +1,5 @@
-﻿using AspNetCore_Social_Entity.DTOs;
+﻿using AspNetCore_Social_DataAccess.Migrations;
+using AspNetCore_Social_Entity.DTOs;
 using AspNetCore_Social_Entity.Entities;
 using AspNetCore_Social_Entity.Services;
 using AspNetCore_Social_Entity.UnitOfWorks;
@@ -28,8 +29,9 @@ namespace AspNetCore_Social_Service.Services
 
 		public async Task<List<MessageDto>> GetAllMessage(int userId)
 		{			
-			var messages = await _uow.GetRepository<Message>().GetAll(x => x.OwnerUserId == userId, null, x => x.User,x=>x.MessageDetails);
-			List<Message> messagesList = messages.Select(x => new Message
+			var ownerMessages = await _uow.GetRepository<Message>().GetAll(x => x.OwnerUserId == userId , null, x => x.User,x=>x.MessageDetails);
+            //var userMessages = await _uow.GetRepository<Message>().GetAll(x => x.UserId == userId, null, x => x.User, x => x.MessageDetails);
+            List<Message> messagesList = ownerMessages.Select(x => new Message
 			{
 				User = new User
 				{
@@ -46,9 +48,34 @@ namespace AspNetCore_Social_Service.Services
 
              List<MessageDto> mappedList = _mapper.Map<List<MessageDto>>(messagesList);
 
-            return mappedList;
-			
+            return mappedList;		
 			
 		}
+		public async Task SendMessage(MessageDetailDto message)
+		{
+			MessageDetail newMessage = _mapper.Map<MessageDetail>(message);
+			var meMessage = await _uow.GetRepository<Message>().Get(x => x.Id == message.MessageId);
+			var youMessage =  await _uow.GetRepository<Message>().Get(x => x.UserId == meMessage.OwnerUserId && x.OwnerUserId == meMessage.UserId);
+			
+			try
+			{
+                await _uow.GetRepository<MessageDetail>().Add(newMessage);
+                _uow.Commit();
+				newMessage.Id = 0;
+                newMessage.MessageId = youMessage.Id;
+                await _uow.GetRepository<MessageDetail>().Add(newMessage);
+                _uow.Commit();
+            }
+			catch (Exception)
+			{
+
+				throw;
+			}
+			
+		}
+		//public async Task<int> StartNewMessage(int targetUserId, int userId)
+		//{
+
+		//}
 	}
 }

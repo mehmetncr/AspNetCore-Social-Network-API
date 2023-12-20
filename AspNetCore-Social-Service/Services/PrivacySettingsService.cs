@@ -25,9 +25,8 @@ namespace AspNetCore_Social_Service.Services
             _accountService = accountService;
         }
 
-        public async Task<PrivacySettingDto> GetPrivacySettings(int appUserId)
-        {
-            int userId = await _accountService.GetUserIdByAppUserId(appUserId);
+        public async Task<PrivacySettingDto> GetPrivacySettings(int userId)
+        {           
             PrivacySettings settings =  await _uow.GetRepository<PrivacySettings>().Get(x => x.PrivacySettingsUserId == userId);
             PrivacySettingDto mappedSettings = _mapper.Map<PrivacySettingDto>(settings);
             return mappedSettings;
@@ -36,8 +35,8 @@ namespace AspNetCore_Social_Service.Services
 
         public async Task<PrivacySettingDto> UpdatePrivacySettings(UpdatePrivacySettingsDto setting)
         {
-            int userId = await _accountService.GetUserIdByAppUserId(setting.AppUserId);
-            PrivacySettings settings = await _uow.GetRepository<PrivacySettings>().Get(x => x.PrivacySettingsUserId == userId);
+          
+            PrivacySettings settings = await _uow.GetRepository<PrivacySettings>().Get(x => x.PrivacySettingsUserId == setting.AppUserId);
             if (setting.SettingName == "ReqFriends")
             {
                 if (settings.PrivacySettingsFriendRequest==true)

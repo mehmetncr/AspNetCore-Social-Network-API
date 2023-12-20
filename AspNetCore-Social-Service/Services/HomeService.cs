@@ -22,12 +22,11 @@ namespace AspNetCore_Social_Service.Services
         }
 
         public async Task<HomeDto> GetHome(int userId)
-		{
-            int id = await _accountService.GetUserIdByAppUserId(userId);
+		{           
             HomeDto homeDto = new HomeDto();
-			homeDto.OnlineFriendsDtos = await _friendService.GetOnlineFriends(id);
-			homeDto.OfferUserDtos = await _friendService.GetOfferFriends(id);
-			homeDto.PostDtos = await _postService.GetPosts(id, "sp_DinamikSorgu");
+			homeDto.OnlineFriendsDtos = await _friendService.GetOnlineFriends(userId);
+			homeDto.OfferUserDtos = await _friendService.GetOfferFriends(userId);
+			homeDto.PostDtos = await _postService.GetPosts(userId, "sp_DinamikSorgu");
 			return homeDto;
         }
 	}

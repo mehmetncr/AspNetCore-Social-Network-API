@@ -179,8 +179,8 @@ namespace AspNetCore_Social_API.Controllers
             var userIdClaim = User.FindFirst(ClaimTypes.UserData);
             if (userIdClaim != null)
             {
-                int appUserId = Convert.ToInt32(userIdClaim.Value);
-                PrivacySettingDto userSettings = await _privacySettingsService.GetPrivacySettings(appUserId);
+                int userId = Convert.ToInt32(userIdClaim.Value);
+                PrivacySettingDto userSettings = await _privacySettingsService.GetPrivacySettings(userId);
                 return Ok(userSettings);
 
             }
@@ -193,10 +193,10 @@ namespace AspNetCore_Social_API.Controllers
             var userIdClaim = User.FindFirst(ClaimTypes.UserData);
             if (userIdClaim != null)
             {
-                int appUserId = Convert.ToInt32(userIdClaim.Value);
+                int userId = Convert.ToInt32(userIdClaim.Value);
                 UpdatePrivacySettingsDto setting = new UpdatePrivacySettingsDto()
                 {
-                    AppUserId = appUserId,
+                    AppUserId = userId,
                     SettingName = settingName
                 };
                PrivacySettingDto updatedSettings =   await _privacySettingsService.UpdatePrivacySettings(setting);
