@@ -161,5 +161,31 @@ namespace AspNetCore_Social_Service.Services
 			}
 			return string.Empty;
 		}
+
+        public async Task<List<UserDto>> GetAllUsers()
+        {
+			try
+			{
+				List<UserDto> newUsers = new List<UserDto>();
+                var users = await _uow.GetRepository<User>().GetAll();
+				foreach (var item in users)
+				{
+					UserDto userDto = new UserDto()
+					{
+						UserId = item.UserId,
+						UserFirstName = item.UserFirstName,
+						UserLastName = item.UserLastName,
+						UserProfilePicture = item.UserProfilePicture,
+					};
+					newUsers.Add(userDto);
+				}
+                return newUsers;
+            }
+			catch (Exception)
+			{
+
+				throw;
+			}
+        }
     }
 }
