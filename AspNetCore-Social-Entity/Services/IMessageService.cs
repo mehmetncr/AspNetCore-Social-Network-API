@@ -9,6 +9,8 @@ namespace AspNetCore_Social_Entity.Services
 {
 	public interface IMessageService
 	{
-		Task<List<MessageDto>> GetAllMessage(int AppUserId); 
-	}
+		Task<List<MessageDto>> GetAllMessage(int AppUserId);
+		Task SendMessage(MessageDetailDto message);
+
+    }
 }

@@ -26,8 +26,7 @@ namespace AspNetCore_Social_Service.Services
         }
 
         public async Task<List<InterestDto>> AddInterest(Interest model)
-        {
-            model.UserId= await _accountService.GetUserIdByAppUserId(model.UserId);
+        {            
             try
             {
                 await _uow.GetRepository<Interest>().Add(model);
@@ -45,8 +44,7 @@ namespace AspNetCore_Social_Service.Services
           
         }
         public async Task<List<InterestDto>> UpdateInterest(Interest model)
-        {
-            model.UserId = await _accountService.GetUserIdByAppUserId(model.UserId);
+        {          
             try
             {
                var interest= await _uow.GetRepository<Interest>().Get(x => x.InterestName == model.InterestName && x.UserId == model.UserId);
@@ -63,9 +61,9 @@ namespace AspNetCore_Social_Service.Services
             }
 
         }
-        public async Task<List<InterestDto>> GetUserInterests(int appUserId)
+        public async Task<List<InterestDto>> GetUserInterests(int userId)
         {
-           int userId = await _accountService.GetUserIdByAppUserId(appUserId);
+          
            IEnumerable<Interest> intrests=  await _uow.GetRepository<Interest>().GetAll(x => x.UserId == userId); 
             return  _mapper.Map<List<InterestDto>>(intrests.ToList());             
         }

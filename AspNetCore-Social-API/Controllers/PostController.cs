@@ -34,8 +34,7 @@ namespace AspNetCore_Social_API.Controllers
                 var userIdClaim = User.FindFirst(ClaimTypes.UserData);
                 if (userIdClaim != null)
                 {
-                    int appUserId = Convert.ToInt32(userIdClaim.Value);
-                    int userId = await _accountService.GetUserIdByAppUserId(appUserId);
+                    int userId = Convert.ToInt32(userIdClaim.Value);                    
                     model.PostUserId = userId;
                     await _postService.AddPost(model);
                 }
@@ -57,8 +56,7 @@ namespace AspNetCore_Social_API.Controllers
 				var userIdClaim = User.FindFirst(ClaimTypes.UserData);
 				if (userIdClaim != null)
 				{
-					int appUserId = Convert.ToInt32(userIdClaim.Value);
-					int userId = await _accountService.GetUserIdByAppUserId(appUserId);
+					int userId = Convert.ToInt32(userIdClaim.Value);				
                     if (model.CommentModel != null)
                     {
                         model.CommentModel.CommentUserId = userId;
