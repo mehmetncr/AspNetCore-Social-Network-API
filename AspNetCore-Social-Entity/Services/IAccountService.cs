@@ -17,6 +17,6 @@ namespace AspNetCore_Social_Entity.Services
 		Task<string> EditUserPassword(EditPasswordDto model);
 		Task<string> ResetUSerPasswordCode(string email);
 		Task<string> ResetPassword(ResetPasswordDto model);
-
+		Task<List<UserDto>> GetAllUsers();
     }
 }

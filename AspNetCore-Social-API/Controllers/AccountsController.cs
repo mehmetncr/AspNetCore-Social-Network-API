@@ -92,6 +92,11 @@ namespace AspNetCore_Social_API.Controllers
 
             return BadRequest(msg);
         }
-
+		[HttpGet("GetAllUsers")]
+		public async Task<IActionResult> GetAllUsers()
+		{
+			var users = await _accountService.GetAllUsers();
+			return Ok(users);
+		}
     }
 }
