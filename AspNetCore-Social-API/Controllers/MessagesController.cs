@@ -38,16 +38,25 @@ namespace AspNetCore_Social_API.Controllers
             }
             return BadRequest();
         }
-        //[HttpPost("StartNewChat")]
-        //[Authorize]
-        //public async Task<IActionResult> StartNewChat(int targetUserId)
-        //{
-        //    var userIdClaim = User.FindFirst(ClaimTypes.UserData);
-        //    if (userIdClaim != null)
-        //    {
-        //        int userId = Convert.ToInt32(userIdClaim.Value);
-
-        //    }
-        //}
+        [HttpGet("StartNewChat/{id}")]
+        [Authorize]
+        public async Task<IActionResult> StartNewChat(int id)
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.UserData);
+            if (userIdClaim != null)
+            {
+                int ownerUserId = Convert.ToInt32(userIdClaim.Value);
+                int messageId = await _messageService.StartNewMessage(id, ownerUserId);
+                if (messageId!=0)
+                {
+                    return Ok(messageId);
+                }
+                else 
+                {
+                    return NotFound(); 
+                }
+            }
+            return BadRequest();
+        }
     }
 }

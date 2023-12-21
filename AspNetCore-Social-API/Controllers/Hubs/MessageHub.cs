@@ -31,7 +31,7 @@ namespace AspNetCore_Social_API.Controllers.Hubs
       
         public override async Task OnConnectedAsync()
         {
-            
+            await base.OnConnectedAsync();
             var userId = Context.User?.FindFirstValue(ClaimTypes.Name);
             var connectionId = Context.ConnectionId;
             var existingUser = OnlineUserConnections.FirstOrDefault(user => user.UserId == userId);
@@ -51,7 +51,7 @@ namespace AspNetCore_Social_API.Controllers.Hubs
                 OnlineUserConnections.Add(newUser);
             }
 
-            await base.OnConnectedAsync();
+           
         }
     
 

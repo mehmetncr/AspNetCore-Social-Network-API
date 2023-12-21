@@ -4,6 +4,7 @@ using AspNetCore_Social_Entity.Entities;
 using AspNetCore_Social_Entity.Services;
 using AspNetCore_Social_Entity.UnitOfWorks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace AspNetCore_Social_Service.Services
-{
+{	
 	public class MessageService : IMessageService
 	{
 		private readonly IAccountService _accountService;
@@ -61,10 +62,28 @@ namespace AspNetCore_Social_Service.Services
 			{
                 await _uow.GetRepository<MessageDetail>().Add(newMessage);
                 _uow.Commit();
-				newMessage.Id = 0;
-                newMessage.MessageId = youMessage.Id;
-                await _uow.GetRepository<MessageDetail>().Add(newMessage);
-                _uow.Commit();
+				if (youMessage==null)
+				{
+					Message newChat = new Message()
+					{
+						OwnerUserId = meMessage.UserId,
+						UserId = meMessage.OwnerUserId						
+					};
+					await _uow.GetRepository<Message>().Add(newChat);
+                    _uow.Commit();
+                    newMessage.Id = 0;
+                    newMessage.MessageId = newChat.Id;
+                    await _uow.GetRepository<MessageDetail>().Add(newMessage);
+                    _uow.Commit();
+				}
+				else
+				{
+                    newMessage.Id = 0;
+                    newMessage.MessageId = youMessage.Id;
+                    await _uow.GetRepository<MessageDetail>().Add(newMessage);
+                    _uow.Commit();
+                }
+				
             }
 			catch (Exception)
 			{
@@ -73,9 +92,16 @@ namespace AspNetCore_Social_Service.Services
 			}
 			
 		}
-		//public async Task<int> StartNewMessage(int targetUserId, int userId)
-		//{
-
-		//}
+		public async Task<int> StartNewMessage(int userId, int ownerUserId)
+		{
+			Message newMessage = new Message()
+			{
+				OwnerUserId = ownerUserId,
+				UserId = userId,				
+			};
+			await _uow.GetRepository<Message>().Add(newMessage);
+			_uow.Commit();
+			return newMessage.Id;
+		}
 	}
 }

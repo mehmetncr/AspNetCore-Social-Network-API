@@ -11,6 +11,7 @@ namespace AspNetCore_Social_Entity.Services
 	{
 		Task<List<MessageDto>> GetAllMessage(int AppUserId);
 		Task SendMessage(MessageDetailDto message);
+		Task<int> StartNewMessage(int userId, int ownerUserId);
 
     }
 }
