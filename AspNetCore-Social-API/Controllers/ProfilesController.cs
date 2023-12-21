@@ -13,7 +13,7 @@ namespace AspNetCore_Social_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class ProfilesController : ControllerBase
     {
         private readonly IProfileService _profileService;
@@ -37,7 +37,6 @@ namespace AspNetCore_Social_API.Controllers
         }
 
         [HttpGet("MyProfile")]
-        [Authorize]
         public async Task<IActionResult> Get()
         {
             var userIdClaim = User.FindFirst(ClaimTypes.UserData);
@@ -52,7 +51,6 @@ namespace AspNetCore_Social_API.Controllers
         }
 
         [HttpGet("Images")]
-        [Authorize]
         public async Task<IActionResult> GetImages()
         {
             var userIdClaim = User.FindFirst(ClaimTypes.UserData);
@@ -66,7 +64,6 @@ namespace AspNetCore_Social_API.Controllers
 
         }
         [HttpGet("Videos")]
-        [Authorize]
         public async Task<IActionResult> GetVideos()
         {
             var userIdClaim = User.FindFirst(ClaimTypes.UserData);
@@ -79,7 +76,6 @@ namespace AspNetCore_Social_API.Controllers
             return BadRequest();
         }
         [HttpGet("Friends")]
-        [Authorize]
         public async Task<IActionResult> GetFriends()
         {
             var userIdClaim = User.FindFirst(ClaimTypes.UserData);
@@ -92,7 +88,6 @@ namespace AspNetCore_Social_API.Controllers
             return BadRequest();
         }
         [HttpPut("update")]
-        [Authorize]
         public async Task<IActionResult> PostUpdate([FromBody] UserUpdateDto model)
         {
 
@@ -111,7 +106,6 @@ namespace AspNetCore_Social_API.Controllers
 
         }
         [HttpGet("GetInterest")]
-        [Authorize]
         public async Task<IActionResult> GetUserInterest()
         {
             var userIdClaim = User.FindFirst(ClaimTypes.UserData);
@@ -124,7 +118,6 @@ namespace AspNetCore_Social_API.Controllers
             return BadRequest();
         }
         [HttpPost("AddInterest")]
-        [Authorize]
         public async Task<IActionResult> AddInterest([FromBody] string interest)
         {
             var userIdClaim = User.FindFirst(ClaimTypes.UserData);
@@ -148,7 +141,6 @@ namespace AspNetCore_Social_API.Controllers
             return BadRequest();
         }
         [HttpPut("UpdateInterest")]
-        [Authorize]
         public async Task<IActionResult> UpdateInterest([FromBody] string interest)
         {
             var userIdClaim = User.FindFirst(ClaimTypes.UserData);
@@ -173,7 +165,6 @@ namespace AspNetCore_Social_API.Controllers
             return BadRequest();
         }
         [HttpGet("UserSettings")]
-        [Authorize]
         public async Task<IActionResult> GetUserSettings()
         {
             var userIdClaim = User.FindFirst(ClaimTypes.UserData);
@@ -187,7 +178,6 @@ namespace AspNetCore_Social_API.Controllers
             return BadRequest();
         }
         [HttpPut("UpdateSettigs")]
-        [Authorize]
         public async Task<IActionResult> UpdateSettigs([FromBody]string settingName)
         {
             var userIdClaim = User.FindFirst(ClaimTypes.UserData);
@@ -205,7 +195,6 @@ namespace AspNetCore_Social_API.Controllers
             return BadRequest();
         }
         [HttpGet("GetOtherProfile/{id}")]
-        [Authorize]
         public async Task<IActionResult> GetOtherProfile(int id)  //userId geliyor appUser değil!
         {
             var user =  await _profileService.OtherProfile(id);
@@ -217,7 +206,6 @@ namespace AspNetCore_Social_API.Controllers
             
         }
         [HttpGet("GetOtherPhotos/{id}")]
-        [Authorize]
         public async Task<IActionResult> GetOtherPhotos(int id)  //userId geliyor appUser değil!
         {
             UserDto user = await _userService.GetOtherUser(id);
@@ -229,7 +217,6 @@ namespace AspNetCore_Social_API.Controllers
 
         }
         [HttpGet("GetOtherVideos/{id}")]
-        [Authorize]
         public async Task<IActionResult> GetOtherVideos(int id)  //userId geliyor appUser değil!
         {
             UserDto user = await _userService.GetOtherUser(id);      
@@ -241,7 +228,6 @@ namespace AspNetCore_Social_API.Controllers
 
         }
         [HttpGet("GetOtherFriends/{id}")]
-        [Authorize]
         public async Task<IActionResult> GetOtherFriends(int id)  //userId geliyor appUser değil!
         {
             List<FriendsDto> friends = await _friendService.GetFriends(id);
@@ -259,5 +245,6 @@ namespace AspNetCore_Social_API.Controllers
             return BadRequest();
 
         }
+
     }
 }
