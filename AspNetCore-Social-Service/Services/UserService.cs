@@ -51,6 +51,8 @@ namespace AspNetCore_Social_Service.Services
                 user.UserEducationInfo = model.UserEducationInfo;
                 user.UserLocation = model.UserLocation;
                 user.UserPhoneNumber = model.UserPhoneNumber;
+                user.UserProfilePicture = model.UserProfilePicture;
+                user.UserCoverPicture = model.UserCoverPicture;
                 _uow.GetRepository<User>().Update(user);
                 _uow.Commit();
                 return "Ok";
