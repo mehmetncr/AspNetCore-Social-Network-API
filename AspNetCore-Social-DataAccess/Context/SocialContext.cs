@@ -29,6 +29,7 @@ namespace AspNetCore_Social_DataAccess.Context
 		public DbSet<Post> Posts { get; set; }
 		public DbSet<ReplyComment> ReplyComments { get; set; }
 		public DbSet<Message> Messages { get; set; }
+		public DbSet<MessageInfo> MessageInfos { get; set; }
 
 
 		protected override void OnModelCreating(ModelBuilder builder)

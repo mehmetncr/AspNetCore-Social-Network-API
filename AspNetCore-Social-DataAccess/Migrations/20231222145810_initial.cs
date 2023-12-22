@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace AspNetCore_Social_DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -276,6 +276,29 @@ namespace AspNetCore_Social_DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "MessageInfos",
+                columns: table => new
+                {
+                    MessageInfoId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    MessageInfoOwnerUserId = table.Column<int>(type: "int", nullable: false),
+                    MessageInfoCreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    MessageInfoContent = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MessageInfoMessageId = table.Column<int>(type: "int", nullable: false),
+                    MessageInfoUserId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MessageInfos", x => x.MessageInfoId);
+                    table.ForeignKey(
+                        name: "FK_MessageInfos_Users_MessageInfoOwnerUserId",
+                        column: x => x.MessageInfoOwnerUserId,
+                        principalTable: "Users",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Messages",
                 columns: table => new
                 {
@@ -351,9 +374,10 @@ namespace AspNetCore_Social_DataAccess.Migrations
                 {
                     SocialMediaAccountId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
+                    SocialMediaAccountUserId = table.Column<int>(type: "int", nullable: false),
                     SocialMediaAccountName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SocialMediaAccountUrl = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    SocialMediaAccountUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -362,8 +386,7 @@ namespace AspNetCore_Social_DataAccess.Migrations
                         name: "FK_SocialMediaAccounts_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "UserId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "UserId");
                 });
 
             migrationBuilder.CreateTable(
@@ -533,6 +556,11 @@ namespace AspNetCore_Social_DataAccess.Migrations
                 column: "MessageId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_MessageInfos_MessageInfoOwnerUserId",
+                table: "MessageInfos",
+                column: "MessageInfoOwnerUserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Messages_UserId",
                 table: "Messages",
                 column: "UserId");
@@ -602,6 +630,9 @@ namespace AspNetCore_Social_DataAccess.Migrations
 
             migrationBuilder.DropTable(
                 name: "MessageDetail");
+
+            migrationBuilder.DropTable(
+                name: "MessageInfos");
 
             migrationBuilder.DropTable(
                 name: "Notifications");
