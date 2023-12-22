@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AspNetCore_Social_DataAccess.Migrations
 {
     [DbContext(typeof(SocialContext))]
-    [Migration("20231219164804_init")]
-    partial class init
+    [Migration("20231222145810_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -275,6 +275,37 @@ namespace AspNetCore_Social_DataAccess.Migrations
                     b.ToTable("MessageDetail");
                 });
 
+            modelBuilder.Entity("AspNetCore_Social_Entity.Entities.MessageInfo", b =>
+                {
+                    b.Property<int>("MessageInfoId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MessageInfoId"));
+
+                    b.Property<string>("MessageInfoContent")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("MessageInfoCreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("MessageInfoMessageId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MessageInfoOwnerUserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MessageInfoUserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("MessageInfoId");
+
+                    b.HasIndex("MessageInfoOwnerUserId");
+
+                    b.ToTable("MessageInfos");
+                });
+
             modelBuilder.Entity("AspNetCore_Social_Entity.Entities.Notification", b =>
                 {
                     b.Property<int>("NotificationId")
@@ -421,7 +452,10 @@ namespace AspNetCore_Social_DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
+                    b.Property<int>("SocialMediaAccountUserId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("SocialMediaAccountId");
@@ -713,6 +747,17 @@ namespace AspNetCore_Social_DataAccess.Migrations
                     b.Navigation("Message");
                 });
 
+            modelBuilder.Entity("AspNetCore_Social_Entity.Entities.MessageInfo", b =>
+                {
+                    b.HasOne("AspNetCore_Social_Entity.Entities.User", "MessageInfoOwnerUser")
+                        .WithMany("MessageInfos")
+                        .HasForeignKey("MessageInfoOwnerUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("MessageInfoOwnerUser");
+                });
+
             modelBuilder.Entity("AspNetCore_Social_Entity.Entities.Notification", b =>
                 {
                     b.HasOne("AspNetCore_Social_Entity.Entities.User", null)
@@ -755,9 +800,7 @@ namespace AspNetCore_Social_DataAccess.Migrations
                 {
                     b.HasOne("AspNetCore_Social_Entity.Entities.User", null)
                         .WithMany("SocialMediaAccounts")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("AspNetCore_Social_Entity.Entities.User", b =>
@@ -855,6 +898,8 @@ namespace AspNetCore_Social_DataAccess.Migrations
                     b.Navigation("Friends");
 
                     b.Navigation("Interests");
+
+                    b.Navigation("MessageInfos");
 
                     b.Navigation("Messages");
 
