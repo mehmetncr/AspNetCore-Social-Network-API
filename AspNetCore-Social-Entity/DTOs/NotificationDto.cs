@@ -9,10 +9,13 @@ namespace AspNetCore_Social_Entity.DTOs
 {
 	public class NotificationDto
 	{
-		public int NotificationId { get; set; }
-		public int NotificationUserDtoId { get; set; }
-		public string NotificationTitle { get; set; }
-		public string NotificationDescription { get; set; }
-		public virtual UserDto NotificationUserDto { get; set; }
-	}
+        public int NotificationId { get; set; }
+        public int NotificationSenderUserId { get; set; }
+        public string NotificationTitle { get; set; }
+        public string NotificationDescription { get; set; }
+        public int NotificationOwnerUserId { get; set; }
+        public bool NotificationIsSeen { get; set; }
+        public UserDto NotificationSenderUser { get; set; }
+
+    }
 }
