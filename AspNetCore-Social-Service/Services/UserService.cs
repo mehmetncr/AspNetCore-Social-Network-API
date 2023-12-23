@@ -37,6 +37,21 @@ namespace AspNetCore_Social_Service.Services
 			return  _mapper.Map<UserDto>(user);
 
         }
+
+        public async Task TurnOfflineUser(int userId)
+        {
+            var user = await _uow.GetRepository<User>().GetById(userId);
+            user.UserIsOnline = false;
+            await _uow.CommitAsync();
+        }
+
+        public async Task TurnOnlineUser(int userId)
+        {
+            var user = await _uow.GetRepository<User>().GetById(userId);
+            user.UserIsOnline = true;
+            await _uow.CommitAsync();
+        }
+
         public async Task<string> UpdateUser(UserUpdateDto model)
         {
             try
@@ -63,10 +78,6 @@ namespace AspNetCore_Social_Service.Services
 
                 return ex.Message;
             }
-          
-
-          
-            
         }
     }
 }
