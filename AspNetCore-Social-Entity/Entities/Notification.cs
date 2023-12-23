@@ -17,5 +17,6 @@ namespace AspNetCore_Social_Entity.Entities
         public User NotificationSenderUser { get; set; }
 
 
+
     }
 }
