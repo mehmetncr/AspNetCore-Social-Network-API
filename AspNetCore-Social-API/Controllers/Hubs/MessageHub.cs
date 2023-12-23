@@ -52,10 +52,7 @@ namespace AspNetCore_Social_API.Controllers.Hubs
                 };
                 OnlineUserConnections.Add(newUser);
             }
-
-
         }
-
 
 
         public async Task MessageSend(string message, string targetUserId, string messageId)
