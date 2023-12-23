@@ -13,7 +13,7 @@ namespace AspNetCore_Social_Entity.Entities
         public string NotificationTitle { get; set; }
         public string NotificationDescription { get; set; }
     
-
+        
 
     }
 }
