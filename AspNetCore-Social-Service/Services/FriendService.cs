@@ -80,20 +80,33 @@ namespace AspNetCore_Social_Service.Services
             return _mapper.Map<List<UserDto>>(offerfriends);
         }
 
-        public async Task<string> AddFriendReq(int senderUserId, int ownerUserId)
+        public async Task<NotificationDto> AddFriendReq(int senderUserId, int ownerUserId)
         {
-            User user = await _uow.GetRepository<User>().Get(x => x.UserId == senderUserId);
-            string userName = user.UserFirstName + " " + user.UserLastName;
-            Notification newNotification = new Notification()
+            var notifications = await _uow.GetRepository<Notification>().GetAll(x => x.NotificationSenderUserId == senderUserId && x.NotificationOwnerUserId == ownerUserId && x.NotificationTitle == "Arkadaşlık İsteği");
+            if (notifications.Count() == 0)
             {
-                NotificationSenderUserId = senderUserId,
-                NotificationIsSeen = false,
-                NotificationOwnerUserId = ownerUserId,
-                NotificationTitle = "Arkadaşlık İsteği",
-                NotificationDescription = userName
-            };
-            await _uow.GetRepository<Notification>().Add(newNotification);
-            return "";
+                User user = await _uow.GetRepository<User>().Get(x => x.UserId == senderUserId);
+                string userName = user.UserFirstName + " " + user.UserLastName;
+                Notification newNotification = new Notification()
+                {
+                    NotificationSenderUserId = senderUserId,
+                    NotificationIsSeen = false,
+                    NotificationOwnerUserId = ownerUserId,
+                    NotificationTitle = "Arkadaşlık İsteği",
+                    NotificationDescription = userName
+
+                };
+                await _uow.GetRepository<Notification>().Add(newNotification);
+                _uow.Commit();
+                NotificationDto returnModel = _mapper.Map<NotificationDto>(newNotification);
+                return returnModel;
+            }
+            else
+            {
+                return null;
+            }
+
+
         }
     }
 }

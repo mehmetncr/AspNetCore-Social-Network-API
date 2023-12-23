@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AspNetCore_Social_API.Controllers.Hubs;
+using AspNetCore_Social_Entity.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Drawing.Printing;
@@ -11,16 +13,6 @@ namespace AspNetCore_Social_API.Controllers
     [Authorize]
     public class FriendsController : ControllerBase
     {
-        [HttpGet("AddFriend/{id}")]
-        public async Task<IActionResult> AddFriend(int id)
-        {
-            var userIdClaim = User.FindFirst(ClaimTypes.UserData);
-            if (userIdClaim != null)
-            {
-                int userId = Convert.ToInt32(userIdClaim.Value);
-                return Ok();
-            }
-            return BadRequest();
-        }
+       
     }
 }

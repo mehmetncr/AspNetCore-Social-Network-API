@@ -106,6 +106,7 @@ namespace AspNetCore_Social_Service.Extensions
             services.AddScoped<IPrivacySettingsService, PrivacySettingsService>();
             services.AddScoped<IMessageService,MessageService>();
             services.AddScoped<ICommentService, CommentService>();
+            services.AddScoped<INotificationService, NotificationService>();
 
 
 

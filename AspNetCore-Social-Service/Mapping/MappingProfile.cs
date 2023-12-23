@@ -28,6 +28,7 @@ namespace AspNetCore_Social_Service.Mapping
 			CreateMap<Message, MessageDto>().ReverseMap();
 			CreateMap<MessageDetail, MessageDetailDto>().ReverseMap();
 			CreateMap<ReplyComment, NewReplyCommentDto>().ReverseMap();
+			CreateMap<Notification, NotificationDto>().ReverseMap();
 
 
 		}
