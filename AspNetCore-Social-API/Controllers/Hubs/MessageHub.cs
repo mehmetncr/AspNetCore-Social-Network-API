@@ -15,10 +15,12 @@ namespace AspNetCore_Social_API.Controllers.Hubs
     public class MessageHub : Hub
     {
         private readonly IMessageService _messageService;
+        private readonly IUserService _userService;
 
-        public MessageHub(IMessageService messageService)
+        public MessageHub(IMessageService messageService, IUserService userService)
         {
             _messageService = messageService;
+            _userService = userService;
         }
 
         public class UserConnection
@@ -49,6 +51,7 @@ namespace AspNetCore_Social_API.Controllers.Hubs
                     UserId = userId
                 };
                 OnlineUserConnections.Add(newUser);
+                await _userService.TurnOnlineUser(Convert.ToInt32(userId));
             }
 
            
@@ -84,6 +87,7 @@ namespace AspNetCore_Social_API.Controllers.Hubs
             if (existingUser != null)
             {
                 OnlineUserConnections.Remove(existingUser);
+                await _userService.TurnOfflineUser(Convert.ToInt32(userId));
             }          
 
         }
