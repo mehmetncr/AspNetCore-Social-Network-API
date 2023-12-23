@@ -8,6 +8,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.Xml;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -77,6 +78,22 @@ namespace AspNetCore_Social_Service.Services
             }).ToList();
 
             return _mapper.Map<List<UserDto>>(offerfriends);
+        }
+
+        public async Task<string> AddFriendReq(int senderUserId, int ownerUserId)
+        {
+            User user = await _uow.GetRepository<User>().Get(x => x.UserId == senderUserId);
+            string userName = user.UserFirstName + " " + user.UserLastName;
+            Notification newNotification = new Notification()
+            {
+                NotificationSenderUserId = senderUserId,
+                NotificationIsSeen = false,
+                NotificationOwnerUserId = ownerUserId,
+                NotificationTitle = "Arkadaşlık İsteği",
+                NotificationDescription = userName
+            };
+            await _uow.GetRepository<Notification>().Add(newNotification);
+            return "";
         }
     }
 }
