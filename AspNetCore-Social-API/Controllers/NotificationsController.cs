@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
-namespace AspNetCore_Social_API.Controllers.Hubs
+namespace AspNetCore_Social_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -24,8 +24,8 @@ namespace AspNetCore_Social_API.Controllers.Hubs
             if (userIdClaim != null)
             {
                 int userId = Convert.ToInt32(userIdClaim.Value);
-               List<NotificationDto> model =  await _notificationService.GetAllNotifications(userId);
-                return  Ok(model);
+                List<NotificationDto> model = await _notificationService.GetAllNotifications(userId);
+                return Ok(model);
             }
             return BadRequest();
         }

@@ -86,7 +86,7 @@ namespace AspNetCore_Social_API.Controllers
                 return Ok(friends);
             }
             return BadRequest();
-        }
+        }    
         [HttpPut("update")]
         public async Task<IActionResult> PostUpdate([FromBody] UserUpdateDto model)
         {
