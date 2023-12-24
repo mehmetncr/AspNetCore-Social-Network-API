@@ -15,7 +15,6 @@ namespace AspNetCore_Social_API.Controllers.Hubs
     public class MessageHub : Hub
     {
         private readonly IMessageService _messageService;
-
         private readonly IFriendService _friendService;
         private readonly IUserService _userService;
 

@@ -93,7 +93,8 @@ namespace AspNetCore_Social_Service.Services
                     NotificationIsSeen = false,
                     NotificationOwnerUserId = ownerUserId,
                     NotificationTitle = "Arkadaşlık İsteği",
-                    NotificationDescription = userName
+                    NotificationDescription = userName              
+                    
 
                 };
                 await _uow.GetRepository<Notification>().Add(newNotification);
@@ -105,6 +106,7 @@ namespace AspNetCore_Social_Service.Services
                 };
                 await _uow.GetRepository<Friends>().Add(newFriend);
                 _uow.Commit();
+                newNotification.NotificationSenderUser = user;
                 NotificationDto returnModel = _mapper.Map<NotificationDto>(newNotification);
                 return returnModel;
             }

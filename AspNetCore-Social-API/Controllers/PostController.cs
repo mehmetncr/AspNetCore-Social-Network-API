@@ -1,10 +1,12 @@
-﻿using AspNetCore_Social_DataAccess.Identity;
+﻿using AspNetCore_Social_API.Controllers.Hubs;
+using AspNetCore_Social_DataAccess.Identity;
 using AspNetCore_Social_Entity.DTOs;
 using AspNetCore_Social_Entity.Services;
 using AspNetCore_Social_Service.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using System.Security.Claims;
 
 namespace AspNetCore_Social_API.Controllers
@@ -17,6 +19,8 @@ namespace AspNetCore_Social_API.Controllers
         private readonly IAccountService _accountService;
         private readonly ICommentService _commentService;
         private readonly IReplyCommentService _replyCommentService;
+        private readonly MessageHub _hubContext;
+
         public PostController(IPostService postService, IAccountService accountService, ICommentService commentService, IReplyCommentService replyCommentService)
         {
             _postService = postService;
@@ -92,6 +96,7 @@ namespace AspNetCore_Social_API.Controllers
             PostDto post = await _postService.GetPostById(postId);
             post.PostLikeNumber++;
             _postService.UpdatePost(post);
+         
             return Ok(post.PostLikeNumber);
         }
         [HttpGet("PostTakeBackLike/{postId}")]
