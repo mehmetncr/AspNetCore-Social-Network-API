@@ -82,8 +82,8 @@ namespace AspNetCore_Social_Service.Services
 
         public async Task<NotificationDto> AddFriendReq(int senderUserId, int ownerUserId)
         {
-            var notifications = await _uow.GetRepository<Notification>().GetAll(x => x.NotificationSenderUserId == senderUserId && x.NotificationOwnerUserId == ownerUserId && x.NotificationTitle == "Arkadaşlık İsteği");
-            if (notifications.Count() == 0)
+            var notifications = await _uow.GetRepository<Notification>().Get(x => x.NotificationSenderUserId == senderUserId && x.NotificationOwnerUserId == ownerUserId && x.NotificationTitle == "Arkadaşlık İsteği");
+            if (notifications == null)
             {
                 User user = await _uow.GetRepository<User>().Get(x => x.UserId == senderUserId);
                 string userName = user.UserFirstName + " " + user.UserLastName;
@@ -97,16 +97,26 @@ namespace AspNetCore_Social_Service.Services
 
                 };
                 await _uow.GetRepository<Notification>().Add(newNotification);
+                Friends newFriend = new Friends()
+                {
+                    FriendId = ownerUserId,
+                    FriendsUserId = senderUserId,
+                    FriendsStatus = "pending"
+                };
+                await _uow.GetRepository<Friends>().Add(newFriend);
                 _uow.Commit();
                 NotificationDto returnModel = _mapper.Map<NotificationDto>(newNotification);
                 return returnModel;
             }
             else
             {
+                Friends friend = await _uow.GetRepository<Friends>().Get(x => x.FriendsUserId == senderUserId);
+                _uow.GetRepository<Friends>().Delete(friend);
+                _uow.GetRepository<Notification>().Delete(notifications);
+                _uow.Commit();
                 return null;
             }
-
-
         }
+
     }
 }

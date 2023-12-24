@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace AspNetCore_Social_DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -242,6 +242,7 @@ namespace AspNetCore_Social_DataAccess.Migrations
                     FriendsId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FriendsUserId = table.Column<int>(type: "int", nullable: false),
+                    FriendsStatus = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FriendId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -324,16 +325,18 @@ namespace AspNetCore_Social_DataAccess.Migrations
                 {
                     NotificationId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
+                    NotificationSenderUserId = table.Column<int>(type: "int", nullable: false),
                     NotificationTitle = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    NotificationDescription = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    NotificationDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    NotificationOwnerUserId = table.Column<int>(type: "int", nullable: false),
+                    NotificationIsSeen = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Notifications", x => x.NotificationId);
                     table.ForeignKey(
-                        name: "FK_Notifications_Users_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Notifications_Users_NotificationSenderUserId",
+                        column: x => x.NotificationSenderUserId,
                         principalTable: "Users",
                         principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
@@ -566,9 +569,9 @@ namespace AspNetCore_Social_DataAccess.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Notifications_UserId",
+                name: "IX_Notifications_NotificationSenderUserId",
                 table: "Notifications",
-                column: "UserId");
+                column: "NotificationSenderUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Posts_PostUserId",

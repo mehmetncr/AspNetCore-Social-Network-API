@@ -234,7 +234,7 @@ namespace AspNetCore_Social_API.Controllers
            
             if (friends != null)
             {
-                UserDto user = await _userService.GetUserById(id);
+                UserDto user = await _userService.GetOtherUser(id);
                 OtherFriendsDto otherFriends = new OtherFriendsDto()
                 {
                     Friends = friends,

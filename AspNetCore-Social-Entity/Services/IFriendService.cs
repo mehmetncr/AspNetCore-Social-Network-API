@@ -16,5 +16,6 @@ namespace AspNetCore_Social_Entity.Services
 		Task<List<FriendRequestDto>> GetFriendsReq(int userId);
 		Task<NotificationDto> AddFriendReq(int senderUserId, int ownerUserId);
 
+
     }
 }

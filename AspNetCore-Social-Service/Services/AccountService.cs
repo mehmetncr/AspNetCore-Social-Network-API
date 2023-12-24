@@ -76,12 +76,31 @@ namespace AspNetCore_Social_Service.Services
 				UserGender = model.Gender,
 				UserCreatedAt = DateTime.Now,
 				UserEmail = model.Email,
-			};
+				UserProfilePicture= "/images/profilpictures/baseprofile.png",
+				UserCoverPicture = "/images/profilpictures/basecover.jpg"
+            };
 
 			await _uow.GetRepository<User>().Add(user);
 			await _uow.CommitAsync();
+			user.UserPrivacySettingsId= await this.CreateUserPrivacy(user.UserId);
+			 _uow.GetRepository<User>().Update(user);
+            await _uow.CommitAsync();
+            return user.UserId;
+		}
 
-			return user.UserId;
+        public async Task<int> CreateUserPrivacy(int userId)
+		{
+			PrivacySettings UserPrivacySettings = new PrivacySettings()
+			{
+				PrivacySettingsUserId = userId,
+				PrivacySettingsFriendRequest = true,
+				PrivacySettingsHiddenProfile = false,
+				PrivacySettingsMessageRequest = true,
+			};
+			await _uow.GetRepository<PrivacySettings>().Add(UserPrivacySettings);
+			await _uow.CommitAsync();
+			return UserPrivacySettings.PrivacySettingsId;
+
 		}
 
 		public async Task<UserDto> Login(LoginDto model)
