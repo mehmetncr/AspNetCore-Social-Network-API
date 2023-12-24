@@ -86,7 +86,7 @@ namespace AspNetCore_Social_Service.Services
         }
         public async Task<UserDto> OtherProfile(int userId)
         {
-           var user=  await _uow.GetRepository<User>().Get(x => x.UserId == userId, null, x=>x.SocialMediaAccounts);
+           var user=  await _uow.GetRepository<User>().Get(x => x.UserId == userId, null, x=>x.SocialMediaAccounts, x=>x.Friends,x=>x.UserPrivacySettings);
             List<PostDto> posts = await _postService.GetPosts(userId, "sp_DinamikSorguProfil");          
             UserDto mappedUser = _mapper.Map<UserDto>(user);
             mappedUser.Posts = posts;

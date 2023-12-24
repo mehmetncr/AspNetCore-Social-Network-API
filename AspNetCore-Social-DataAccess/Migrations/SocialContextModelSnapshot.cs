@@ -191,6 +191,10 @@ namespace AspNetCore_Social_DataAccess.Migrations
                     b.Property<int>("FriendId")
                         .HasColumnType("int");
 
+                    b.Property<string>("FriendsStatus")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("FriendsUserId")
                         .HasColumnType("int");
 

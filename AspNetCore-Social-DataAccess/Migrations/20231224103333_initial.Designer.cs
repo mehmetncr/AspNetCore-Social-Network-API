@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AspNetCore_Social_DataAccess.Migrations
 {
     [DbContext(typeof(SocialContext))]
-    [Migration("20231223190026_init")]
-    partial class init
+    [Migration("20231224103333_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -194,6 +194,10 @@ namespace AspNetCore_Social_DataAccess.Migrations
                     b.Property<int>("FriendId")
                         .HasColumnType("int");
 
+                    b.Property<string>("FriendsStatus")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("FriendsUserId")
                         .HasColumnType("int");
 
@@ -318,16 +322,22 @@ namespace AspNetCore_Social_DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("NotificationIsSeen")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("NotificationOwnerUserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NotificationSenderUserId")
+                        .HasColumnType("int");
+
                     b.Property<string>("NotificationTitle")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("NotificationId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("NotificationSenderUserId");
 
                     b.ToTable("Notifications");
                 });
@@ -760,11 +770,13 @@ namespace AspNetCore_Social_DataAccess.Migrations
 
             modelBuilder.Entity("AspNetCore_Social_Entity.Entities.Notification", b =>
                 {
-                    b.HasOne("AspNetCore_Social_Entity.Entities.User", null)
+                    b.HasOne("AspNetCore_Social_Entity.Entities.User", "NotificationSenderUser")
                         .WithMany("Notification")
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("NotificationSenderUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("NotificationSenderUser");
                 });
 
             modelBuilder.Entity("AspNetCore_Social_Entity.Entities.Post", b =>

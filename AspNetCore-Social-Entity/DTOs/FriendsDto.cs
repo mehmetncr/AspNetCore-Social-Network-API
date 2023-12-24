@@ -11,7 +11,8 @@ namespace AspNetCore_Social_Entity.DTOs
 	{
 		public int FriendsId { get; set; }
 		public int FriendsUserId { get; set; }
-		public int FriendId { get; set; }
+        public string FriendsStatus { get; set; }
+        public int FriendId { get; set; }
 		public virtual UserDto Friend { get; set; }
 	}
 }

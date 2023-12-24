@@ -97,7 +97,7 @@ namespace AspNetCore_Social_API.Controllers.Hubs
             }
             else
             {
-                await Clients.Client(user.ConnectionId).SendAsync("ReceiveFriendReqRes", "AlreadySend"); //arkadaşlık isteği gönderimi başarısız zaten gönderilmiş
+                await Clients.Client(user.ConnectionId).SendAsync("ReceiveFriendReqRes", "AlreadySend"); //arkadaşlık iptal edilir
             }
 
         }
