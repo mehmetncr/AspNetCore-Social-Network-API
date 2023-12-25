@@ -1,5 +1,6 @@
 ﻿using AspNetCore_Social_Entity.DTOs;
 using AspNetCore_Social_Entity.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -8,6 +9,7 @@ namespace AspNetCore_Social_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class NotificationsController : ControllerBase
     {
         private readonly INotificationService _notificationService;
@@ -29,5 +31,27 @@ namespace AspNetCore_Social_API.Controllers
             }
             return BadRequest();
         }
+        [HttpPost("AcceptFriendReq")]
+        public async Task<IActionResult> AcceptFriendReq([FromBody] string notificationId)
+        {
+            string msg = await _notificationService.AcceptFriendReq(notificationId);
+            if (msg=="Ok")
+            {
+                return Ok();
+            }
+            return BadRequest();
+        }
+        [HttpPost("RejectReq")]
+        public async Task<IActionResult> RejectFriendReq([FromBody] string notificationId)
+        {
+              string msg= await  _notificationService.RejectFriendReq(notificationId);
+            if (msg == "Ok")
+            {
+                return Ok();
+            }
+            return BadRequest();
+        }
+
+
     }
 }
