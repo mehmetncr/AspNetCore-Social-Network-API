@@ -119,6 +119,25 @@ namespace AspNetCore_Social_Service.Services
                 return null;
             }
         }
+       public async Task<string> DeleteFriend(int userId, int friendId)
+        {
+            try
+            {
+                var friend1 = await _uow.GetRepository<Friends>().Get(x => x.FriendsUserId == userId && x.FriendId == friendId);
+                var friend2 = await _uow.GetRepository<Friends>().Get(x => x.FriendsUserId == friendId && x.FriendId == userId);
+                _uow.GetRepository<Friends>().Delete(friend1);
+                _uow.GetRepository<Friends>().Delete(friend2);
+                _uow.Commit();
+                return "Ok";
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+   
+
+        }
 
     }
 }

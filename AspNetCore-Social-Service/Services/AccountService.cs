@@ -130,10 +130,11 @@ namespace AspNetCore_Social_Service.Services
 
 		public async Task<string> EditUserPassword(EditPasswordDto model)
 		{
-			AppUser user = await _userManager.FindByIdAsync(model.AppUserId.ToString());
-			if (user != null)
+			var user= await _uow.GetRepository<AppUser>().Get(x => x.UserId == model.AppUserId);
+			AppUser appUser = await _userManager.FindByIdAsync(user.Id.ToString());
+			if (appUser != null)
 			{
-				var result = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+				var result = await _userManager.ChangePasswordAsync(appUser, model.OldPassword, model.NewPassword);
 				if (result.Succeeded)
 				{
 					return "Ok";
