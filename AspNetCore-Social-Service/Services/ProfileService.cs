@@ -51,8 +51,8 @@ namespace AspNetCore_Social_Service.Services
             }
             else
             {
-                int id = await _accountService.GetUserIdByAppUserId(userId);
-                List<PostDto> posts = await _postService.GetPosts(id, "sp_DinamikSorguProfil");
+                
+                List<PostDto> posts = await _postService.GetPosts(userId, "sp_DinamikSorguProfil");
                 return posts.Where(x => x.PostType == "Image").ToList();
             }
             
@@ -66,8 +66,8 @@ namespace AspNetCore_Social_Service.Services
             }
             else
             {
-                int id = await _accountService.GetUserIdByAppUserId(userId);
-                List<PostDto> posts = await _postService.GetPosts(id, "sp_DinamikSorguProfil");
+                
+                List<PostDto> posts = await _postService.GetPosts(userId, "sp_DinamikSorguProfil");
                 return posts.Where(x => x.PostType == "Video" || x.PostType == "Youtube").ToList();
             }
                 

@@ -13,6 +13,28 @@ namespace AspNetCore_Social_API.Controllers
     [Authorize]
     public class FriendsController : ControllerBase
     {
-       
+        private readonly IFriendService _friendService;
+
+        public FriendsController(IFriendService friendService)
+        {
+            _friendService = friendService;
+        }
+
+        [HttpPost()]
+        public async Task<IActionResult> DeleteFriend([FromBody] int id)
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.UserData);
+            if (userIdClaim != null)
+            {
+                int userId = Convert.ToInt32(userIdClaim.Value);
+               string msg = await _friendService.DeleteFriend(userId, id);
+                if (msg=="Ok")
+                {
+                    return Ok();
+                }
+            }
+            return BadRequest();
+                
+        }
     }
 }
