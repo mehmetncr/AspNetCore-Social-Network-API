@@ -107,5 +107,21 @@ namespace AspNetCore_Social_API.Controllers
             _postService.UpdatePost(post);
             return Ok(post.PostLikeNumber);
         }
+        [HttpGet("PostDislike/{postId}")]
+        public async Task<IActionResult> PostDislike(int postId)
+        {
+            PostDto post = await _postService.GetPostById(postId);
+            post.PostDislikeNumber++;
+            _postService.UpdatePost(post);
+            return Ok(post.PostDislikeNumber);
+        }
+        [HttpGet("PostTakeBackDislike/{postId}")]
+        public async Task<IActionResult> PostTakeBackDislike(int postId)
+        {
+            PostDto post = await _postService.GetPostById(postId);
+            post.PostDislikeNumber--;
+            _postService.UpdatePost(post);
+            return Ok(post.PostDislikeNumber);
+        }
     }
 }

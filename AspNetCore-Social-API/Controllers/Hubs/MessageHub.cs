@@ -17,13 +17,14 @@ namespace AspNetCore_Social_API.Controllers.Hubs
         private readonly IMessageService _messageService;
         private readonly IFriendService _friendService;
         private readonly IUserService _userService;
+        private readonly INotificationService _notificationService;
 
-        public MessageHub(IMessageService messageService, IFriendService friendService, IUserService userService)
+        public MessageHub(IMessageService messageService, IFriendService friendService, IUserService userService, INotificationService notificationService)
         {
             _messageService = messageService;
             _friendService = friendService;
-             _userService = userService;
-
+            _userService = userService;
+            _notificationService = notificationService;
         }
 
         public class UserConnection
@@ -100,7 +101,22 @@ namespace AspNetCore_Social_API.Controllers.Hubs
             }
 
         }
+        public async Task PostNotification(string ownerUserId, string notificationType)
+        {
+            var userId = Context.User?.FindFirstValue(ClaimTypes.Name);
+            UserConnection targetUser = OnlineUserConnections.FirstOrDefault(user => user.UserId == ownerUserId); //post sahibi
+            UserConnection user = OnlineUserConnections.FirstOrDefault(user => user.UserId == userId); //etkileşimi yapan
 
+            NotificationDto notification = await _notificationService.AddNotification(Convert.ToInt32(userId), Convert.ToInt32(ownerUserId), notificationType);
+
+            if (notification != null && targetUser != null)
+            {
+
+                await Clients.Client(targetUser.ConnectionId).SendAsync("ReceivePostNotifRes", notification);  //post bildirimleri gönderiliyor
+
+            }
+
+        }
 
 
 
@@ -113,7 +129,7 @@ namespace AspNetCore_Social_API.Controllers.Hubs
             if (existingUser != null)
             {
                 OnlineUserConnections.Remove(existingUser);
-                 await _userService.TurnOfflineUser(Convert.ToInt32(userId));
+                await _userService.TurnOfflineUser(Convert.ToInt32(userId));
 
             }
 
