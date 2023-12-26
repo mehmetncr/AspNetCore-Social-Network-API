@@ -47,7 +47,7 @@ namespace AspNetCore_Social_Service.Services
 
         public async Task<List<ReplyComment>> GetReplyCommentsByCommentId(List<int> commentsId)
         {
-            var list = await _uow.GetRepository<ReplyComment>().GetAll(x => commentsId.Select(f => f).Contains(x.ReplyCommentId));
+            var list = await _uow.GetRepository<ReplyComment>().GetAll(x => commentsId.Select(f => f).Contains(x.ReplyCommentCommentId),null,x=>x.ReplyCommentUser);
             return list.ToList();
         }
     }

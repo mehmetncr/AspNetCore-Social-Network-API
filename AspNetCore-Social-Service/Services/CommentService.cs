@@ -15,48 +15,39 @@ namespace AspNetCore_Social_Service.Services
 	{
 		private readonly IUnitOfWork _uow;
 		private readonly IMapper _mapper;
-		public CommentService(IUnitOfWork uow, IMapper mapper)
-		{
-			_uow = uow;
-			_mapper = mapper;
-		}
+		private readonly IReplyCommentService _replyCommentService;
+        public CommentService(IUnitOfWork uow, IMapper mapper, IReplyCommentService replyCommentService)
+        {
+            _uow = uow;
+            _mapper = mapper;
+            _replyCommentService = replyCommentService;
+        }
 
-		public async Task<List<CommentDto>> GetCommentsByPostId(int postId)
+        public async Task<List<CommentDto>> GetCommentsByPostId(int postId)
 		{
-			var list = await _uow.GetRepository<Comment>().GetAll(x=>x.CommentPostId == postId,x=>x.OrderByDescending(x=>x.CommentDate),x=>x.ReplyComments, x=>x.CommentUser);
+			List<int> commentsId = new List<int>();
+			var list = await _uow.GetRepository<Comment>().GetAll(x=>x.CommentPostId == postId,x=>x.OrderByDescending(x=>x.CommentDate), x=>x.CommentUser);
 			
-			List<Comment> comments = list.Select(x=> new Comment
+			foreach (var item in list)
 			{
-				CommentUser = new User
+				commentsId.Add(item.CommentId);
+				item.ReplyComments = new List<ReplyComment>();
+
+			}
+            var replyComments = await _replyCommentService.GetReplyCommentsByCommentId(commentsId);
+
+			foreach (var comment in list)
+			{
+				foreach (var reply in replyComments)
 				{
-					UserFirstName = x.CommentUser.UserFirstName,
-					UserLastName = x.CommentUser.UserLastName,
-					UserId = x.CommentUser.UserId,
-					UserProfilePicture = x.CommentUser.UserProfilePicture
-				},
-				CommentContent = x.CommentContent,
-				CommentDate = x.CommentDate,
-				CommentId = x.CommentId,
-				CommentPostId = x.CommentPostId,
-				CommentUserId = x.CommentUserId,
-				ReplyComments = x.ReplyComments.Where(r=>r.ReplyCommentCommentId == x.CommentId).Select(rc => new ReplyComment
-				{
-					ReplyCommentUser = new User
+					if(reply.ReplyCommentCommentId == comment.CommentId)
 					{
-                        UserFirstName = rc.ReplyCommentUser.UserFirstName,
-                        UserLastName = rc.ReplyCommentUser.UserLastName,
-                        UserId = rc.ReplyCommentUser.UserId,
-                        UserProfilePicture = rc.ReplyCommentUser.UserProfilePicture
-                    },
-					ReplyCommentContent = rc.ReplyCommentContent,
-					ReplyCommentDate = rc.ReplyCommentDate,
-					ReplyCommentId = rc.ReplyCommentId,
-					ReplyCommentCommentId = rc.ReplyCommentCommentId,
-					ReplyCommentUserId = rc.ReplyCommentUserId,
-				}).ToList(),
-				
-			}).ToList();
-			return _mapper.Map<List<CommentDto>>(comments);
+						comment.ReplyComments.Add(reply);
+					}
+				}
+			}
+
+            return _mapper.Map<List<CommentDto>>(list);
 		}
 	}
 }

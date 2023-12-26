@@ -89,7 +89,7 @@ namespace AspNetCore_Social_DataAccess.Repositories
 				{
 					query = query.Include(table);
 				}
-				return await query.ToListAsync();
+				return await query.AsNoTracking().ToListAsync();
 			}
 			catch (Exception)
 			{

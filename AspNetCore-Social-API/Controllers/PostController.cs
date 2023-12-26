@@ -123,5 +123,18 @@ namespace AspNetCore_Social_API.Controllers
             _postService.UpdatePost(post);
             return Ok(post.PostDislikeNumber);
         }
+        [HttpGet("PostDetails/{postId}")]
+        public async Task<IActionResult> PostDetails(int postId)
+        {
+            if (postId != 0)
+            {
+                var post = await _postService.GetPostWithCommentsById(postId);
+                if (post != null)
+                {
+                    return Ok(post);
+                }
+            }
+            return BadRequest();
+        }
     }
 }
