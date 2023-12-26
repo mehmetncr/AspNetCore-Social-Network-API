@@ -7,15 +7,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domains", "Domains", "{1FA1
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructures", "Infrastructures", "{2821F39E-BC8C-40BD-8282-3D7B8392BC70}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetCore-Social-Entity", "AspNetCore-Social-Entity\AspNetCore-Social-Entity.csproj", "{ED752382-54D1-4B21-B3B2-BDEBA9761026}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCore-Social-Entity", "AspNetCore-Social-Entity\AspNetCore-Social-Entity.csproj", "{ED752382-54D1-4B21-B3B2-BDEBA9761026}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetCore-Social-DataAccess", "AspNetCore-Social-DataAccess\AspNetCore-Social-DataAccess.csproj", "{04EF6B9E-CF03-4C82-B664-B087910BCEDE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCore-Social-DataAccess", "AspNetCore-Social-DataAccess\AspNetCore-Social-DataAccess.csproj", "{04EF6B9E-CF03-4C82-B664-B087910BCEDE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetCore-Social-Service", "AspNetCore-Social-Service\AspNetCore-Social-Service.csproj", "{671B85DA-C309-4070-B987-85D3E2B3EEBB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCore-Social-Service", "AspNetCore-Social-Service\AspNetCore-Social-Service.csproj", "{671B85DA-C309-4070-B987-85D3E2B3EEBB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{CA0B418E-E900-40F6-883E-80384BDCA340}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetCore-Social-API", "AspNetCore-Social-API\AspNetCore-Social-API.csproj", "{FDB42DDA-1616-4AE0-90B8-3BB74F4C528D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCore-Social-API", "AspNetCore-Social-API\AspNetCore-Social-API.csproj", "{FDB42DDA-1616-4AE0-90B8-3BB74F4C528D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

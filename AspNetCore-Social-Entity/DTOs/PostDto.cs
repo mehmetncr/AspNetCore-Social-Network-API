@@ -22,8 +22,8 @@ namespace AspNetCore_Social_Entity.DTOs
 		public string PostLink { get; set; }
 		public string PostType { get; set; }
 
-		public virtual List<CommentDto> CommentsDto { get; set; }
-		public virtual UserDto PostUserDto { get; set; }
+		public virtual List<CommentDto> Comments { get; set; }
+		public virtual UserDto PostUser { get; set; }
 
 	}
 }

@@ -16,5 +16,7 @@ namespace AspNetCore_Social_Entity.Services
 		Task<List<PostDto>> GetPosts(int userId, string storeProcName);
 		Task<PostDto> GetPostById(int postId);
 		void UpdatePost(PostDto model);
-	}
+		Task<PostDto> GetPostWithCommentsById(int postId);
+
+    }
 }

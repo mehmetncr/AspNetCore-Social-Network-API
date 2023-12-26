@@ -26,14 +26,15 @@ namespace AspNetCore_Social_Service.Services
         private readonly IFriendService _friendService;
         private readonly IMapper _mapper;
         private readonly SocialContext _socialContext;
+        private readonly ICommentService _commentService;
 
-
-        public PostService(IUnitOfWork uow, IFriendService friendService, IMapper mapper, SocialContext socialContext)
+        public PostService(IUnitOfWork uow, IFriendService friendService, IMapper mapper, SocialContext socialContext, ICommentService commentService)
         {
             _uow = uow;
             _friendService = friendService;
             _mapper = mapper;
             _socialContext = socialContext;
+            _commentService = commentService;
         }
 
 
@@ -95,8 +96,8 @@ namespace AspNetCore_Social_Service.Services
                                         PostDislikeNumber = reader.IsDBNull("PostDislikeNumber") ? default(int) : reader.GetInt32("PostDislikeNumber"),
                                         PostLink = reader.IsDBNull("PostLink") ? string.Empty : reader.GetString("PostLink"),
                                         PostType = reader.IsDBNull("PostType") ? string.Empty : reader.GetString("PostType"),
-                                        PostUserDto = FillUserPostDetails(reader, "PostUserId"),
-                                        CommentsDto = new List<CommentDto>() // Initialize the Comments list
+                                        PostUser = FillUserPostDetails(reader, "PostUserId"),
+                                        Comments = new List<CommentDto>() // Initialize the Comments list
 
                                     };
 
@@ -107,7 +108,7 @@ namespace AspNetCore_Social_Service.Services
                                 int commentId = reader.IsDBNull("CommentId") ? default(int) : reader.GetInt32("CommentId");
 
                                 // Check if the comment already exists in the post's Comments list
-                                CommentDto existingComment = existingPost.CommentsDto.FirstOrDefault(c => c.CommentId == commentId);
+                                CommentDto existingComment = existingPost.Comments.FirstOrDefault(c => c.CommentId == commentId);
 
                                 if (existingComment == null)
                                 {
@@ -123,9 +124,9 @@ namespace AspNetCore_Social_Service.Services
                                         ReplyComments = new List<ReplyCommentDto>() // Initialize the ReplyComments list
                                     };
 
-                                    existingPost.CommentsDto.Add(comment);
+                                    existingPost.Comments.Add(comment);
                                 }
-                                CommentDto existingCommentt = existingPost.CommentsDto.FirstOrDefault(c => c.CommentId == commentId);
+                                CommentDto existingCommentt = existingPost.Comments.FirstOrDefault(c => c.CommentId == commentId);
                                 int replyCommentId = reader.IsDBNull("ReplyCommentId") ? default(int) : reader.GetInt32("ReplyCommentId");
 
                                 // Check if the reply comment already exists in the comment's ReplyComments list
@@ -274,9 +275,17 @@ namespace AspNetCore_Social_Service.Services
 
 		public async Task<PostDto> GetPostById(int postId)
 		{
-            var post = await _uow.GetRepository<Post>().Get(x => x.PostId == postId);
+            var post = await _uow.GetRepository<Post>().Get(x => x.PostId == postId);     
             return _mapper.Map<PostDto>(post);
 		}
+        public async Task<PostDto> GetPostWithCommentsById(int postId)
+        {
+            var post = await _uow.GetRepository<Post>().Get(x => x.PostId == postId, null, x => x.PostUser);      //yorumlarla userler includeli gelimiyor
+            post.Comments = _mapper.Map<List<Comment>>(await _commentService.GetCommentsByPostId(postId));
+            
+            
+            return _mapper.Map<PostDto>(post);
+        }
         public void UpdatePost(PostDto model)
         {
             try
