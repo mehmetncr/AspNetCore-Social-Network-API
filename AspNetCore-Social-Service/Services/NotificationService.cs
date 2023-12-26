@@ -72,6 +72,12 @@ namespace AspNetCore_Social_Service.Services
 
         public async Task<List<NotificationDto>> GetAllNotifications(int userId)
         {
+            var notificationList = await _uow.GetRepository<Notification>().GetAll(x => x.NotificationOwnerUserId == userId && x.NotificationIsSeen==false, null, x => x.NotificationSenderUser);
+            List<NotificationDto> mappedList = _mapper.Map<List<NotificationDto>>(notificationList);
+            return mappedList;
+        }
+        public async Task<List<NotificationDto>> AllNotifications(int userId)
+        {
             var notificationList = await _uow.GetRepository<Notification>().GetAll(x => x.NotificationOwnerUserId == userId, null, x => x.NotificationSenderUser);
             List<NotificationDto> mappedList = _mapper.Map<List<NotificationDto>>(notificationList);
             return mappedList;
@@ -122,6 +128,26 @@ namespace AspNetCore_Social_Service.Services
 
                 throw;
             }
+        }
+        public async Task<string> NotificationSeen(int userId)
+        {
+            try
+            {
+                var notifications = await _uow.GetRepository<Notification>().GetAll(x => x.NotificationIsSeen == false);
+                foreach (var notification in notifications)
+                {
+                    notification.NotificationIsSeen = true;
+                    _uow.GetRepository<Notification>().Update(notification);
+                }
+                _uow.Commit();
+                return "Ok";
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+           
         }
     }
 }

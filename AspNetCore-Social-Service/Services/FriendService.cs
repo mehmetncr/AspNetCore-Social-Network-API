@@ -67,7 +67,7 @@ namespace AspNetCore_Social_Service.Services
         public async Task<List<UserDto>> GetOfferFriends(int userId) //arkadaşlık önerileri 
         {
             //arkadaşların arkadaşları çekilecek önerilen arkadaş olarak
-            var friends = await _uow.GetRepository<User>().GetAll();
+            var friends = await _uow.GetRepository<User>().GetAll(null,null,x=>x.UserPrivacySettings);
             friends.Take(10);
             List<User> offerfriends = friends.Select(x => new User
             {

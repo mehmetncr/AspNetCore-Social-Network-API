@@ -19,7 +19,7 @@ namespace AspNetCore_Social_API.Controllers
             _notificationService = notificationService;
         }
 
-        [HttpGet("GetAllNotification")]
+        [HttpGet("GetAllNotification")]   //sadece görülmeyenler
         public async Task<IActionResult> GetAllNotification()
         {
             var userIdClaim = User.FindFirst(ClaimTypes.UserData);
@@ -31,11 +31,23 @@ namespace AspNetCore_Social_API.Controllers
             }
             return BadRequest();
         }
+        [HttpGet("AllNotification")]  //hepsi
+        public async Task<IActionResult> AllNotification()
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.UserData);
+            if (userIdClaim != null)
+            {
+                int userId = Convert.ToInt32(userIdClaim.Value);
+                List<NotificationDto> model = await _notificationService.AllNotifications(userId);
+                return Ok(model);
+            }
+            return BadRequest();
+        }
         [HttpPost("AcceptFriendReq")]
         public async Task<IActionResult> AcceptFriendReq([FromBody] string notificationId)
         {
             string msg = await _notificationService.AcceptFriendReq(notificationId);
-            if (msg=="Ok")
+            if (msg == "Ok")
             {
                 return Ok();
             }
@@ -44,14 +56,27 @@ namespace AspNetCore_Social_API.Controllers
         [HttpPost("RejectReq")]
         public async Task<IActionResult> RejectFriendReq([FromBody] string notificationId)
         {
-              string msg= await  _notificationService.RejectFriendReq(notificationId);
+            string msg = await _notificationService.RejectFriendReq(notificationId);
             if (msg == "Ok")
             {
                 return Ok();
             }
             return BadRequest();
         }
-
-
+        [HttpGet("NotificationSeen")]
+        public async Task<IActionResult> NotificationSeen()
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.UserData);
+            if (userIdClaim != null)
+            {
+                int userId = Convert.ToInt32(userIdClaim.Value);
+                string msg = await _notificationService.NotificationSeen(userId);
+                if (msg == "Ok")
+                {
+                    return Ok();
+                }
+            }
+            return BadRequest();
+        }
     }
 }
