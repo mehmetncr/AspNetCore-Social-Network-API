@@ -13,5 +13,7 @@ namespace AspNetCore_Social_Entity.Services
         Task<NotificationDto> AddNotification(int senderUserId, int ownerUserId, string notificationType);
         Task<string> AcceptFriendReq(string notificationId);
         Task<string> RejectFriendReq(string notificationId);
+        Task<string> NotificationSeen(int userId);
+        Task<List<NotificationDto>> AllNotifications(int userId);
     }
 }
