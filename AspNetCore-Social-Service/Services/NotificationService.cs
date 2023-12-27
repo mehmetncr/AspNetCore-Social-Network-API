@@ -24,7 +24,7 @@ namespace AspNetCore_Social_Service.Services
             _mapper = mapper;
         }
 
-        public async Task<NotificationDto> AddNotification(int senderUserId, int ownerUserId, string notificationType)
+        public async Task<NotificationDto> AddNotification(int senderUserId, int ownerUserId, string notificationType, string postId)
         {
             var user = await _uow.GetRepository<User>().GetById(senderUserId);
             
@@ -40,7 +40,7 @@ namespace AspNetCore_Social_Service.Services
             notification.NotificationIsSeen = false;
             notification.NotificationOwnerUserId = ownerUserId;
             notification.NotificationSenderUserId = senderUserId;
-            notification.NotificationDescription = "Yeni bildirim";
+            notification.NotificationDescription = postId;
             
 
             if (notificationType == "Comment")

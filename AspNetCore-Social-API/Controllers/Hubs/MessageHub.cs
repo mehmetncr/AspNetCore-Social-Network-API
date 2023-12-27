@@ -101,13 +101,14 @@ namespace AspNetCore_Social_API.Controllers.Hubs
             }
 
         }
-        public async Task PostNotification(string ownerUserId, string notificationType)
+        public async Task PostNotification(string ownerUserId, string notificationType, string postId)
         {
             var userId = Context.User?.FindFirstValue(ClaimTypes.Name);
             UserConnection targetUser = OnlineUserConnections.FirstOrDefault(user => user.UserId == ownerUserId); //post sahibi
             UserConnection user = OnlineUserConnections.FirstOrDefault(user => user.UserId == userId); //etkileşimi yapan
 
-            NotificationDto notification = await _notificationService.AddNotification(Convert.ToInt32(userId), Convert.ToInt32(ownerUserId), notificationType);
+            NotificationDto notification = await _notificationService.AddNotification(Convert.ToInt32(userId), Convert.ToInt32(ownerUserId), notificationType , postId);
+            
 
             if (notification != null && targetUser != null)
             {

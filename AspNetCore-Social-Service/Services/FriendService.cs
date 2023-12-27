@@ -49,6 +49,7 @@ namespace AspNetCore_Social_Service.Services
             return _mapper.Map<List<FriendRequestDto>>(list);
         }
         public async Task<List<FriendsDto>> GetOnlineFriends(int userId)  //online olan arkadaşları döndürür
+
         {
             var userFriends = await _uow.GetRepository<Friends>().GetAll(x => x.FriendsUserId == userId && x.Friend.UserIsOnline == true, null, x => x.Friend);
             List<Friends> friends = userFriends.Select(x => new Friends
