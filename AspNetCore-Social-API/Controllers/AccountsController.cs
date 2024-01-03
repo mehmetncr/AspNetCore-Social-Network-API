@@ -46,6 +46,7 @@ namespace AspNetCore_Social_API.Controllers
                
                 return NotFound("Kullanıcı adı veya şifre hatalı!");
 			}
+			user.UserIsOnline = true;
 			return Ok(user);
 		}
 		[HttpGet("Logout")]
@@ -98,5 +99,7 @@ namespace AspNetCore_Social_API.Controllers
 			var users = await _accountService.GetAllUsers();
 			return Ok(users);
 		}
+		
+
     }
 }

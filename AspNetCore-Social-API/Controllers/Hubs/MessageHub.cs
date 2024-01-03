@@ -122,7 +122,6 @@ namespace AspNetCore_Social_API.Controllers.Hubs
 
         public async Task DisconnectOnUnload()
         {
-
             var userId = Context.User?.FindFirstValue(ClaimTypes.Name);
             var existingUser = OnlineUserConnections.FirstOrDefault(user => user.UserId == userId);
 
@@ -132,8 +131,6 @@ namespace AspNetCore_Social_API.Controllers.Hubs
                 await _userService.TurnOfflineUser(Convert.ToInt32(userId));
 
             }
-
-
         }
 
     }
