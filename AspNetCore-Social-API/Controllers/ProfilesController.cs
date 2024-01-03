@@ -57,7 +57,7 @@ namespace AspNetCore_Social_API.Controllers
             if (userIdClaim != null)
             {
                 int userId = Convert.ToInt32(userIdClaim.Value);
-                List<PostDto> posts = await _profileService.GetImagesByUserId(userId,false);
+                List<PostDto> posts = await _profileService.GetImagesByUserId(userId, false);
                 return Ok(posts);
             }
             return BadRequest();
@@ -70,7 +70,7 @@ namespace AspNetCore_Social_API.Controllers
             if (userIdClaim != null)
             {
                 int userId = Convert.ToInt32(userIdClaim.Value);
-                List<PostDto> posts = await _profileService.GetVideosByUserId(userId,false);
+                List<PostDto> posts = await _profileService.GetVideosByUserId(userId, false);
                 return Ok(posts);
             }
             return BadRequest();
@@ -86,7 +86,7 @@ namespace AspNetCore_Social_API.Controllers
                 return Ok(friends);
             }
             return BadRequest();
-        }    
+        }
         [HttpPut("update")]
         public async Task<IActionResult> PostUpdate([FromBody] UserUpdateDto model)
         {
@@ -178,7 +178,7 @@ namespace AspNetCore_Social_API.Controllers
             return BadRequest();
         }
         [HttpPut("UpdateSettigs")]
-        public async Task<IActionResult> UpdateSettigs([FromBody]string settingName)
+        public async Task<IActionResult> UpdateSettigs([FromBody] string settingName)
         {
             var userIdClaim = User.FindFirst(ClaimTypes.UserData);
             if (userIdClaim != null)
@@ -189,7 +189,7 @@ namespace AspNetCore_Social_API.Controllers
                     AppUserId = userId,
                     SettingName = settingName
                 };
-               PrivacySettingDto updatedSettings =   await _privacySettingsService.UpdatePrivacySettings(setting);
+                PrivacySettingDto updatedSettings = await _privacySettingsService.UpdatePrivacySettings(setting);
                 return Ok(updatedSettings);
             }
             return BadRequest();
@@ -197,13 +197,13 @@ namespace AspNetCore_Social_API.Controllers
         [HttpGet("GetOtherProfile/{id}")]
         public async Task<IActionResult> GetOtherProfile(int id)  //userId geliyor appUser değil!
         {
-            var user =  await _profileService.OtherProfile(id);
+            var user = await _profileService.OtherProfile(id);
             if (user != null)
             {
                 return Ok(user);
             }
             return BadRequest();
-            
+
         }
         [HttpGet("GetOtherPhotos/{id}")]
         public async Task<IActionResult> GetOtherPhotos(int id)  //userId geliyor appUser değil!
@@ -219,7 +219,7 @@ namespace AspNetCore_Social_API.Controllers
         [HttpGet("GetOtherVideos/{id}")]
         public async Task<IActionResult> GetOtherVideos(int id)  //userId geliyor appUser değil!
         {
-            UserDto user = await _userService.GetOtherUser(id);      
+            UserDto user = await _userService.GetOtherUser(id);
             if (user != null)
             {
                 return Ok(user);
@@ -231,20 +231,39 @@ namespace AspNetCore_Social_API.Controllers
         public async Task<IActionResult> GetOtherFriends(int id)  //userId geliyor appUser değil!
         {
             List<FriendsDto> friends = await _friendService.GetFriends(id);
-           
+
             if (friends != null)
             {
                 UserDto user = await _userService.GetOtherUser(id);
                 OtherFriendsDto otherFriends = new OtherFriendsDto()
                 {
                     Friends = friends,
-                    User=user
+                    User = user
                 };
                 return Ok(otherFriends);
             }
             return BadRequest();
 
         }
-
+        [HttpPut("TurnOnlineOfflineUser")]
+        public async Task<IActionResult> TurnOnlineOfflineUser([FromBody] string type)
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.UserData);
+            if (userIdClaim != null)
+            {
+                int userId = Convert.ToInt32(userIdClaim.Value);
+                if (type == "Online")
+                {
+                    await _userService.TurnOnlineUser(userId);
+                    return Ok();
+                }
+                else
+                {
+                    await _userService.TurnOfflineUser(userId);
+                    return Ok();
+                }
+            }
+            return BadRequest();
+        }
     }
 }
